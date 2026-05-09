@@ -529,6 +529,21 @@ Variation 3: Final follow-up (14 days — polite closure)`
 
 // ── CLAUDE API (via Netlify Function — key is server-side, users never see it) ──
 async function callClaude(sys, user) {
+  // DEV MODE: if running locally (file://) return mock instantly — zero API usage
+  if (window.location.protocol === 'file:') {
+    await new Promise(r => setTimeout(r, 1200));
+    return `<h1>Sample Proposal</h1>
+<p>This is a <strong>preview mode</strong> response — you are running locally. Deploy to Netlify to use the real AI generator.</p>
+<h2>Understanding of the Project</h2>
+<p>We have carefully reviewed your requirements and are excited to present this proposal for your project.</p>
+<h2>Scope of Work</h2>
+<ul><li>Deliverable one as described</li><li>Deliverable two with revisions</li><li>Final handoff with all source files</li></ul>
+<h2>Investment</h2>
+<p>As discussed, the total investment for this project is <em>₹45,000</em> plus applicable GST.</p>
+<h2>Next Steps</h2>
+<p>Please review this proposal and share your feedback. We look forward to working together.</p>`;
+  }
+
   const r = await fetch('/.netlify/functions/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -618,7 +633,16 @@ async function generate() {
     document.getElementById('preview-panel').scrollTop = 0;
 
   } catch (err) {
-    document.getElementById('doc-output').innerHTML = `<div style="padding:32px"><div class="error-box"><p><strong>Error:</strong> ${err.message}</p></div><p style="font-size:13px;color:var(--bark)">Check your API key and try again. If the error persists, the API may be temporarily unavailable.</p></div>`;
+    let errMsg = err.message;
+    try { const p = JSON.parse(errMsg); errMsg = p.message || errMsg; } catch(e) {}
+    if (errMsg.includes('credit') || errMsg.includes('balance')) {
+      errMsg = '💳 Your Anthropic API credits are empty. Go to console.anthropic.com → Billing → Add credits (minimum $5).';
+    } else if (errMsg.includes('invalid_api_key') || errMsg.includes('auth')) {
+      errMsg = '🔑 Invalid API key. Check the ANTHROPIC_API_KEY environment variable in your Netlify dashboard.';
+    } else if (errMsg.includes('concurren') || errMsg.includes('exceeded_limit')) {
+      errMsg = '⏳ Too many simultaneous requests. Wait 10 seconds and try again.';
+    }
+    document.getElementById('doc-output').innerHTML = `<div style="padding:32px"><div class="error-box"><p>${errMsg}</p></div></div>`;
   }
 
   btn.disabled = false;
