@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitti Proposals — AI-Powered Proposals for Indian Freelancers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --clay:#C4603A; --saffron:#E8943A; --earth:#1C0F06; --soil:#3D2010;
+  --bark:#6B3D1E; --cream:#FBF5EC; --warm:#F5EBD8; --moss:#3A5C3B;
+  --gold:#C9920A; --red:#C0392B; --green:#27AE60;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--earth);font-family:var(--sans);font-size:15px;line-height:1.7;min-height:100vh}
+
+/* NAV */
+nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,96,58,.12);padding:14px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:32px;height:32px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--cream);font-weight:700}
+.nav-name{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--earth)}
+.nav-name span{color:var(--clay)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-product{font-size:13px;color:var(--bark);background:rgba(196,96,58,.08);padding:5px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.15)}
+
+
+/* MAIN LAYOUT */
+#app{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 57px)}
+
+/* FORM PANEL */
+#form-panel{background:var(--warm);border-right:1px solid rgba(196,96,58,.12);padding:32px;overflow-y:auto;max-height:calc(100vh - 57px);position:sticky;top:57px}
+.panel-title{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--earth);margin-bottom:4px}
+.panel-sub{font-size:13px;color:var(--bark);margin-bottom:28px;font-weight:300}
+
+/* STEP TABS */
+.step-tabs{display:flex;gap:4px;margin-bottom:28px;background:rgba(196,96,58,.08);padding:4px;border-radius:10px}
+.step-tab{flex:1;padding:8px 4px;border:none;background:transparent;font-size:12px;color:var(--bark);cursor:pointer;border-radius:8px;transition:all .2s;font-family:var(--sans);font-weight:400}
+.step-tab.active{background:var(--cream);color:var(--clay);font-weight:500;box-shadow:0 1px 4px rgba(28,15,6,.08)}
+
+/* DOC TYPE SELECTOR */
+.doc-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:24px}
+.doc-type{padding:12px 8px;border:1px solid rgba(196,96,58,.2);border-radius:10px;background:var(--cream);cursor:pointer;text-align:center;transition:all .2s}
+.doc-type:hover{border-color:var(--clay);background:rgba(196,96,58,.04)}
+.doc-type.selected{border-color:var(--clay);background:rgba(196,96,58,.08)}
+.doc-type-icon{font-size:20px;display:block;margin-bottom:4px}
+.doc-type-label{font-size:11px;color:var(--bark);font-weight:500}
+.doc-type.selected .doc-type-label{color:var(--clay)}
+
+/* FORM FIELDS */
+.field-group{margin-bottom:18px}
+.field-label{font-size:12px;font-weight:500;color:var(--bark);margin-bottom:6px;display:flex;align-items:center;gap:4px;letter-spacing:.01em}
+.field-label .req{color:var(--clay);font-size:14px}
+.field-input,.field-select,.field-textarea{width:100%;padding:10px 14px;border-radius:8px;border:1px solid rgba(196,96,58,.2);background:var(--cream);color:var(--earth);font-family:var(--sans);font-size:13px;transition:border-color .2s}
+.field-input:focus,.field-select:focus,.field-textarea:focus{outline:none;border-color:var(--clay)}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.6}
+.field-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%236B3D1E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field-hint{font-size:11px;color:var(--bark);opacity:.6;margin-top:4px}
+
+/* GST ROW */
+.gst-row{display:grid;grid-template-columns:auto 1fr 1fr;gap:10px;align-items:center}
+.toggle-wrap{display:flex;align-items:center;gap:8px;padding:10px 0}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:rgba(196,96,58,.2);border-radius:100px;transition:background .2s}
+.toggle input:checked+.toggle-track{background:var(--clay)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:white;transition:transform .2s;pointer-events:none}
+.toggle input:checked~.toggle-thumb{transform:translateX(16px)}
+.toggle-label{font-size:12px;color:var(--bark);font-weight:500}
+
+/* LANG TOGGLE */
+.lang-btns{display:flex;gap:4px}
+.lang-btn{flex:1;padding:8px;border:1px solid rgba(196,96,58,.2);border-radius:8px;background:var(--cream);font-size:12px;color:var(--bark);cursor:pointer;text-align:center;transition:all .2s;font-family:var(--sans)}
+.lang-btn.active{border-color:var(--clay);background:rgba(196,96,58,.08);color:var(--clay);font-weight:500}
+
+/* GENERATE BTN */
+.generate-btn{width:100%;padding:15px;border-radius:100px;border:none;background:var(--clay);color:var(--cream);font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.generate-btn:hover{background:var(--soil);transform:translateY(-1px)}
+.generate-btn:disabled{background:rgba(196,96,58,.3);transform:none;cursor:not-allowed}
+.generate-btn .spinner{width:16px;height:16px;border:2px solid rgba(251,245,236,.4);border-top-color:var(--cream);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PREVIEW PANEL */
+#preview-panel{padding:40px;overflow-y:auto;max-height:calc(100vh - 57px);background:var(--cream)}
+.preview-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:500px;text-align:center;color:var(--bark);opacity:.5}
+.preview-empty-icon{font-size:48px;margin-bottom:16px}
+.preview-empty h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:8px}
+.preview-empty p{font-size:14px;font-weight:300}
+.preview-actions{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.action-btn{padding:10px 20px;border-radius:100px;font-size:13px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;text-decoration:none}
+.action-btn.primary{background:var(--clay);color:var(--cream);border:none}
+.action-btn.primary:hover{background:var(--soil)}
+.action-btn.secondary{background:transparent;color:var(--bark);border:1px solid rgba(196,96,58,.25)}
+.action-btn.secondary:hover{border-color:var(--clay);color:var(--clay)}
+.copy-success{color:var(--moss) !important;border-color:var(--moss) !important}
+
+/* DOCUMENT OUTPUT */
+#doc-output{background:white;border-radius:12px;border:1px solid rgba(196,96,58,.12);box-shadow:0 4px 24px rgba(28,15,6,.06);overflow:hidden}
+.doc-header-bar{background:var(--earth);padding:28px 36px;color:var(--cream)}
+.doc-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.doc-brand-mark{width:36px;height:36px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;color:var(--cream);font-weight:700}
+.doc-brand-name{font-family:var(--serif);font-size:18px;color:var(--cream);font-weight:400}
+.doc-type-badge{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,148,58,.2);color:var(--saffron);padding:4px 12px;border-radius:100px;border:1px solid rgba(232,148,58,.2)}
+.doc-content{padding:36px;font-family:var(--sans);line-height:1.8;color:var(--earth)}
+.doc-content h1{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--earth);margin-bottom:6px;letter-spacing:-.01em}
+.doc-content .doc-date{font-size:12px;color:var(--bark);margin-bottom:28px;font-weight:300}
+.doc-content h2{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--clay);margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(196,96,58,.15)}
+.doc-content h3{font-size:14px;font-weight:500;color:var(--earth);margin:14px 0 6px}
+.doc-content p{font-size:14px;color:var(--earth);margin-bottom:10px;line-height:1.8;font-weight:300}
+.doc-content ul,.doc-content ol{padding-left:20px;margin-bottom:12px}
+.doc-content li{font-size:14px;color:var(--earth);margin-bottom:6px;font-weight:300;line-height:1.7}
+.doc-content strong{font-weight:500;color:var(--earth)}
+.doc-content em{color:var(--clay);font-style:normal;font-weight:500}
+.doc-meta{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:28px;border:1px solid rgba(196,96,58,.12);border-radius:10px;overflow:hidden}
+.doc-meta-item{padding:14px 18px;border-right:1px solid rgba(196,96,58,.08);border-bottom:1px solid rgba(196,96,58,.08)}
+.doc-meta-item:nth-child(2n){border-right:none}
+.doc-meta-label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--bark);margin-bottom:4px;font-weight:500}
+.doc-meta-val{font-size:14px;color:var(--earth);font-weight:400}
+.doc-footer-sig{margin-top:40px;padding-top:24px;border-top:1px solid rgba(196,96,58,.1);display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.sig-block{border-top:1.5px solid var(--earth);padding-top:10px;margin-top:40px}
+.sig-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--bark)}
+.sig-name{font-size:13px;color:var(--earth);font-weight:500;margin-top:4px}
+.doc-stamp{text-align:center;padding:24px;border-top:1px solid rgba(196,96,58,.08);background:rgba(196,96,58,.02)}
+.doc-stamp p{font-size:11px;color:var(--bark);opacity:.5}
+.doc-stamp strong{color:var(--clay);font-weight:500}
+
+/* LOADING STATE */
+.generating{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;color:var(--bark)}
+.gen-spinner{width:36px;height:36px;border:3px solid rgba(196,96,58,.2);border-top-color:var(--clay);border-radius:50%;animation:spin 1s linear infinite}
+.gen-text{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--bark)}
+.gen-sub{font-size:13px;color:var(--bark);opacity:.6;font-weight:300}
+
+/* ERROR */
+.error-box{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.2);border-radius:10px;padding:16px 20px;margin-bottom:20px}
+.error-box p{font-size:13px;color:var(--red);margin:0}
+
+/* RESPONSIVE */
+@media(max-width:900px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
+@media print{nav,#form-panel,.preview-actions{display:none!important}#app{grid-template-columns:1fr}#doc-output{box-shadow:none;border:none}#preview-panel{padding:0;max-height:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-mark">म</div>
+    <span class="nav-name">Mitti<span>.</span></span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-product">Proposals</span>
+    <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Back to Mitti</a>
+  </div>
+</nav>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- FORM PANEL -->
+  <div id="form-panel">
+    <div class="panel-title">Generate a document</div>
+    <div class="panel-sub">Fill in your details and let AI do the writing.</div>
+
+    <!-- Doc type -->
+    <div class="field-group">
+      <div class="field-label">What do you need?</div>
+      <div class="doc-types">
+        <div class="doc-type selected" data-type="proposal" onclick="selectType(this,'proposal')">
+          <span class="doc-type-icon">📄</span>
+          <span class="doc-type-label">Proposal</span>
+        </div>
+        <div class="doc-type" data-type="contract" onclick="selectType(this,'contract')">
+          <span class="doc-type-icon">📋</span>
+          <span class="doc-type-label">Contract</span>
+        </div>
+        <div class="doc-type" data-type="followup" onclick="selectType(this,'followup')">
+          <span class="doc-type-icon">✉️</span>
+          <span class="doc-type-label">Follow-up</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your details -->
+    <div class="field-group">
+      <div class="field-label">Your name / Studio name <span class="req">*</span></div>
+      <input type="text" class="field-input" id="f-yourname" placeholder="e.g. Arjun Sharma or Arjun Design Studio" />
+    </div>
+    <div class="field-group">
+      <div class="field-label">Your service type <span class="req">*</span></div>
+      <select class="field-select" id="f-service">
+        <option value="">Select your service</option>
+        <option>Graphic Design</option>
+        <option>Web Design & Development</option>
+        <option>UI/UX Design</option>
+        <option>Brand Identity Design</option>
+        <option>Photography</option>
+        <option>Videography & Video Editing</option>
+        <option>Social Media Management</option>
+        <option>Content Writing & Copywriting</option>
+        <option>Digital Marketing</option>
+        <option>SEO & Performance Marketing</option>
+        <option>Mobile App Development</option>
+        <option>Software Development</option>
+        <option>AI & Automation Consulting</option>
+        <option>Interior Design</option>
+        <option>Architecture</option>
+        <option>Event Management</option>
+        <option>PR & Communications</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <div class="field-label">Your city</div>
+        <input type="text" class="field-input" id="f-yourcity" placeholder="e.g. Mumbai" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Your GSTIN <span style="opacity:.5;font-weight:300">(optional)</span></div>
+        <input type="text" class="field-input" id="f-gstin" placeholder="22AAAAA0000A1Z5" />
+      </div>
+    </div>
+
+    <!-- Client details -->
+    <div class="field-group">
+      <div class="field-label">Client name / Company <span class="req">*</span></div>
+      <input type="text" class="field-input" id="f-client" placeholder="e.g. Rohan Mehta or Mehta Enterprises" />
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <div class="field-label">Client city</div>
+        <input type="text" class="field-input" id="f-clientcity" placeholder="e.g. Delhi" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Client GSTIN <span style="opacity:.5;font-weight:300">(optional)</span></div>
+        <input type="text" class="field-input" id="f-clientgstin" placeholder="Optional" />
+      </div>
+    </div>
+
+    <!-- Project details -->
+    <div class="field-group">
+      <div class="field-label">Project name <span class="req">*</span></div>
+      <input type="text" class="field-input" id="f-project" placeholder="e.g. Brand Identity for Chai Corner" />
+    </div>
+    <div class="field-group">
+      <div class="field-label">Scope of work <span class="req">*</span></div>
+      <textarea class="field-textarea" id="f-scope" placeholder="Describe what you'll deliver. e.g:&#10;- Logo design (3 concepts, 2 revisions)&#10;- Brand colour palette and typography&#10;- Business card design&#10;- Brand guidelines document"></textarea>
+      <div class="field-hint">Be specific — the more detail, the better the output.</div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <div class="field-label">Project timeline <span class="req">*</span></div>
+        <input type="text" class="field-input" id="f-timeline" placeholder="e.g. 3 weeks" />
+      </div>
+      <div class="field-group">
+        <div class="field-label">Project value (₹) <span class="req">*</span></div>
+        <input type="number" class="field-input" id="f-value" placeholder="e.g. 45000" />
+      </div>
+    </div>
+
+    <!-- GST -->
+    <div class="field-group">
+      <div class="field-label">GST</div>
+      <div class="gst-row">
+        <div class="toggle-wrap">
+          <label class="toggle">
+            <input type="checkbox" id="f-gst" onchange="toggleGst(this)">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">Include GST</span>
+        </div>
+        <div class="field-group" style="margin:0">
+          <select class="field-select" id="f-gst-rate" disabled>
+            <option value="18">18% GST</option>
+            <option value="12">12% GST</option>
+            <option value="5">5% GST</option>
+          </select>
+        </div>
+        <div id="gst-total" style="font-size:13px;color:var(--clay);font-weight:500;text-align:right"></div>
+      </div>
+    </div>
+
+    <!-- Payment terms -->
+    <div class="field-group">
+      <div class="field-label">Payment terms</div>
+      <select class="field-select" id="f-payment">
+        <option>50% advance, 50% on delivery</option>
+        <option>100% advance</option>
+        <option>33% advance, 33% midway, 34% on delivery</option>
+        <option>Milestone-based payments</option>
+        <option>Monthly retainer</option>
+        <option>Net 15 days after delivery</option>
+        <option>Net 30 days after delivery</option>
+      </select>
+    </div>
+
+    <!-- Language -->
+    <div class="field-group">
+      <div class="field-label">Language</div>
+      <div class="lang-btns">
+        <button class="lang-btn active" onclick="selectLang(this,'english')">English</button>
+        <button class="lang-btn" onclick="selectLang(this,'hindi')">हिंदी</button>
+        <button class="lang-btn" onclick="selectLang(this,'both')">Both</button>
+      </div>
+    </div>
+
+    <!-- Extra notes -->
+    <div class="field-group">
+      <div class="field-label">Anything else to include? <span style="opacity:.5;font-weight:300">(optional)</span></div>
+      <textarea class="field-textarea" id="f-notes" style="min-height:60px" placeholder="e.g. Rush fee included, specific revision terms, confidentiality clause needed..."></textarea>
+    </div>
+
+    <div id="form-error" style="display:none" class="error-box"><p></p></div>
+
+    <button class="generate-btn" id="gen-btn" onclick="generate()">
+      <span id="gen-btn-text">✨ Generate Document</span>
+    </button>
+    <div style="text-align:center;font-size:11px;color:var(--bark);opacity:.5;margin-top:10px">Powered by Claude AI · Your data never leaves your device</div>
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div id="preview-panel">
+    <div class="preview-empty" id="empty-state">
+      <div class="preview-empty-icon">📄</div>
+      <h3>Your document will appear here</h3>
+      <p>Fill in the form and click Generate.<br>It takes about 10–15 seconds.</p>
+    </div>
+    <div id="output-area" style="display:none">
+      <div class="preview-actions" id="preview-actions"></div>
+      <div id="doc-output"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let docType = 'proposal';
+let language = 'english';
+
+// ── DOC TYPE ──
+function selectType(el, type) {
+  document.querySelectorAll('.doc-type').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  docType = type;
+}
+
+// ── LANGUAGE ──
+function selectLang(el, lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  language = lang;
+}
+
+// ── GST ──
+function toggleGst(el) {
+  document.getElementById('f-gst-rate').disabled = !el.checked;
+  calcGst();
+}
+function calcGst() {
+  const val = parseFloat(document.getElementById('f-value').value) || 0;
+  const rate = parseFloat(document.getElementById('f-gst-rate').value) || 18;
+  const gstOn = document.getElementById('f-gst').checked;
+  if (gstOn && val) {
+    const gstAmt = val * rate / 100;
+    document.getElementById('gst-total').textContent = `Total: ₹${(val + gstAmt).toLocaleString('en-IN')}`;
+  } else { document.getElementById('gst-total').textContent = ''; }
+}
+document.getElementById('f-value').addEventListener('input', calcGst);
+document.getElementById('f-gst-rate').addEventListener('change', calcGst);
+
+// ── VALIDATION ──
+function validate() {
+  const required = [
+    ['f-yourname','Your name'],['f-service','Service type'],
+    ['f-client','Client name'],['f-project','Project name'],
+    ['f-scope','Scope of work'],['f-timeline','Timeline'],['f-value','Project value']
+  ];
+  for (const [id, label] of required) {
+    if (!document.getElementById(id).value.trim()) {
+      showError(`Please fill in: ${label}`);
+      document.getElementById(id).focus();
+      return false;
+    }
+  }
+  hideError();
+  return true;
+}
+function showError(msg) {
+  const el = document.getElementById('form-error');
+  el.style.display = 'block';
+  el.querySelector('p').textContent = msg;
+}
+function hideError() { document.getElementById('form-error').style.display = 'none'; }
+
+// ── COLLECT FORM DATA ──
+function getFormData() {
+  const val = parseFloat(document.getElementById('f-value').value) || 0;
+  const gstOn = document.getElementById('f-gst').checked;
+  const rate = parseFloat(document.getElementById('f-gst-rate').value) || 18;
+  const gstAmt = gstOn ? val * rate / 100 : 0;
+  const total = val + gstAmt;
+  return {
+    yourName: document.getElementById('f-yourname').value.trim(),
+    service: document.getElementById('f-service').value,
+    yourCity: document.getElementById('f-yourcity').value.trim(),
+    gstin: document.getElementById('f-gstin').value.trim(),
+    client: document.getElementById('f-client').value.trim(),
+    clientCity: document.getElementById('f-clientcity').value.trim(),
+    clientGstin: document.getElementById('f-clientgstin').value.trim(),
+    project: document.getElementById('f-project').value.trim(),
+    scope: document.getElementById('f-scope').value.trim(),
+    timeline: document.getElementById('f-timeline').value.trim(),
+    value: val, gstOn, rate, gstAmt, total,
+    payment: document.getElementById('f-payment').value,
+    notes: document.getElementById('f-notes').value.trim(),
+    language, docType,
+    date: new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
+  };
+}
+
+// ── SYSTEM PROMPTS ──
+function buildPrompt(d) {
+  const langInstr = d.language === 'hindi' ? 'Write entirely in Hindi (Devanagari script).' :
+    d.language === 'both' ? 'Write with English headings and primary content, but add a warm Hindi sentence or two at the start of key sections to personalise it.' :
+    'Write in professional Indian English — warm, relationship-oriented, and culturally appropriate for Indian business.';
+
+  const priceBlock = d.gstOn
+    ? `Base Amount: ₹${d.value.toLocaleString('en-IN')}\nGST @ ${d.rate}%: ₹${d.gstAmt.toLocaleString('en-IN')}\nTotal Payable: ₹${d.total.toLocaleString('en-IN')}`
+    : `Total: ₹${d.value.toLocaleString('en-IN')} (GST not applicable / inclusive)`;
+
+  if (d.docType === 'proposal') {
+    return {
+      sys: `You are a senior proposal writer for Indian creative professionals and agencies. You write proposals that win clients — they are warm, professional, specific, and structured. You understand Indian business culture: relationships matter, trust is built through tone, and clarity about money is respected not avoided.
+
+Generate proposals in clean HTML using only these tags: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs, no classes, no inline styles. The output will be styled externally. Use em tags for emphasis on key figures and names.
+
+${langInstr}`,
+      user: `Generate a complete project proposal with these details:
+
+FROM: ${d.yourName}${d.service ? ` (${d.service})` : ''}${d.yourCity ? `, ${d.yourCity}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}
+TO: ${d.client}${d.clientCity ? `, ${d.clientCity}` : ''}${d.clientGstin ? ` | GSTIN: ${d.clientGstin}` : ''}
+PROJECT: ${d.project}
+DATE: ${d.date}
+
+SCOPE OF WORK:
+${d.scope}
+
+TIMELINE: ${d.timeline}
+PRICING:
+${priceBlock}
+PAYMENT TERMS: ${d.payment}
+${d.notes ? `\nADDITIONAL NOTES:\n${d.notes}` : ''}
+
+Structure the proposal with these sections:
+1. A warm, personalised opening (reference their specific project by name)
+2. Our Understanding (what we understand they need — show you listened)
+3. Scope of Work (detailed, formatted as a clear list)
+4. Project Timeline (show phases with approximate timeframes)
+5. Investment (show the pricing breakdown clearly, including GST if applicable)
+6. Payment Terms
+7. Why Work With Us (2-3 genuine differentiators, not generic fluff)
+8. What We Need From You (inputs, access, approvals — sets expectations)
+9. Next Steps (clear call to action — what happens after they accept)
+10. Terms & Conditions (standard Indian freelance terms: revision policy, IP ownership, cancellation, confidentiality)
+11. Acceptance section (space for signatures)
+
+Make it feel like a real person wrote it for this specific client — not a template. The opening should mention the project name and feel personal.`
+    };
+  }
+
+  if (d.docType === 'contract') {
+    return {
+      sys: `You are a legal document specialist familiar with Indian commercial law, IT Act, and standard Indian freelance/agency contracts. Write contracts that are professional, legally sound for India, and understandable by a typical Indian SMB client. Include GST provisions, intellectual property clauses appropriate for Indian law, and dispute resolution under Indian jurisdiction.
+
+Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs or classes.
+${langInstr}`,
+      user: `Generate a professional Service Agreement/Contract for:
+
+SERVICE PROVIDER: ${d.yourName}${d.yourCity ? `, ${d.yourCity}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}
+CLIENT: ${d.client}${d.clientCity ? `, ${d.clientCity}` : ''}${d.clientGstin ? ` | GSTIN: ${d.clientGstin}` : ''}
+SERVICE: ${d.service}
+PROJECT: ${d.project}
+DATE: ${d.date}
+
+SCOPE:
+${d.scope}
+
+TIMELINE: ${d.timeline}
+FEES: ${priceBlock}
+PAYMENT: ${d.payment}
+${d.notes ? `ADDITIONAL TERMS: ${d.notes}` : ''}
+
+Include these clauses: Scope of Services, Deliverables, Timeline, Fees & Payment, GST clause, Intellectual Property (IP transfers to client upon full payment), Revision Policy, Confidentiality, Termination, Limitation of Liability, Governing Law (Indian law, appropriate city jurisdiction), Dispute Resolution, Force Majeure, Entire Agreement. End with signature blocks for both parties.`
+    };
+  }
+
+  // Follow-up
+  return {
+    sys: `You are an expert at writing professional follow-up emails in Indian business context. Indian professional communication is warm, respectful, and relationship-focused. It acknowledges the other person's time, is never pushy, yet is clear about the ask. Write emails that feel genuinely human — not corporate, not desperate.
+
+Generate in clean HTML using only: p, strong, em, br. No other tags.
+${langInstr}`,
+    user: `Write a professional follow-up email:
+
+FROM: ${d.yourName} (${d.service})
+TO: ${d.client}
+RE: ${d.project} proposal sent on ${d.date}
+AMOUNT: ₹${d.value.toLocaleString('en-IN')}${d.gstOn ? ` + GST` : ''}
+
+Context: We sent a proposal and haven't heard back. Write a warm, polite follow-up that:
+- Opens with a genuine, personal reference to their project
+- Briefly mentions you're following up on the proposal
+- Offers to answer any questions or adjust scope/pricing if needed
+- Ends with a clear, non-pushy call to action
+- Feels like it was written by a real person, not a template
+${d.notes ? `\nAdditional context: ${d.notes}` : ''}
+
+Write 3 variations:
+Variation 1: Gentle check-in (3-4 days after sending)
+Variation 2: Value-add follow-up (7 days — mention something helpful or a new insight)
+Variation 3: Final follow-up (14 days — polite closure)`
+  };
+}
+
+// ── CLAUDE API (via Netlify Function — key is server-side, users never see it) ──
+async function callClaude(sys, user) {
+  const r = await fetch('/.netlify/functions/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: sys, user, max_tokens: 4000 })
+  });
+  const data = await r.json();
+  if (data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
+  return data.content?.[0]?.text || '';
+}
+
+// ── RENDER DOCUMENT ──
+function renderDocument(html, d) {
+  const typeLabels = { proposal: 'Project Proposal', contract: 'Service Agreement', followup: 'Follow-up Email' };
+  const metaItems = [
+    { label: 'Prepared by', val: d.yourName },
+    { label: 'Prepared for', val: d.client },
+    { label: 'Project', val: d.project },
+    { label: 'Date', val: d.date },
+  ];
+  if (d.docType !== 'followup') {
+    metaItems.push({ label: 'Value', val: `₹${d.value.toLocaleString('en-IN')}${d.gstOn ? ` + ${d.rate}% GST` : ''}` });
+    metaItems.push({ label: 'Timeline', val: d.timeline });
+  }
+
+  const metaHtml = metaItems.map(m => `<div class="doc-meta-item"><div class="doc-meta-label">${m.label}</div><div class="doc-meta-val">${m.val}</div></div>`).join('');
+
+  return `<div class="doc-header-bar">
+    <div class="doc-brand">
+      <div class="doc-brand-mark">म</div>
+      <span class="doc-brand-name">Mitti Proposals</span>
+    </div>
+    <div class="doc-type-badge">${typeLabels[d.docType] || 'Document'}</div>
+  </div>
+  <div class="doc-content">
+    <div class="doc-meta">${metaHtml}</div>
+    ${html}
+    ${d.docType !== 'followup' ? `<div class="doc-footer-sig">
+      <div>
+        <div class="sig-block">
+          <div class="sig-label">Signature — Service Provider</div>
+          <div class="sig-name">${d.yourName}</div>
+        </div>
+      </div>
+      <div>
+        <div class="sig-block">
+          <div class="sig-label">Signature — Client</div>
+          <div class="sig-name">${d.client}</div>
+        </div>
+      </div>
+    </div>` : ''}
+  </div>
+  <div class="doc-stamp">
+    <p>Generated by <strong>Mitti Proposals</strong> · mitti.in · Made in Bharat 🇮🇳</p>
+  </div>`;
+}
+
+// ── GENERATE ──
+async function generate() {
+  if (!validate()) return;
+
+  const d = getFormData();
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  document.getElementById('gen-btn-text').innerHTML = '<div class="spinner"></div> Generating...';
+
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('output-area').style.display = 'block';
+  document.getElementById('doc-output').innerHTML = `<div class="generating">
+    <div class="gen-spinner"></div>
+    <div class="gen-text">Writing your ${d.docType}...</div>
+    <div class="gen-sub">This takes about 15 seconds. Grab a chai. ☕</div>
+  </div>`;
+  document.getElementById('preview-actions').innerHTML = '';
+
+  try {
+    const { sys, user } = buildPrompt(d);
+    const result = await callClaude(sys, user);
+
+    document.getElementById('doc-output').innerHTML = renderDocument(result, d);
+
+    // Action buttons
+    document.getElementById('preview-actions').innerHTML = `
+      <button class="action-btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <button class="action-btn secondary" id="copy-btn" onclick="copyDoc()">📋 Copy text</button>
+      <button class="action-btn secondary" onclick="regenerate()">🔄 Regenerate</button>`;
+
+    document.getElementById('preview-panel').scrollTop = 0;
+
+  } catch (err) {
+    document.getElementById('doc-output').innerHTML = `<div style="padding:32px"><div class="error-box"><p><strong>Error:</strong> ${err.message}</p></div><p style="font-size:13px;color:var(--bark)">Check your API key and try again. If the error persists, the API may be temporarily unavailable.</p></div>`;
+  }
+
+  btn.disabled = false;
+  document.getElementById('gen-btn-text').textContent = '✨ Generate Document';
+}
+
+function regenerate() { generate(); }
+
+function copyDoc() {
+  const text = document.getElementById('doc-output').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.classList.add('copy-success');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.classList.remove('copy-success'); btn.textContent = '📋 Copy text'; }, 2500);
+  });
+}
+</script>
+</body>
+</html>
