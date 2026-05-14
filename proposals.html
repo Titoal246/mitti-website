@@ -528,7 +528,7 @@ Variation 3: Final follow-up (14 days — polite closure)`
 }
 
 // ── CLAUDE API (via Netlify Function — key is server-side, users never see it) ──
-async function callClaude(sys, user) {
+async function callClaude(sys, user, docType, language) {
   // DEV MODE: if running locally (file://) return mock instantly — zero API usage
   if (window.location.protocol === 'file:') {
     await new Promise(r => setTimeout(r, 1200));
@@ -547,7 +547,7 @@ async function callClaude(sys, user) {
   const r = await fetch('/.netlify/functions/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ system: sys, user, max_tokens: 4000 })
+    body: JSON.stringify({ system: sys, user, max_tokens: 4000, docType, language })
   });
 
   const data = await r.json();
@@ -628,7 +628,7 @@ async function generate() {
 
   try {
     const { sys, user } = buildPrompt(d);
-    const result = await callClaude(sys, user);
+    const result = await callClaude(sys, user, d.docType, d.language);
 
     document.getElementById('doc-output').innerHTML = renderDocument(result, d);
 
