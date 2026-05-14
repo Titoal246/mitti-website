@@ -549,9 +549,17 @@ async function callClaude(sys, user) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ system: sys, user, max_tokens: 4000 })
   });
+
   const data = await r.json();
-  if (data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
-  return data.content?.[0]?.text || '';
+
+  // Server returned a clean error string
+  if (data.error) throw new Error(data.error);
+
+  // Unexpected empty response
+  const text = data.content?.[0]?.text;
+  if (!text) throw new Error('Empty response from AI. Please try again.');
+
+  return text;
 }
 
 // ── RENDER DOCUMENT ──
@@ -633,14 +641,17 @@ async function generate() {
     document.getElementById('preview-panel').scrollTop = 0;
 
   } catch (err) {
-    let errMsg = err.message;
-    try { const p = JSON.parse(errMsg); errMsg = p.message || errMsg; } catch(e) {}
+    let errMsg = err.message || 'Something went wrong. Please try again.';
     if (errMsg.includes('credit') || errMsg.includes('balance')) {
-      errMsg = '💳 Your Anthropic API credits are empty. Go to console.anthropic.com → Billing → Add credits (minimum $5).';
-    } else if (errMsg.includes('invalid_api_key') || errMsg.includes('auth')) {
-      errMsg = '🔑 Invalid API key. Check the ANTHROPIC_API_KEY environment variable in your Netlify dashboard.';
-    } else if (errMsg.includes('concurren') || errMsg.includes('exceeded_limit')) {
-      errMsg = '⏳ Too many simultaneous requests. Wait 10 seconds and try again.';
+      errMsg = '💳 API credits empty. Contact support at hello@mitti.in';
+    } else if (errMsg.includes('invalid_api_key') || errMsg.includes('auth') || errMsg.includes('API key')) {
+      errMsg = '🔑 Server configuration error. Please contact hello@mitti.in';
+    } else if (errMsg.includes('concurren') || errMsg.includes('exceeded_limit') || errMsg.includes('rate')) {
+      errMsg = '⏳ Too many requests right now. Please wait 10 seconds and try again.';
+    } else if (errMsg.includes('timed out') || errMsg.includes('abort')) {
+      errMsg = '⏱️ Generation took too long. Please try again — it usually works on the second attempt.';
+    } else if (errMsg.includes('not_found') || errMsg.includes('model')) {
+      errMsg = '⚙️ Server configuration error. Please contact hello@mitti.in';
     }
     document.getElementById('doc-output').innerHTML = `<div style="padding:32px"><div class="error-box"><p>${errMsg}</p></div></div>`;
   }
