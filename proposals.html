@@ -242,8 +242,10 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
   </a>
   <div class="nav-right">
     <span class="nav-product">Proposals Beta</span>
-    <a href="invoice.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Invoice Generator</a>
-    <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Back to Mitti</a>
+    <a href="invoice.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Invoice</a>
+    <a href="my-docs.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">📁 My Docs</a>
+    <a href="templates.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Templates</a>
+    <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Home</a>
   </div>
 </nav>
 
@@ -1024,9 +1026,10 @@ async function generate() {
       ALLOWED_ATTR: ['class','style'],
     });
 
-    // Save client memory and document history
+    // Save client memory and document history (with generated HTML)
     saveClient(d);
     saveHistory(d);
+    saveDocHtml(result, d);
 
     // Action buttons
     const actionsEl = document.getElementById('preview-actions');
@@ -1420,6 +1423,27 @@ function saveHistory(d) {
 
 function loadHistory() {
   try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) { return []; }
+}
+
+// ── SAVE GENERATED HTML FOR "MY DOCS" ──
+const DOCS_HTML_KEY = 'mitti_docs_html';
+const MAX_SAVED_DOCS = 10;
+function saveDocHtml(rawHtml, d) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(DOCS_HTML_KEY) || '[]');
+    saved.unshift({
+      id: Date.now(),
+      docType: d.docType,
+      project: d.project,
+      client: d.client,
+      date: d.date,
+      value: d.value,
+      html: rawHtml.slice(0, 20000), // cap at 20KB per doc
+      savedAt: new Date().toISOString(),
+    });
+    if (saved.length > MAX_SAVED_DOCS) saved.length = MAX_SAVED_DOCS;
+    localStorage.setItem(DOCS_HTML_KEY, JSON.stringify(saved));
+  } catch(e) {}
 }
 
 const DOC_TYPE_ICONS = { proposal:'📄', contract:'📋', nda:'🔒', sow:'📐', retainer:'🔁', followup:'✉️' };
