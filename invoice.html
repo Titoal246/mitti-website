@@ -212,6 +212,14 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
       <div class="field-label">Service description <span class="req">*</span></div>
       <input type="text" class="field-input" id="i-desc" placeholder="Brand Identity Design — Logo, Guidelines" />
     </div>
+
+    <!-- Multi-line items -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--bark);opacity:.6;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase">Line items <span style="font-style:italic;text-transform:none">(optional — overrides single amount if used)</span></div>
+      <div id="line-items" style="display:flex;flex-direction:column;gap:6px"></div>
+      <button type="button" onclick="addLineItem()" style="margin-top:8px;padding:6px 14px;background:transparent;border:1px dashed rgba(196,96,58,.3);border-radius:8px;font-size:12px;color:var(--bark);cursor:pointer;font-family:var(--sans)">+ Add item</button>
+    </div>
+
     <div class="field-row">
       <div class="field-group">
         <div class="field-label">Service type</div>
@@ -314,7 +322,40 @@ const SAC = {
   'Event Management':'998559',
 };
 
-function inr(n) { return '₹' + Number(n).toLocaleString('en-IN',{maximumFractionDigits:0}); }
+function inr(n) { return '₹' + Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0}); }
+
+// ── LINE ITEMS ──
+let lineItems = [];
+function addLineItem(desc='', qty=1, rate=0) {
+  const id = Date.now() + Math.random();
+  lineItems.push({ id, desc, qty, rate });
+  renderLineItems();
+}
+function removeLineItem(id) {
+  lineItems = lineItems.filter(l => l.id !== id);
+  renderLineItems();
+  syncLineTotal();
+}
+function renderLineItems() {
+  const el = document.getElementById('line-items');
+  el.innerHTML = lineItems.map((l,i) => `
+    <div style="display:grid;grid-template-columns:1fr 60px 90px 24px;gap:6px;align-items:center">
+      <input class="field-input" style="font-size:13px;padding:8px 10px" placeholder="Description" value="${l.desc.replace(/"/g,'&quot;')}"
+        oninput="lineItems[${i}].desc=this.value">
+      <input class="field-input" style="font-size:13px;padding:8px 6px;text-align:right" type="number" placeholder="Qty" value="${l.qty}" min="1"
+        oninput="lineItems[${i}].qty=parseFloat(this.value)||1;syncLineTotal()">
+      <input class="field-input" style="font-size:13px;padding:8px 6px;text-align:right" type="number" placeholder="Rate ₹" value="${l.rate||''}"
+        oninput="lineItems[${i}].rate=parseFloat(this.value)||0;syncLineTotal()">
+      <button type="button" onclick="removeLineItem(${l.id})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:16px;padding:0">×</button>
+    </div>
+  `).join('');
+}
+function syncLineTotal() {
+  if (!lineItems.length) return;
+  const total = lineItems.reduce((s,l) => s + (l.qty * l.rate), 0);
+  document.getElementById('i-amount').value = Math.round(total);
+  recalc();
+}
 
 // Set today's date
 document.getElementById('i-date').valueAsDate = new Date();
@@ -467,12 +508,20 @@ function generateInvoice() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>${desc}</td>
-            ${sacCode ? `<td class="sac">${sacCode}</td>` : ''}
-            <td>${inr(amt)}</td>
-          </tr>
+          ${lineItems.length > 0
+            ? lineItems.map((l, i) => `<tr>
+                <td>${i+1}</td>
+                <td>${l.desc || desc}${l.qty > 1 ? ` × ${l.qty}` : ''}</td>
+                ${sacCode ? `<td class="sac">${sacCode}</td>` : ''}
+                <td>${inr(l.qty * l.rate)}</td>
+              </tr>`).join('')
+            : `<tr>
+                <td>1</td>
+                <td>${desc}</td>
+                ${sacCode ? `<td class="sac">${sacCode}</td>` : ''}
+                <td>${inr(amt)}</td>
+              </tr>`
+          }
         </tbody>
       </table>
 
