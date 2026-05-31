@@ -15,6 +15,7 @@
 <meta name="twitter:description" content="CGST/SGST/IGST split, SAC codes, TDS clauses. Built for Indian freelancers.">
 <link rel="canonical" href="https://mitti.in/invoice.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="manifest" href="/manifest.json">
 <title>Mitti Invoice — GST-Compliant Invoice Generator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -602,6 +603,10 @@ loadInvProfile();
 ['i-yourstate','i-service'].forEach(id => {
   document.getElementById(id).addEventListener('change', saveInvProfile);
 });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
 </script>
 </body>
 </html>
