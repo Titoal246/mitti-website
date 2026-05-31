@@ -15,6 +15,7 @@
 <meta name="twitter:description" content="GST-aware AI document generator. CGST/SGST/IGST split, SAC codes, TDS clauses. Free to try.">
 <link rel="canonical" href="https://mitti.in/proposals.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="manifest" href="/manifest.json">
 <title>Mitti Proposals — AI-Powered Proposals for Indian Freelancers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1284,6 +1285,28 @@ document.getElementById('f-service').addEventListener('change', saveProfile);
 document.getElementById('f-yourstate').addEventListener('change', saveProfile);
 document.getElementById('f-gstin').addEventListener('blur', saveProfile);
 
+// ── URL PARAMS PRE-FILL (from templates.html) ──
+(function prefillFromUrl() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.has('doctype') && !p.has('service')) return;
+  const doctype = p.get('doctype');
+  if (doctype) {
+    const el = document.querySelector(`.doc-type[data-type="${doctype}"]`);
+    if (el) { document.querySelectorAll('.doc-type').forEach(d => d.classList.remove('selected')); el.classList.add('selected'); selectType(el, doctype); }
+  }
+  if (p.get('service')) {
+    const sel = document.getElementById('f-service');
+    // Try exact match first, then partial
+    const opt = [...sel.options].find(o => o.value === p.get('service')) ||
+                [...sel.options].find(o => o.value.toLowerCase().includes(p.get('service').toLowerCase().split(' ')[0]));
+    if (opt) { sel.value = opt.value; updateSacHint(); }
+  }
+  if (p.get('scope')) document.getElementById('f-scope').value = p.get('scope');
+  if (p.get('timeline')) document.getElementById('f-timeline').value = p.get('timeline');
+  // Smooth scroll to form after pre-fill
+  setTimeout(() => document.getElementById('f-project').focus(), 300);
+})();
+
 // ── CLIENT MEMORY ──
 const CLIENTS_KEY = 'mitti_clients';
 const MAX_CLIENTS = 10;
@@ -1475,6 +1498,10 @@ function copyWhatsapp(d) {
   const orig = btn.textContent;
   btn.textContent = '✓ Copied for WhatsApp!';
   setTimeout(() => { btn.textContent = orig; }, 2500);
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
 }
 </script>
 </body>

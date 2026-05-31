@@ -1,0 +1,37 @@
+{
+  "name": "Mitti — AI Proposals for India",
+  "short_name": "Mitti",
+  "description": "AI-powered proposals, contracts, and invoices for Indian freelancers. CGST/SGST/IGST aware.",
+  "start_url": "/proposals.html",
+  "display": "standalone",
+  "background_color": "#FBF5EC",
+  "theme_color": "#C4603A",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23C4603A'/><text x='96' y='145' font-size='120' text-anchor='middle' font-family='Georgia,serif' fill='%23FBF5EC'>म</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23C4603A'/><text x='256' y='380' font-size='320' text-anchor='middle' font-family='Georgia,serif' fill='%23FBF5EC'>म</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Proposal",
+      "url": "/proposals.html",
+      "description": "Generate a new proposal"
+    },
+    {
+      "name": "New Invoice",
+      "url": "/invoice.html",
+      "description": "Create a GST invoice"
+    }
+  ],
+  "categories": ["business", "productivity", "finance"],
+  "lang": "en-IN"
+}

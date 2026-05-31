@@ -56,6 +56,10 @@ exports.handler = async function (event) {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Payment verification failed' }) };
   }
 
+  // Send email notification (fire-and-forget)
+  const planLabel = plan === 'agency' ? 'Agency ₹799' : 'Pro ₹299';
+  notifyOwner(planLabel, email || 'anonymous', razorpay_payment_id).catch(() => {});
+
   // Upgrade plan in Supabase
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
@@ -77,6 +81,27 @@ exports.handler = async function (event) {
     body: JSON.stringify({ success: true, plan: plan || 'pro' }),
   };
 };
+
+async function notifyOwner(plan, customerEmail, paymentId) {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) return;
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'Mitti Payments <payments@mitti.in>',
+      to: ['hello@mitti.in'],
+      subject: `💰 New ${plan} subscription — Mitti`,
+      html: `<h2>New payment received!</h2>
+<p><strong>Plan:</strong> ${plan}</p>
+<p><strong>Customer email:</strong> ${customerEmail}</p>
+<p><strong>Payment ID:</strong> ${paymentId}</p>
+<p><strong>Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</p>
+<hr>
+<p style="color:#888">Mitti · mitti.in</p>`,
+    }),
+  });
+}
 
 function sbFetch(path, method = 'GET', body) {
   return fetch(`${SUPABASE_URL}${path}`, {
