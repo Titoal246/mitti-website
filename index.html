@@ -959,8 +959,9 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Waitlist
-function joinWaitlist() {
+async function joinWaitlist() {
   const input = document.getElementById('email-input');
+  const btn = document.querySelector('.waitlist-btn');
   const email = input.value.trim();
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   if (!valid) {
@@ -968,9 +969,17 @@ function joinWaitlist() {
     input.focus(); return;
   }
   input.style.borderColor = '';
+  btn.disabled = true;
+  btn.textContent = 'Joining…';
+  try {
+    await fetch('/.netlify/functions/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'homepage' }),
+    });
+  } catch (_) { /* show success regardless */ }
   document.getElementById('wf').style.display = 'none';
   document.getElementById('waitlist-thanks').style.display = 'block';
-  // TODO: POST to your backend / Formspree / Supabase
 }
 document.getElementById('email-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') joinWaitlist();
