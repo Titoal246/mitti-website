@@ -530,6 +530,18 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
   </div>
 </div>
 
+<!-- REFERRAL NUDGE (shown after first generation) -->
+<div id="referral-nudge" style="display:none;position:fixed;bottom:20px;right:20px;z-index:300;max-width:320px;background:var(--earth);color:var(--cream);border-radius:16px;padding:20px 24px;box-shadow:0 8px 32px rgba(28,15,6,.3);border:1px solid rgba(196,96,58,.3)">
+  <button onclick="document.getElementById('referral-nudge').style.display='none'" style="position:absolute;top:12px;right:14px;background:none;border:none;color:rgba(251,245,236,.5);cursor:pointer;font-size:16px">✕</button>
+  <div style="font-size:14px;font-weight:500;margin-bottom:6px">Share Mitti, get a free doc 🎁</div>
+  <div style="font-size:12px;color:rgba(251,245,236,.6);margin-bottom:14px">Share your link. When a friend generates their first doc, you both get +1 free document.</div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <input id="ref-link-input" type="text" readonly style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid rgba(251,245,236,.15);background:rgba(251,245,236,.08);color:var(--cream);font-size:11px;font-family:var(--sans)" value="Loading...">
+    <button id="ref-copy-btn" onclick="copyRefLink()" style="padding:8px 14px;background:var(--clay);color:var(--cream);border:none;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);white-space:nowrap">Copy</button>
+  </div>
+  <div style="font-size:11px;color:rgba(251,245,236,.3);margin-top:10px">Free tier: 3 docs/month. +1 per successful referral.</div>
+</div>
+
 <script>
 // ── STATE ──
 let docType = 'proposal';
@@ -1053,6 +1065,9 @@ async function generate() {
     actionsEl.append(printBtn, copyBtn, waBtn, shareBtn, regenBtn);
     document.getElementById('preview-panel').scrollTop = 0;
 
+    // Show referral nudge after first successful generation
+    showReferralNudge();
+
   } catch (err) {
     let errMsg = err.message || 'Something went wrong. Please try again.';
     if (errMsg.includes('credit') || errMsg.includes('balance')) errMsg = '💳 API credits empty. Contact support at hello@mitti.in';
@@ -1502,6 +1517,72 @@ function copyWhatsapp(d) {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
+
+// ── REFERRAL SYSTEM ──
+let referralCode = null;
+async function showReferralNudge() {
+  // Only show once per session
+  if (sessionStorage.getItem('mitti_ref_shown')) return;
+  sessionStorage.setItem('mitti_ref_shown', '1');
+  try {
+    const res = await fetch('/.netlify/functions/referral', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'create', fingerprint: getFingerprint() }),
+    });
+    const data = await res.json();
+    if (data.code) {
+      referralCode = data.code;
+      const link = `${location.origin}/proposals.html?ref=${data.code}`;
+      document.getElementById('ref-link-input').value = link;
+      setTimeout(() => {
+        document.getElementById('referral-nudge').style.display = 'block';
+      }, 3000); // show 3s after generation
+    }
+  } catch (_) {}
+
+  // Also check URL for incoming referral code
+  const urlRef = new URLSearchParams(window.location.search).get('ref');
+  if (urlRef) claimReferral(urlRef);
+}
+
+async function claimReferral(code) {
+  try {
+    const res = await fetch('/.netlify/functions/referral', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'claim', ref_code: code, fingerprint: getFingerprint() }),
+    });
+    const data = await res.json();
+    if (data.success && !data.already_claimed) {
+      // Refresh usage display
+      setTimeout(checkUsage, 1000);
+    }
+  } catch (_) {}
+}
+
+function copyRefLink() {
+  const input = document.getElementById('ref-link-input');
+  const btn = document.getElementById('ref-copy-btn');
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(input.value).then(() => {
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  } else {
+    input.select();
+    document.execCommand('copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  }
+}
+
+// Check for incoming ref param on page load
+const _incomingRef = new URLSearchParams(window.location.search).get('ref');
+if (_incomingRef && window.location.protocol !== 'file:') {
+  // Claim after a short delay to ensure fingerprint is ready
+  setTimeout(() => claimReferral(_incomingRef), 500);
 }
 </script>
 </body>
