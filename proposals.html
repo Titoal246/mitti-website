@@ -1039,7 +1039,16 @@ async function generate() {
     regenBtn.textContent = '🔄 Regenerate';
     regenBtn.onclick = generate;
 
-    actionsEl.append(printBtn, copyBtn, waBtn, regenBtn);
+    const shareBtn = document.createElement('button');
+    shareBtn.className = 'action-btn secondary';
+    shareBtn.title = 'Share on LinkedIn';
+    shareBtn.textContent = '🔗 Share';
+    shareBtn.onclick = () => {
+      const text = encodeURIComponent('Just generated a professional GST-compliant proposal in 3 minutes using Mitti — India\'s AI document generator for freelancers. Try it free: https://mitti.in/proposals.html #IndianFreelancer #Mitti');
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://mitti.in/proposals.html')}&summary=${text}`, '_blank', 'width=600,height=500');
+    };
+
+    actionsEl.append(printBtn, copyBtn, waBtn, shareBtn, regenBtn);
     document.getElementById('preview-panel').scrollTop = 0;
 
   } catch (err) {
