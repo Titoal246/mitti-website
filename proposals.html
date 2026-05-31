@@ -3,9 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Generate professional proposals, contracts, and follow-up emails for Indian freelancers and agencies. Powered by AI.">
+<meta name="theme-color" content="#C4603A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
 <title>Mitti Proposals — AI-Powered Proposals for Indian Freelancers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <style>
 :root {
   --clay:#C4603A; --saffron:#E8943A; --earth:#1C0F06; --soil:#3D2010;
@@ -142,6 +149,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 /* RESPONSIVE */
 @media(max-width:900px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
 @media print{nav,#form-panel,.preview-actions{display:none!important}#app{grid-template-columns:1fr}#doc-output{box-shadow:none;border:none}#preview-panel{padding:0;max-height:none}}
+@media(prefers-reduced-motion:reduce){.spinner,.gen-spinner{animation:none;opacity:.6}.reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
@@ -194,24 +202,24 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
       <div class="field-label">Your service type <span class="req">*</span></div>
       <select class="field-select" id="f-service">
         <option value="">Select your service</option>
-        <option>Graphic Design</option>
-        <option>Web Design & Development</option>
-        <option>UI/UX Design</option>
-        <option>Brand Identity Design</option>
-        <option>Photography</option>
-        <option>Videography & Video Editing</option>
-        <option>Social Media Management</option>
-        <option>Content Writing & Copywriting</option>
-        <option>Digital Marketing</option>
-        <option>SEO & Performance Marketing</option>
-        <option>Mobile App Development</option>
-        <option>Software Development</option>
-        <option>AI & Automation Consulting</option>
-        <option>Interior Design</option>
-        <option>Architecture</option>
-        <option>Event Management</option>
-        <option>PR & Communications</option>
-        <option>Other</option>
+        <option value="Graphic Design">Graphic Design</option>
+        <option value="Web Design & Development">Web Design & Development</option>
+        <option value="UI/UX Design">UI/UX Design</option>
+        <option value="Brand Identity Design">Brand Identity Design</option>
+        <option value="Photography">Photography</option>
+        <option value="Videography & Video Editing">Videography & Video Editing</option>
+        <option value="Social Media Management">Social Media Management</option>
+        <option value="Content Writing & Copywriting">Content Writing & Copywriting</option>
+        <option value="Digital Marketing">Digital Marketing</option>
+        <option value="SEO & Performance Marketing">SEO & Performance Marketing</option>
+        <option value="Mobile App Development">Mobile App Development</option>
+        <option value="Software Development">Software Development</option>
+        <option value="AI & Automation Consulting">AI & Automation Consulting</option>
+        <option value="Interior Design">Interior Design</option>
+        <option value="Architecture">Architecture</option>
+        <option value="Event Management">Event Management</option>
+        <option value="PR & Communications">PR & Communications</option>
+        <option value="Other">Other</option>
       </select>
     </div>
     <div class="field-row">
@@ -397,6 +405,15 @@ function showError(msg) {
 }
 function hideError() { document.getElementById('form-error').style.display = 'none'; }
 
+// ── SANITIZE TEXT FOR PROMPT INJECTION — strips HTML metacharacters, trims to max length ──
+function sanitizeField(val, maxLen = 500) {
+  return String(val || '')
+    .replace(/[<>"'`]/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+    .slice(0, maxLen);
+}
+
 // ── COLLECT FORM DATA ──
 function getFormData() {
   const val = parseFloat(document.getElementById('f-value').value) || 0;
@@ -405,19 +422,19 @@ function getFormData() {
   const gstAmt = gstOn ? val * rate / 100 : 0;
   const total = val + gstAmt;
   return {
-    yourName: document.getElementById('f-yourname').value.trim(),
-    service: document.getElementById('f-service').value,
-    yourCity: document.getElementById('f-yourcity').value.trim(),
-    gstin: document.getElementById('f-gstin').value.trim(),
-    client: document.getElementById('f-client').value.trim(),
-    clientCity: document.getElementById('f-clientcity').value.trim(),
-    clientGstin: document.getElementById('f-clientgstin').value.trim(),
-    project: document.getElementById('f-project').value.trim(),
-    scope: document.getElementById('f-scope').value.trim(),
-    timeline: document.getElementById('f-timeline').value.trim(),
+    yourName: sanitizeField(document.getElementById('f-yourname').value, 100),
+    service: sanitizeField(document.getElementById('f-service').value, 100),
+    yourCity: sanitizeField(document.getElementById('f-yourcity').value, 60),
+    gstin: sanitizeField(document.getElementById('f-gstin').value, 20),
+    client: sanitizeField(document.getElementById('f-client').value, 100),
+    clientCity: sanitizeField(document.getElementById('f-clientcity').value, 60),
+    clientGstin: sanitizeField(document.getElementById('f-clientgstin').value, 20),
+    project: sanitizeField(document.getElementById('f-project').value, 150),
+    scope: sanitizeField(document.getElementById('f-scope').value, 2000),
+    timeline: sanitizeField(document.getElementById('f-timeline').value, 80),
     value: val, gstOn, rate, gstAmt, total,
-    payment: document.getElementById('f-payment').value,
-    notes: document.getElementById('f-notes').value.trim(),
+    payment: sanitizeField(document.getElementById('f-payment').value, 100),
+    notes: sanitizeField(document.getElementById('f-notes').value, 500),
     language, docType,
     date: new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
   };
@@ -630,13 +647,16 @@ async function generate() {
     const { sys, user } = buildPrompt(d);
     const result = await callClaude(sys, user, d.docType, d.language);
 
-    document.getElementById('doc-output').innerHTML = renderDocument(result, d);
+    document.getElementById('doc-output').innerHTML = DOMPurify.sanitize(renderDocument(result, d), {
+      ALLOWED_TAGS: ['div','span','h1','h2','h3','p','ul','ol','li','strong','em','br','button'],
+      ALLOWED_ATTR: ['class','style','onclick'],
+    });
 
     // Action buttons
     document.getElementById('preview-actions').innerHTML = `
       <button class="action-btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
       <button class="action-btn secondary" id="copy-btn" onclick="copyDoc()">📋 Copy text</button>
-      <button class="action-btn secondary" onclick="regenerate()">🔄 Regenerate</button>`;
+      <button class="action-btn secondary" onclick="generate()">🔄 Regenerate</button>`;
 
     document.getElementById('preview-panel').scrollTop = 0;
 
@@ -653,23 +673,45 @@ async function generate() {
     } else if (errMsg.includes('not_found') || errMsg.includes('model')) {
       errMsg = '⚙️ Server configuration error. Please contact hello@mitti.in';
     }
-    document.getElementById('doc-output').innerHTML = `<div style="padding:32px"><div class="error-box"><p>${errMsg}</p></div></div>`;
+    const safeMsg = document.createElement('p');
+    safeMsg.textContent = errMsg;
+    const errBox = document.createElement('div');
+    errBox.className = 'error-box';
+    errBox.appendChild(safeMsg);
+    const errWrap = document.createElement('div');
+    errWrap.style.padding = '32px';
+    errWrap.appendChild(errBox);
+    document.getElementById('doc-output').replaceChildren(errWrap);
   }
 
   btn.disabled = false;
   document.getElementById('gen-btn-text').textContent = '✨ Generate Document';
 }
 
-function regenerate() { generate(); }
-
 function copyDoc() {
   const text = document.getElementById('doc-output').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copy-btn');
+  const btn = document.getElementById('copy-btn');
+  const showSuccess = () => {
     btn.classList.add('copy-success');
     btn.textContent = '✓ Copied!';
     setTimeout(() => { btn.classList.remove('copy-success'); btn.textContent = '📋 Copy text'; }, 2500);
-  });
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+      document.execCommand('copy');
+      showSuccess();
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showSuccess();
+  }
 }
 </script>
 </body>

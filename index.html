@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mitti — Rooted in India. Built for Tomorrow.</title>
 <meta name="description" content="Mitti builds modern tools for Indian businesses, freelancers, and creators — rooted in tradition, built for the future.">
+<meta name="theme-color" content="#C4603A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 :root {
   --clay:    #C4603A;
@@ -142,7 +147,7 @@ nav {
 .hero-scroll {
   position: absolute; bottom: 36px; left: 5%;
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--bark); opacity: .5;
+  color: var(--bark);
   display: flex; align-items: center; gap: 8px;
   opacity: 0; animation: fadeUp .9s .9s ease forwards;
 }
@@ -155,6 +160,7 @@ nav {
   width: 580px; height: 580px; border-radius: 50%;
   background: radial-gradient(circle at 40% 40%, rgba(232,148,58,.18) 0%, rgba(196,96,58,.06) 50%, transparent 70%);
   pointer-events: none;
+  will-change: transform;
   animation: breathe 8s ease-in-out infinite;
 }
 .hero-deco2 {
@@ -163,6 +169,7 @@ nav {
   border: 1px solid rgba(196,96,58,.12);
   border-radius: 50%;
   pointer-events: none;
+  will-change: transform;
   animation: rotate 60s linear infinite;
 }
 .hero-deco2::before {
@@ -422,6 +429,11 @@ footer {
   .waitlist-btn { border-radius: 12px; }
   .hero-h1 .devanagari { display: none; }
 }
+@media (prefers-reduced-motion: reduce) {
+  .hero-deco, .hero-deco2, .phil-orbit, .status-dot-live { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  @keyframes fadeUp { from { opacity: 1; transform: none; } }
+}
 </style>
 </head>
 <body>
@@ -652,25 +664,34 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Waitlist
 function joinWaitlist() {
-  const email = document.getElementById('email-input').value.trim();
-  if (!email || !email.includes('@')) {
-    document.getElementById('email-input').style.borderColor = 'rgba(255,80,80,.5)';
-    document.getElementById('email-input').focus(); return;
+  const input = document.getElementById('email-input');
+  const email = input.value.trim();
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    input.style.borderColor = 'rgba(255,80,80,.5)';
+    input.focus(); return;
   }
+  input.style.borderColor = '';
   document.getElementById('wf').style.display = 'none';
   document.getElementById('waitlist-thanks').style.display = 'block';
-  // In production: POST to your backend / Formspree / Supabase
-  console.log('Waitlist signup:', email);
+  // TODO: POST to your backend / Formspree / Supabase
 }
 document.getElementById('email-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') joinWaitlist();
 });
 
 // Nav scroll effect
+let navTicking = false;
+const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  document.getElementById('nav').style.padding =
-    window.scrollY > 40 ? '12px 5%' : '20px 5%';
-});
+  if (!navTicking) {
+    requestAnimationFrame(() => {
+      nav.style.padding = window.scrollY > 40 ? '12px 5%' : '20px 5%';
+      navTicking = false;
+    });
+    navTicking = true;
+  }
+}, { passive: true });
 </script>
 </body>
 </html>

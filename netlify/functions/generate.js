@@ -7,12 +7,28 @@ const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
 const GROQ_API      = 'https://api.groq.com/openai/v1/chat/completions';
 const GEMINI_API    = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
+const ALLOWED_ORIGINS = [
+  'https://mitti.in',
+  'https://www.mitti.in',
+  'https://mitti-website.netlify.app',
+];
+
+const ALLOWED_DOC_TYPES = ['proposal', 'contract', 'followup'];
+const ALLOWED_LANGUAGES = ['english', 'hindi', 'both'];
+const MAX_FIELD_BYTES   = 8000;
+const MAX_TOKENS_LIMIT  = 4000;
+
 exports.handler = async function (event) {
+  const origin = event.headers?.origin || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+
   const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-store, no-cache, must-revalidate',
+    'Pragma': 'no-cache',
   };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -34,6 +50,21 @@ exports.handler = async function (event) {
     return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Missing system or user field.' }) };
   }
 
+  // Input validation
+  if (typeof system !== 'string' || Buffer.byteLength(system, 'utf8') > MAX_FIELD_BYTES) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid request.' }) };
+  }
+  if (typeof user !== 'string' || Buffer.byteLength(user, 'utf8') > MAX_FIELD_BYTES) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid request.' }) };
+  }
+  if (docType && !ALLOWED_DOC_TYPES.includes(docType)) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid document type.' }) };
+  }
+  if (language && !ALLOWED_LANGUAGES.includes(language)) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid language.' }) };
+  }
+  const safeMaxTokens = Math.min(parseInt(max_tokens, 10) || 4000, MAX_TOKENS_LIMIT);
+
   // ── ROUTE TO BEST MODEL ──
   const isHindi   = language === 'hindi';
   const isFollowup = docType === 'followup';
@@ -41,11 +72,11 @@ exports.handler = async function (event) {
   let result;
   try {
     if (isHindi && process.env.GEMINI_API_KEY) {
-      result = await callGemini(system, user, max_tokens, process.env.GEMINI_API_KEY);
+      result = await callGemini(system, user, safeMaxTokens, process.env.GEMINI_API_KEY);
     } else if (isFollowup && process.env.GROQ_API_KEY) {
-      result = await callGroq(system, user, max_tokens, process.env.GROQ_API_KEY);
+      result = await callGroq(system, user, safeMaxTokens, process.env.GROQ_API_KEY);
     } else if (process.env.ANTHROPIC_API_KEY) {
-      result = await callClaude(system, user, max_tokens, process.env.ANTHROPIC_API_KEY);
+      result = await callClaude(system, user, safeMaxTokens, process.env.ANTHROPIC_API_KEY);
     } else {
       return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: 'No API keys configured on server.' }) };
     }
@@ -135,10 +166,10 @@ async function callGemini(system, user, max_tokens, apiKey) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 40000);
   try {
-    const res = await fetch(`${GEMINI_API}?key=${apiKey}`, {
+    const res = await fetch(GEMINI_API, {
       method: 'POST',
       signal: controller.signal,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
         contents: [{ parts: [{ text: `${system}\n\n${user}` }] }],
         generationConfig: { maxOutputTokens: max_tokens || 4000 },
