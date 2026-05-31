@@ -379,6 +379,24 @@ nav {
 .waitlist-note { font-size: 12px; color: rgba(251,245,236,.25); }
 #waitlist-thanks { display: none; font-family: var(--serif); font-size: 22px; color: var(--saffron); font-style: italic; margin-top: 10px; }
 
+/* ── PRICING ── */
+#pricing { padding: 100px 5%; background: var(--earth); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; max-width: 860px; margin-left: auto; margin-right: auto; }
+.pricing-card { background: rgba(251,245,236,.05); border: 1px solid rgba(251,245,236,.08); border-radius: 16px; padding: 32px; }
+.pricing-card.featured { background: rgba(196,96,58,.15); border-color: var(--clay); }
+.pricing-plan { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--saffron); margin-bottom: 12px; }
+.pricing-price { font-family: var(--serif); font-size: 36px; color: var(--cream); font-weight: 500; }
+.pricing-price span { font-size: 14px; color: rgba(251,245,236,.4); font-family: var(--sans); }
+.pricing-desc { font-size: 13px; color: rgba(251,245,236,.5); margin: 10px 0 20px; font-weight: 300; }
+.pricing-features { list-style: none; padding: 0; margin-bottom: 24px; }
+.pricing-features li { font-size: 13px; color: rgba(251,245,236,.7); padding: 6px 0; border-bottom: 1px solid rgba(251,245,236,.05); display: flex; align-items: center; gap: 8px; }
+.pricing-features li::before { content: '✓'; color: var(--saffron); font-weight: 700; font-size: 11px; }
+.pricing-btn { width: 100%; padding: 12px; border-radius: 100px; font-size: 13px; font-weight: 500; font-family: var(--sans); cursor: pointer; transition: all .2s; text-align: center; display: block; text-decoration: none; }
+.pricing-btn.outline { background: transparent; color: var(--cream); border: 1px solid rgba(251,245,236,.2); }
+.pricing-btn.outline:hover { border-color: var(--clay); color: var(--saffron); }
+.pricing-btn.filled { background: var(--clay); color: var(--cream); border: none; }
+.pricing-btn.filled:hover { background: var(--saffron); }
+
 /* ── VALUES ── */
 #values { padding: 120px 5%; }
 .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 64px; }
@@ -527,18 +545,18 @@ footer {
       <div class="product-num">01 — Flagship</div>
       <div class="product-icon">📄</div>
       <h3 class="product-h3">Mitti Proposals</h3>
-      <p class="product-sub">AI-powered proposals, contracts, and client follow-ups — built for Indian freelancers and agencies. GST-ready, INR-native, bilingual. Generate a professional proposal in under 3 minutes.</p>
+      <p class="product-sub">India's only GST-aware AI document generator — CGST/SGST/IGST split, SAC codes, TDS clauses, NDA, SOW, Retainer & more. Built for Indian freelancers and agencies.</p>
       <div class="product-tags">
-        <span class="tag">GST Ready</span>
+        <span class="tag">CGST/SGST/IGST</span>
+        <span class="tag">SAC Codes</span>
+        <span class="tag">TDS 194J</span>
         <span class="tag">Hindi + English</span>
-        <span class="tag">₹ INR Native</span>
-        <span class="tag">AI-Powered</span>
       </div>
       <div class="product-status">
         <div class="status-dot-live"></div>
         Live now · Free during beta
       </div>
-      <div class="product-price">₹499<span>/month</span></div>
+      <div class="product-price">Free beta<span> — ₹299/mo at launch</span></div>
       <a href="proposals.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;background:rgba(251,245,236,.12);color:var(--cream);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid rgba(251,245,236,.2);transition:background .2s" onmouseover="this.style.background='rgba(251,245,236,.2)'" onmouseout="this.style.background='rgba(251,245,236,.12)'">Try Mitti Proposals →</a>
     </div>
 
@@ -611,6 +629,58 @@ footer {
   </div>
 </section>
 
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-header reveal" style="color:var(--cream)">
+    <div class="section-label" style="color:var(--saffron)">Simple pricing</div>
+    <h2 class="section-h2" style="color:var(--cream)">Fair. INR. No tricks.</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-plan">Free</div>
+      <div class="pricing-price">₹0 <span>/ month</span></div>
+      <div class="pricing-desc">Get started, no card needed.</div>
+      <ul class="pricing-features">
+        <li>3 documents per month</li>
+        <li>Proposal + Contract + Follow-up</li>
+        <li>CGST/SGST/IGST calculator</li>
+        <li>Print & PDF export</li>
+        <li>English + Hindi</li>
+      </ul>
+      <a href="proposals.html" class="pricing-btn outline">Start free →</a>
+    </div>
+    <div class="pricing-card featured reveal">
+      <div class="pricing-plan">Pro — Most Popular</div>
+      <div class="pricing-price">₹299 <span>/ month</span></div>
+      <div class="pricing-desc">For active freelancers.</div>
+      <ul class="pricing-features">
+        <li>Unlimited documents</li>
+        <li>All 6 document types</li>
+        <li>NDA + SOW + Retainer</li>
+        <li>SAC code auto-suggest</li>
+        <li>TDS 194J clause</li>
+        <li>WhatsApp summary export</li>
+        <li>Client memory (coming soon)</li>
+      </ul>
+      <a href="#waitlist" class="pricing-btn filled">Join waitlist →</a>
+    </div>
+    <div class="pricing-card reveal">
+      <div class="pricing-plan">Agency</div>
+      <div class="pricing-price">₹799 <span>/ month</span></div>
+      <div class="pricing-desc">For studios & teams.</div>
+      <ul class="pricing-features">
+        <li>Everything in Pro</li>
+        <li>5 team members</li>
+        <li>Razorpay payment links</li>
+        <li>Custom branding on docs</li>
+        <li>Priority support</li>
+        <li>API access (coming soon)</li>
+      </ul>
+      <a href="mailto:hello@mitti.in" class="pricing-btn outline">Contact us →</a>
+    </div>
+  </div>
+</section>
+
 <!-- WAITLIST -->
 <section id="waitlist">
   <div class="waitlist-label">Early access</div>
@@ -635,6 +705,7 @@ footer {
       <h4>Company</h4>
       <a href="#philosophy">Philosophy</a>
       <a href="#products">Products</a>
+      <a href="#pricing">Pricing</a>
       <a href="#values">Values</a>
     </div>
     <div class="footer-links">
@@ -650,7 +721,7 @@ footer {
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 <span>Mitti</span>. Built in Bharat 🇮🇳</div>
+    <div class="footer-copy">© 2026 <span>Mitti</span>. Built in Bharat 🇮🇳</div>
     <div class="footer-tagline">मिट्टी से — From the earth.</div>
   </div>
 </footer>

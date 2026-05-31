@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Generate professional proposals, contracts, and follow-up emails for Indian freelancers and agencies. Powered by AI.">
+<meta name="description" content="Generate professional proposals, contracts, NDAs, SOWs and more for Indian freelancers and agencies. GST-compliant, CGST/SGST/IGST aware. Powered by AI.">
 <meta name="theme-color" content="#C4603A">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
 <title>Mitti Proposals — AI-Powered Proposals for Indian Freelancers</title>
@@ -20,7 +20,6 @@
   --gold:#C9920A; --red:#C0392B; --green:#27AE60;
   --serif:'Playfair Display',Georgia,serif;
   --sans:'DM Sans',system-ui,sans-serif;
-  --mono:'DM Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -35,31 +34,25 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .nav-right{display:flex;align-items:center;gap:12px}
 .nav-product{font-size:13px;color:var(--bark);background:rgba(196,96,58,.08);padding:5px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.15)}
 
-
 /* MAIN LAYOUT */
-#app{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 57px)}
+#app{display:grid;grid-template-columns:440px 1fr;min-height:calc(100vh - 57px)}
 
 /* FORM PANEL */
 #form-panel{background:var(--warm);border-right:1px solid rgba(196,96,58,.12);padding:32px;overflow-y:auto;max-height:calc(100vh - 57px);position:sticky;top:57px}
 .panel-title{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--earth);margin-bottom:4px}
 .panel-sub{font-size:13px;color:var(--bark);margin-bottom:28px;font-weight:300}
 
-/* STEP TABS */
-.step-tabs{display:flex;gap:4px;margin-bottom:28px;background:rgba(196,96,58,.08);padding:4px;border-radius:10px}
-.step-tab{flex:1;padding:8px 4px;border:none;background:transparent;font-size:12px;color:var(--bark);cursor:pointer;border-radius:8px;transition:all .2s;font-family:var(--sans);font-weight:400}
-.step-tab.active{background:var(--cream);color:var(--clay);font-weight:500;box-shadow:0 1px 4px rgba(28,15,6,.08)}
-
 /* DOC TYPE SELECTOR */
-.doc-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:24px}
-.doc-type{padding:12px 8px;border:1px solid rgba(196,96,58,.2);border-radius:10px;background:var(--cream);cursor:pointer;text-align:center;transition:all .2s}
+.doc-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:24px}
+.doc-type{padding:10px 6px;border:1px solid rgba(196,96,58,.2);border-radius:10px;background:var(--cream);cursor:pointer;text-align:center;transition:all .2s}
 .doc-type:hover{border-color:var(--clay);background:rgba(196,96,58,.04)}
 .doc-type.selected{border-color:var(--clay);background:rgba(196,96,58,.08)}
-.doc-type-icon{font-size:20px;display:block;margin-bottom:4px}
-.doc-type-label{font-size:11px;color:var(--bark);font-weight:500}
+.doc-type-icon{font-size:18px;display:block;margin-bottom:3px}
+.doc-type-label{font-size:10px;color:var(--bark);font-weight:500;line-height:1.2}
 .doc-type.selected .doc-type-label{color:var(--clay)}
 
 /* FORM FIELDS */
-.field-group{margin-bottom:18px}
+.field-group{margin-bottom:16px}
 .field-label{font-size:12px;font-weight:500;color:var(--bark);margin-bottom:6px;display:flex;align-items:center;gap:4px;letter-spacing:.01em}
 .field-label .req{color:var(--clay);font-size:14px}
 .field-input,.field-select,.field-textarea{width:100%;padding:10px 14px;border-radius:8px;border:1px solid rgba(196,96,58,.2);background:var(--cream);color:var(--earth);font-family:var(--sans);font-size:13px;transition:border-color .2s}
@@ -68,8 +61,9 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .field-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%236B3D1E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .field-hint{font-size:11px;color:var(--bark);opacity:.6;margin-top:4px}
+.field-badge{font-size:10px;background:rgba(196,96,58,.1);color:var(--clay);padding:2px 7px;border-radius:100px;font-weight:500;margin-left:4px}
 
-/* GST ROW */
+/* GST SECTION */
 .gst-row{display:grid;grid-template-columns:auto 1fr 1fr;gap:10px;align-items:center}
 .toggle-wrap{display:flex;align-items:center;gap:8px;padding:10px 0}
 .toggle{position:relative;width:36px;height:20px;cursor:pointer}
@@ -79,11 +73,21 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .toggle-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:white;transition:transform .2s;pointer-events:none}
 .toggle input:checked~.toggle-thumb{transform:translateX(16px)}
 .toggle-label{font-size:12px;color:var(--bark);font-weight:500}
+.gst-breakdown{margin-top:8px;padding:10px 12px;background:rgba(196,96,58,.06);border-radius:8px;font-size:12px;color:var(--bark);line-height:1.8;display:none}
+.gst-breakdown.visible{display:block}
+.gst-breakdown strong{color:var(--clay)}
+.gst-type-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:100px;font-weight:500;margin-bottom:6px}
+.gst-type-badge.intra{background:rgba(39,174,96,.12);color:var(--moss)}
+.gst-type-badge.inter{background:rgba(232,148,58,.15);color:var(--gold)}
 
 /* LANG TOGGLE */
 .lang-btns{display:flex;gap:4px}
 .lang-btn{flex:1;padding:8px;border:1px solid rgba(196,96,58,.2);border-radius:8px;background:var(--cream);font-size:12px;color:var(--bark);cursor:pointer;text-align:center;transition:all .2s;font-family:var(--sans)}
 .lang-btn.active{border-color:var(--clay);background:rgba(196,96,58,.08);color:var(--clay);font-weight:500}
+
+/* SAC CODE HINT */
+.sac-hint{font-size:11px;color:var(--gold);margin-top:4px;display:none}
+.sac-hint.visible{display:block}
 
 /* GENERATE BTN */
 .generate-btn{width:100%;padding:15px;border-radius:100px;border:none;background:var(--clay);color:var(--cream);font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -99,11 +103,13 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .preview-empty h3{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:8px}
 .preview-empty p{font-size:14px;font-weight:300}
 .preview-actions{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
-.action-btn{padding:10px 20px;border-radius:100px;font-size:13px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;text-decoration:none}
-.action-btn.primary{background:var(--clay);color:var(--cream);border:none}
+.action-btn{padding:10px 20px;border-radius:100px;font-size:13px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;text-decoration:none;border:none}
+.action-btn.primary{background:var(--clay);color:var(--cream)}
 .action-btn.primary:hover{background:var(--soil)}
 .action-btn.secondary{background:transparent;color:var(--bark);border:1px solid rgba(196,96,58,.25)}
 .action-btn.secondary:hover{border-color:var(--clay);color:var(--clay)}
+.action-btn.whatsapp{background:#25D366;color:white}
+.action-btn.whatsapp:hover{background:#128C7E}
 .copy-success{color:var(--moss) !important;border-color:var(--moss) !important}
 
 /* DOCUMENT OUTPUT */
@@ -136,6 +142,11 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .doc-stamp p{font-size:11px;color:var(--bark);opacity:.5}
 .doc-stamp strong{color:var(--clay);font-weight:500}
 
+/* GST TABLE IN DOC */
+.gst-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.gst-table td{padding:8px 12px;border:1px solid rgba(196,96,58,.12)}
+.gst-table tr:last-child td{font-weight:500;background:rgba(196,96,58,.04)}
+
 /* LOADING STATE */
 .generating{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:16px;color:var(--bark)}
 .gen-spinner{width:36px;height:36px;border:3px solid rgba(196,96,58,.2);border-top-color:var(--clay);border-radius:50%;animation:spin 1s linear infinite}
@@ -147,9 +158,9 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .error-box p{font-size:13px;color:var(--red);margin:0}
 
 /* RESPONSIVE */
-@media(max-width:900px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
+@media(max-width:960px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
 @media print{nav,#form-panel,.preview-actions{display:none!important}#app{grid-template-columns:1fr}#doc-output{box-shadow:none;border:none}#preview-panel{padding:0;max-height:none}}
-@media(prefers-reduced-motion:reduce){.spinner,.gen-spinner{animation:none;opacity:.6}.reveal{opacity:1;transform:none;transition:none}}
+@media(prefers-reduced-motion:reduce){.spinner,.gen-spinner{animation:none;opacity:.6}}
 </style>
 </head>
 <body>
@@ -161,7 +172,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <span class="nav-name">Mitti<span>.</span></span>
   </a>
   <div class="nav-right">
-    <span class="nav-product">Proposals</span>
+    <span class="nav-product">Proposals Beta</span>
     <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Back to Mitti</a>
   </div>
 </nav>
@@ -172,7 +183,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
   <!-- FORM PANEL -->
   <div id="form-panel">
     <div class="panel-title">Generate a document</div>
-    <div class="panel-sub">Fill in your details and let AI do the writing.</div>
+    <div class="panel-sub">India's only GST-aware AI document generator for freelancers.</div>
 
     <!-- Doc type -->
     <div class="field-group">
@@ -185,6 +196,18 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
         <div class="doc-type" data-type="contract" onclick="selectType(this,'contract')">
           <span class="doc-type-icon">📋</span>
           <span class="doc-type-label">Contract</span>
+        </div>
+        <div class="doc-type" data-type="nda" onclick="selectType(this,'nda')">
+          <span class="doc-type-icon">🔒</span>
+          <span class="doc-type-label">NDA</span>
+        </div>
+        <div class="doc-type" data-type="sow" onclick="selectType(this,'sow')">
+          <span class="doc-type-icon">📐</span>
+          <span class="doc-type-label">SOW</span>
+        </div>
+        <div class="doc-type" data-type="retainer" onclick="selectType(this,'retainer')">
+          <span class="doc-type-icon">🔁</span>
+          <span class="doc-type-label">Retainer</span>
         </div>
         <div class="doc-type" data-type="followup" onclick="selectType(this,'followup')">
           <span class="doc-type-icon">✉️</span>
@@ -200,7 +223,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     </div>
     <div class="field-group">
       <div class="field-label">Your service type <span class="req">*</span></div>
-      <select class="field-select" id="f-service">
+      <select class="field-select" id="f-service" onchange="updateSacHint()">
         <option value="">Select your service</option>
         <option value="Graphic Design">Graphic Design</option>
         <option value="Web Design & Development">Web Design & Development</option>
@@ -221,15 +244,29 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
         <option value="PR & Communications">PR & Communications</option>
         <option value="Other">Other</option>
       </select>
+      <div class="sac-hint" id="sac-hint"></div>
     </div>
     <div class="field-row">
       <div class="field-group">
-        <div class="field-label">Your city</div>
-        <input type="text" class="field-input" id="f-yourcity" placeholder="e.g. Mumbai" />
+        <div class="field-label">Your state <span class="req">*</span></div>
+        <select class="field-select" id="f-yourstate" onchange="calcGst()">
+          <option value="">Select state</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+          <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+          <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+          <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+          <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+          <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+          <option>West Bengal</option><option>Delhi</option><option>Chandigarh</option>
+          <option>Jammu & Kashmir</option><option>Ladakh</option><option>Puducherry</option>
+        </select>
       </div>
       <div class="field-group">
         <div class="field-label">Your GSTIN <span style="opacity:.5;font-weight:300">(optional)</span></div>
-        <input type="text" class="field-input" id="f-gstin" placeholder="22AAAAA0000A1Z5" />
+        <input type="text" class="field-input" id="f-gstin" placeholder="22AAAAA0000A1Z5" maxlength="15" oninput="validateGstin(this)" />
       </div>
     </div>
 
@@ -240,12 +277,26 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     </div>
     <div class="field-row">
       <div class="field-group">
-        <div class="field-label">Client city</div>
-        <input type="text" class="field-input" id="f-clientcity" placeholder="e.g. Delhi" />
+        <div class="field-label">Client state <span class="req">*</span></div>
+        <select class="field-select" id="f-clientstate" onchange="calcGst()">
+          <option value="">Select state</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+          <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+          <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+          <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+          <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+          <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+          <option>West Bengal</option><option>Delhi</option><option>Chandigarh</option>
+          <option>Jammu & Kashmir</option><option>Ladakh</option><option>Puducherry</option>
+          <option value="overseas">Overseas / Export</option>
+        </select>
       </div>
       <div class="field-group">
         <div class="field-label">Client GSTIN <span style="opacity:.5;font-weight:300">(optional)</span></div>
-        <input type="text" class="field-input" id="f-clientgstin" placeholder="Optional" />
+        <input type="text" class="field-input" id="f-clientgstin" placeholder="Optional" maxlength="15" oninput="validateGstin(this)" />
       </div>
     </div>
 
@@ -266,30 +317,44 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
       </div>
       <div class="field-group">
         <div class="field-label">Project value (₹) <span class="req">*</span></div>
-        <input type="number" class="field-input" id="f-value" placeholder="e.g. 45000" />
+        <input type="number" class="field-input" id="f-value" placeholder="e.g. 45000" oninput="calcGst()" />
       </div>
     </div>
 
-    <!-- GST -->
+    <!-- GST — India-native CGST/SGST/IGST logic -->
     <div class="field-group">
-      <div class="field-label">GST</div>
+      <div class="field-label">GST <span class="field-badge">India-smart</span></div>
       <div class="gst-row">
         <div class="toggle-wrap">
           <label class="toggle">
-            <input type="checkbox" id="f-gst" onchange="toggleGst(this)">
+            <input type="checkbox" id="f-gst" onchange="calcGst()">
             <div class="toggle-track"></div>
             <div class="toggle-thumb"></div>
           </label>
           <span class="toggle-label">Include GST</span>
         </div>
         <div class="field-group" style="margin:0">
-          <select class="field-select" id="f-gst-rate" disabled>
+          <select class="field-select" id="f-gst-rate" disabled onchange="calcGst()">
             <option value="18">18% GST</option>
             <option value="12">12% GST</option>
             <option value="5">5% GST</option>
           </select>
         </div>
-        <div id="gst-total" style="font-size:13px;color:var(--clay);font-weight:500;text-align:right"></div>
+        <div></div>
+      </div>
+      <div class="gst-breakdown" id="gst-breakdown"></div>
+    </div>
+
+    <!-- TDS -->
+    <div class="field-group">
+      <div class="field-label">TDS (Section 194J) <span class="field-badge">Professional fees</span></div>
+      <div class="toggle-wrap">
+        <label class="toggle">
+          <input type="checkbox" id="f-tds" onchange="calcGst()">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+        <span class="toggle-label" id="tds-label">Subject to 10% TDS — client deducts ₹0</span>
       </div>
     </div>
 
@@ -297,13 +362,14 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <div class="field-group">
       <div class="field-label">Payment terms</div>
       <select class="field-select" id="f-payment">
-        <option>50% advance, 50% on delivery</option>
-        <option>100% advance</option>
-        <option>33% advance, 33% midway, 34% on delivery</option>
-        <option>Milestone-based payments</option>
-        <option>Monthly retainer</option>
-        <option>Net 15 days after delivery</option>
-        <option>Net 30 days after delivery</option>
+        <option value="50% advance, 50% on delivery">50% advance, 50% on delivery</option>
+        <option value="100% advance">100% advance</option>
+        <option value="33% advance, 33% midway, 34% on delivery">33% advance, 33% midway, 34% on delivery</option>
+        <option value="Milestone-based payments">Milestone-based payments</option>
+        <option value="Monthly retainer">Monthly retainer</option>
+        <option value="Net 15 days after delivery">Net 15 days after delivery</option>
+        <option value="Net 30 days after delivery">Net 30 days after delivery</option>
+        <option value="Due on receipt">Due on receipt</option>
       </select>
     </div>
 
@@ -328,7 +394,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <button class="generate-btn" id="gen-btn" onclick="generate()">
       <span id="gen-btn-text">✨ Generate Document</span>
     </button>
-    <div style="text-align:center;font-size:11px;color:var(--bark);opacity:.5;margin-top:10px">Powered by Claude AI · Your data never leaves your device</div>
+    <div style="text-align:center;font-size:11px;color:var(--bark);opacity:.5;margin-top:10px">Powered by Claude AI · CGST/SGST/IGST aware · Made in Bharat 🇮🇳</div>
   </div>
 
   <!-- PREVIEW PANEL -->
@@ -336,7 +402,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <div class="preview-empty" id="empty-state">
       <div class="preview-empty-icon">📄</div>
       <h3>Your document will appear here</h3>
-      <p>Fill in the form and click Generate.<br>It takes about 10–15 seconds.</p>
+      <p>Fill in the form and click Generate.<br>Takes about 10–15 seconds.</p>
     </div>
     <div id="output-area" style="display:none">
       <div class="preview-actions" id="preview-actions"></div>
@@ -349,6 +415,32 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 // ── STATE ──
 let docType = 'proposal';
 let language = 'english';
+
+// ── SAC CODE MAP ──
+const SAC_CODES = {
+  'Graphic Design': { code: '998361', desc: 'Graphic design services' },
+  'Web Design & Development': { code: '998314', desc: 'IT design & development services' },
+  'UI/UX Design': { code: '998314', desc: 'IT design services' },
+  'Brand Identity Design': { code: '998361', desc: 'Graphic & communication design' },
+  'Photography': { code: '998392', desc: 'Photography & videography services' },
+  'Videography & Video Editing': { code: '998392', desc: 'Photography & videography services' },
+  'Social Media Management': { code: '998363', desc: 'Media representation services' },
+  'Content Writing & Copywriting': { code: '998393', desc: 'Specialist design services' },
+  'Digital Marketing': { code: '998363', desc: 'Advertising & media services' },
+  'SEO & Performance Marketing': { code: '998363', desc: 'Online advertising services' },
+  'Mobile App Development': { code: '998313', desc: 'IT development services' },
+  'Software Development': { code: '998313', desc: 'IT development services' },
+  'AI & Automation Consulting': { code: '998311', desc: 'IT consulting services' },
+  'Interior Design': { code: '998391', desc: 'Interior design services' },
+  'Architecture': { code: '998311', desc: 'Architectural consulting services' },
+  'Event Management': { code: '998559', desc: 'Event management services' },
+  'PR & Communications': { code: '998363', desc: 'PR & communications services' },
+};
+
+// ── INR FORMATTER (Indian numbering: lakhs/crores) ──
+function inr(amount) {
+  return '₹' + Number(amount).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+}
 
 // ── DOC TYPE ──
 function selectType(el, type) {
@@ -364,28 +456,83 @@ function selectLang(el, lang) {
   language = lang;
 }
 
-// ── GST ──
-function toggleGst(el) {
-  document.getElementById('f-gst-rate').disabled = !el.checked;
-  calcGst();
+// ── SAC HINT ──
+function updateSacHint() {
+  const service = document.getElementById('f-service').value;
+  const hint = document.getElementById('sac-hint');
+  const sac = SAC_CODES[service];
+  if (sac) {
+    hint.textContent = `SAC ${sac.code} — ${sac.desc}`;
+    hint.classList.add('visible');
+  } else {
+    hint.classList.remove('visible');
+  }
 }
+
+// ── GSTIN FORMAT VALIDATOR ──
+function validateGstin(input) {
+  const v = input.value.toUpperCase().trim();
+  input.value = v;
+  if (v.length === 0) { input.style.borderColor = ''; return; }
+  const valid = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}Z[A-Z\d]{1}$/.test(v);
+  input.style.borderColor = valid ? 'var(--moss)' : (v.length >= 15 ? 'var(--red)' : '');
+}
+
+// ── GST CALCULATOR — CGST/SGST vs IGST ──
 function calcGst() {
+  const gstOn = document.getElementById('f-gst').checked;
+  document.getElementById('f-gst-rate').disabled = !gstOn;
+
   const val = parseFloat(document.getElementById('f-value').value) || 0;
   const rate = parseFloat(document.getElementById('f-gst-rate').value) || 18;
-  const gstOn = document.getElementById('f-gst').checked;
-  if (gstOn && val) {
-    const gstAmt = val * rate / 100;
-    document.getElementById('gst-total').textContent = `Total: ₹${(val + gstAmt).toLocaleString('en-IN')}`;
-  } else { document.getElementById('gst-total').textContent = ''; }
+  const yourState = document.getElementById('f-yourstate').value;
+  const clientState = document.getElementById('f-clientstate').value;
+  const tdsOn = document.getElementById('f-tds').checked;
+  const breakdown = document.getElementById('gst-breakdown');
+
+  // TDS label
+  const tdsAmt = val * 0.10;
+  document.getElementById('tds-label').textContent =
+    tdsOn ? `Subject to 10% TDS — client deducts ${inr(tdsAmt)}, pays ${inr(val - tdsAmt)} (before GST)` :
+    'Subject to 10% TDS — client deducts ₹0';
+
+  if (!gstOn || !val) { breakdown.classList.remove('visible'); return; }
+
+  const gstAmt = val * rate / 100;
+  const total = val + gstAmt;
+  const isInter = yourState && clientState && yourState !== clientState;
+  const isExport = clientState === 'overseas';
+
+  let html = '';
+  if (isExport) {
+    html = `<span class="gst-type-badge inter">Zero-rated Export (LUT)</span><br>`;
+    html += `Base: ${inr(val)} &nbsp;|&nbsp; GST: Nil (export with LUT)<br>`;
+    html += `<strong>Invoice value: ${inr(val)}</strong> (add IGST if no LUT)`;
+  } else if (isInter) {
+    html = `<span class="gst-type-badge inter">Inter-state → IGST @ ${rate}%</span><br>`;
+    html += `Base: ${inr(val)} &nbsp;+&nbsp; IGST ${rate}%: ${inr(gstAmt)}<br>`;
+    html += `<strong>Total payable: ${inr(total)}</strong>`;
+  } else if (yourState && clientState) {
+    const half = gstAmt / 2;
+    html = `<span class="gst-type-badge intra">Intra-state → CGST + SGST @ ${rate/2}% each</span><br>`;
+    html += `Base: ${inr(val)} &nbsp;+&nbsp; CGST ${rate/2}%: ${inr(half)} &nbsp;+&nbsp; SGST ${rate/2}%: ${inr(half)}<br>`;
+    html += `<strong>Total payable: ${inr(total)}</strong>`;
+  } else {
+    html = `GST ${rate}%: ${inr(gstAmt)} &nbsp;|&nbsp; <strong>Total: ${inr(total)}</strong><br>`;
+    html += `<em style="opacity:.7">Select both states to see CGST/SGST or IGST split</em>`;
+  }
+
+  breakdown.innerHTML = html;
+  breakdown.classList.add('visible');
 }
-document.getElementById('f-value').addEventListener('input', calcGst);
-document.getElementById('f-gst-rate').addEventListener('change', calcGst);
 
 // ── VALIDATION ──
 function validate() {
   const required = [
     ['f-yourname','Your name'],['f-service','Service type'],
-    ['f-client','Client name'],['f-project','Project name'],
+    ['f-yourstate','Your state'],
+    ['f-client','Client name'],['f-clientstate','Client state'],
+    ['f-project','Project name'],
     ['f-scope','Scope of work'],['f-timeline','Timeline'],['f-value','Project value']
   ];
   for (const [id, label] of required) {
@@ -405,7 +552,7 @@ function showError(msg) {
 }
 function hideError() { document.getElementById('form-error').style.display = 'none'; }
 
-// ── SANITIZE TEXT FOR PROMPT INJECTION — strips HTML metacharacters, trims to max length ──
+// ── SANITIZE TEXT FOR PROMPT ──
 function sanitizeField(val, maxLen = 500) {
   return String(val || '')
     .replace(/[<>"'`]/g, '')
@@ -421,23 +568,46 @@ function getFormData() {
   const rate = parseFloat(document.getElementById('f-gst-rate').value) || 18;
   const gstAmt = gstOn ? val * rate / 100 : 0;
   const total = val + gstAmt;
+  const yourState = document.getElementById('f-yourstate').value;
+  const clientState = document.getElementById('f-clientstate').value;
+  const isInter = yourState && clientState && yourState !== clientState && clientState !== 'overseas';
+  const isExport = clientState === 'overseas';
+  const tdsOn = document.getElementById('f-tds').checked;
+  const service = document.getElementById('f-service').value;
+  const sacInfo = SAC_CODES[service] || null;
+
   return {
     yourName: sanitizeField(document.getElementById('f-yourname').value, 100),
-    service: sanitizeField(document.getElementById('f-service').value, 100),
-    yourCity: sanitizeField(document.getElementById('f-yourcity').value, 60),
+    service: sanitizeField(service, 100),
+    yourState: sanitizeField(yourState, 60),
     gstin: sanitizeField(document.getElementById('f-gstin').value, 20),
     client: sanitizeField(document.getElementById('f-client').value, 100),
-    clientCity: sanitizeField(document.getElementById('f-clientcity').value, 60),
+    clientState: sanitizeField(clientState, 60),
     clientGstin: sanitizeField(document.getElementById('f-clientgstin').value, 20),
     project: sanitizeField(document.getElementById('f-project').value, 150),
     scope: sanitizeField(document.getElementById('f-scope').value, 2000),
     timeline: sanitizeField(document.getElementById('f-timeline').value, 80),
     value: val, gstOn, rate, gstAmt, total,
+    isInter, isExport, tdsOn,
+    sacInfo,
     payment: sanitizeField(document.getElementById('f-payment').value, 100),
     notes: sanitizeField(document.getElementById('f-notes').value, 500),
     language, docType,
     date: new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
   };
+}
+
+// ── PRICE BLOCK BUILDER ──
+function buildPriceBlock(d) {
+  if (!d.gstOn) return `Total: ${inr(d.value)} (GST not applicable / inclusive)`;
+  const half = d.gstAmt / 2;
+  if (d.isExport) {
+    return `Base Amount: ${inr(d.value)}\nGST: Nil (zero-rated export under LUT)\nInvoice Total: ${inr(d.value)}`;
+  }
+  if (d.isInter) {
+    return `Base Amount: ${inr(d.value)}\nIGST @ ${d.rate}%: ${inr(d.gstAmt)}\nTotal Payable: ${inr(d.total)}`;
+  }
+  return `Base Amount: ${inr(d.value)}\nCGST @ ${d.rate/2}%: ${inr(half)}\nSGST @ ${d.rate/2}%: ${inr(half)}\nTotal Payable: ${inr(d.total)}`;
 }
 
 // ── SYSTEM PROMPTS ──
@@ -446,119 +616,147 @@ function buildPrompt(d) {
     d.language === 'both' ? 'Write with English headings and primary content, but add a warm Hindi sentence or two at the start of key sections to personalise it.' :
     'Write in professional Indian English — warm, relationship-oriented, and culturally appropriate for Indian business.';
 
-  const priceBlock = d.gstOn
-    ? `Base Amount: ₹${d.value.toLocaleString('en-IN')}\nGST @ ${d.rate}%: ₹${d.gstAmt.toLocaleString('en-IN')}\nTotal Payable: ₹${d.total.toLocaleString('en-IN')}`
-    : `Total: ₹${d.value.toLocaleString('en-IN')} (GST not applicable / inclusive)`;
+  const priceBlock = buildPriceBlock(d);
+  const tdsNote = d.tdsOn ? `\nTDS: Subject to deduction under Section 194J @ 10% (${inr(d.value * 0.1)}). Client to deduct and deposit with Income Tax.` : '';
+  const sacNote = d.sacInfo ? `\nSAC Code: ${d.sacInfo.code} (${d.sacInfo.desc})` : '';
+  const gstType = d.isExport ? 'Zero-rated Export' : d.isInter ? 'Inter-state (IGST)' : 'Intra-state (CGST+SGST)';
+  const gstLine = d.gstOn ? `\nGST Type: ${gstType}` : '';
+
+  const commonHeader = `FROM: ${d.yourName}${d.service ? ` (${d.service})` : ''}${d.yourState ? `, ${d.yourState}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}${sacNote}
+TO: ${d.client}${d.clientState ? `, ${d.clientState}` : ''}${d.clientGstin ? ` | GSTIN: ${d.clientGstin}` : ''}
+PROJECT: ${d.project}
+DATE: ${d.date}`;
 
   if (d.docType === 'proposal') {
     return {
-      sys: `You are a senior proposal writer for Indian creative professionals and agencies. You write proposals that win clients — they are warm, professional, specific, and structured. You understand Indian business culture: relationships matter, trust is built through tone, and clarity about money is respected not avoided.
+      sys: `You are a senior proposal writer for Indian creative professionals and agencies. You write proposals that win clients — warm, professional, specific, and structured. You understand Indian business culture: relationships matter, trust is built through tone, and clarity about money is respected not avoided.
 
-Generate proposals in clean HTML using only these tags: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs, no classes, no inline styles. The output will be styled externally. Use em tags for emphasis on key figures and names.
+Generate proposals in clean HTML using only these tags: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs, no classes, no inline styles. ${langInstr}`,
+      user: `Generate a complete project proposal:
 
-${langInstr}`,
-      user: `Generate a complete project proposal with these details:
-
-FROM: ${d.yourName}${d.service ? ` (${d.service})` : ''}${d.yourCity ? `, ${d.yourCity}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}
-TO: ${d.client}${d.clientCity ? `, ${d.clientCity}` : ''}${d.clientGstin ? ` | GSTIN: ${d.clientGstin}` : ''}
-PROJECT: ${d.project}
-DATE: ${d.date}
+${commonHeader}
 
 SCOPE OF WORK:
 ${d.scope}
 
 TIMELINE: ${d.timeline}
 PRICING:
-${priceBlock}
-PAYMENT TERMS: ${d.payment}
+${priceBlock}${tdsNote}
+PAYMENT TERMS: ${d.payment}${gstLine}
 ${d.notes ? `\nADDITIONAL NOTES:\n${d.notes}` : ''}
 
-Structure the proposal with these sections:
-1. A warm, personalised opening (reference their specific project by name)
-2. Our Understanding (what we understand they need — show you listened)
-3. Scope of Work (detailed, formatted as a clear list)
-4. Project Timeline (show phases with approximate timeframes)
-5. Investment (show the pricing breakdown clearly, including GST if applicable)
-6. Payment Terms
-7. Why Work With Us (2-3 genuine differentiators, not generic fluff)
-8. What We Need From You (inputs, access, approvals — sets expectations)
-9. Next Steps (clear call to action — what happens after they accept)
-10. Terms & Conditions (standard Indian freelance terms: revision policy, IP ownership, cancellation, confidentiality)
-11. Acceptance section (space for signatures)
-
-Make it feel like a real person wrote it for this specific client — not a template. The opening should mention the project name and feel personal.`
+Sections: 1. Warm personalised opening (mention project name) 2. Our Understanding 3. Scope of Work (detailed list) 4. Project Timeline (phases) 5. Investment (show full GST breakdown — ${gstType}) 6. Payment Terms 7. Why Work With Us (2-3 genuine differentiators) 8. What We Need From You 9. Next Steps 10. Terms & Conditions (Indian freelance: revision policy, IP ownership on full payment, cancellation, confidentiality, governing law India) 11. Acceptance section with signature blocks`
     };
   }
 
   if (d.docType === 'contract') {
     return {
-      sys: `You are a legal document specialist familiar with Indian commercial law, IT Act, and standard Indian freelance/agency contracts. Write contracts that are professional, legally sound for India, and understandable by a typical Indian SMB client. Include GST provisions, intellectual property clauses appropriate for Indian law, and dispute resolution under Indian jurisdiction.
+      sys: `You are a legal document specialist familiar with Indian Contract Act 1872, IT Act, and standard Indian freelance/agency contracts. Write contracts that are professional, legally sound for India, and understandable by typical Indian SMB clients. Include GST provisions (${gstType}), IP clauses under Indian law, and dispute resolution under Indian jurisdiction.
 
-Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs or classes.
-${langInstr}`,
-      user: `Generate a professional Service Agreement/Contract for:
+Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. No divs or classes. ${langInstr}`,
+      user: `Generate a professional Service Agreement for:
 
-SERVICE PROVIDER: ${d.yourName}${d.yourCity ? `, ${d.yourCity}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}
-CLIENT: ${d.client}${d.clientCity ? `, ${d.clientCity}` : ''}${d.clientGstin ? ` | GSTIN: ${d.clientGstin}` : ''}
+${commonHeader}
 SERVICE: ${d.service}
-PROJECT: ${d.project}
-DATE: ${d.date}
 
 SCOPE:
 ${d.scope}
 
 TIMELINE: ${d.timeline}
-FEES: ${priceBlock}
-PAYMENT: ${d.payment}
+FEES: ${priceBlock}${tdsNote}
+PAYMENT: ${d.payment}${gstLine}
 ${d.notes ? `ADDITIONAL TERMS: ${d.notes}` : ''}
 
-Include these clauses: Scope of Services, Deliverables, Timeline, Fees & Payment, GST clause, Intellectual Property (IP transfers to client upon full payment), Revision Policy, Confidentiality, Termination, Limitation of Liability, Governing Law (Indian law, appropriate city jurisdiction), Dispute Resolution, Force Majeure, Entire Agreement. End with signature blocks for both parties.`
+Clauses: Scope, Deliverables, Timeline, Fees & Payment, GST clause (${gstType})${d.tdsOn ? ', TDS clause (Section 194J)' : ''}, Intellectual Property (transfers to client on full payment), Revision Policy, Confidentiality, Termination (30 days notice), Limitation of Liability, Governing Law (India, ${d.yourState || 'appropriate'} jurisdiction), Dispute Resolution (arbitration under Arbitration and Conciliation Act 1996), Force Majeure, Entire Agreement. End with signature blocks.`
     };
   }
 
-  // Follow-up
-  return {
-    sys: `You are an expert at writing professional follow-up emails in Indian business context. Indian professional communication is warm, respectful, and relationship-focused. It acknowledges the other person's time, is never pushy, yet is clear about the ask. Write emails that feel genuinely human — not corporate, not desperate.
+  if (d.docType === 'nda') {
+    return {
+      sys: `You are a legal document specialist writing NDAs under Indian law (Indian Contract Act 1872, Information Technology Act 2000). Write clear, enforceable NDAs appropriate for Indian freelancer/agency relationships with clients.
 
-Generate in clean HTML using only: p, strong, em, br. No other tags.
-${langInstr}`,
+Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. ${langInstr}`,
+      user: `Generate a mutual Non-Disclosure Agreement (NDA):
+
+PARTY A (Service Provider): ${d.yourName}${d.yourState ? `, ${d.yourState}` : ''}${d.gstin ? ` | GSTIN: ${d.gstin}` : ''}
+PARTY B (Client): ${d.client}${d.clientState ? `, ${d.clientState}` : ''}
+PURPOSE: ${d.project}
+DATE: ${d.date}
+
+Include: Definition of Confidential Information, Exclusions (public domain, independently developed), Obligations of both parties, Duration (3 years), Permitted disclosures (legal requirement), Return/destruction of information, No licence granted, Remedies (injunctive relief), Governing Law (India, ${d.yourState || 'appropriate'} jurisdiction), entire agreement clause. Signature blocks for both parties.
+${d.notes ? `Additional context: ${d.notes}` : ''}`
+    };
+  }
+
+  if (d.docType === 'sow') {
+    return {
+      sys: `You are a technical project manager writing Statements of Work for Indian creative and technology professionals. SOWs should be precise, milestone-driven, and set clear expectations to prevent scope creep.
+
+Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. ${langInstr}`,
+      user: `Generate a detailed Statement of Work (SOW):
+
+${commonHeader}
+SERVICE TYPE: ${d.service}${sacNote}
+
+SCOPE OF WORK:
+${d.scope}
+
+TIMELINE: ${d.timeline}
+FEES: ${priceBlock}${tdsNote}
+PAYMENT: ${d.payment}${gstLine}
+${d.notes ? `ADDITIONAL NOTES: ${d.notes}` : ''}
+
+Include: Project Overview, Objectives, Detailed Scope (in-scope and explicitly out-of-scope), Deliverables (with acceptance criteria), Project Timeline with milestones, Roles & Responsibilities (both parties), Assumptions & Dependencies, Change Management process, Payment Schedule tied to milestones, Acceptance criteria for each deliverable, Governing Law (India). Be precise and specific.`
+    };
+  }
+
+  if (d.docType === 'retainer') {
+    return {
+      sys: `You are a contract specialist writing monthly retainer agreements for Indian freelancers and agencies. Retainers should clearly define hours, deliverables, billing cycles, and renewal terms.
+
+Generate in clean HTML using only: h1, h2, h3, p, ul, ol, li, strong, em, br. ${langInstr}`,
+      user: `Generate a Monthly Retainer Agreement:
+
+${commonHeader}
+SERVICE TYPE: ${d.service}${sacNote}
+
+SERVICES INCLUDED (monthly):
+${d.scope}
+
+RETAINER VALUE: ${priceBlock}${tdsNote}
+BILLING: ${d.payment}${gstLine}
+${d.notes ? `ADDITIONAL TERMS: ${d.notes}` : ''}
+
+Include: Retainer Services (monthly deliverables), Hours allocation if applicable, Billing cycle (monthly, advance), GST invoice terms (${gstType})${d.tdsOn ? ', TDS deduction terms (194J)' : ''}, Rollover policy (unused hours), Additional work beyond retainer (hourly rate), Notice period for termination (30 days), Renewal (auto-renews unless cancelled), IP rights, Confidentiality, Governing Law (India). Professional and clear.`
+    };
+  }
+
+  // Follow-up email
+  return {
+    sys: `You are an expert at writing professional follow-up emails in Indian business context. Indian professional communication is warm, respectful, and relationship-focused. Write emails that feel genuinely human — not corporate, not desperate.
+
+Generate in clean HTML using only: p, strong, em, br. ${langInstr}`,
     user: `Write a professional follow-up email:
 
 FROM: ${d.yourName} (${d.service})
 TO: ${d.client}
-RE: ${d.project} proposal sent on ${d.date}
-AMOUNT: ₹${d.value.toLocaleString('en-IN')}${d.gstOn ? ` + GST` : ''}
-
-Context: We sent a proposal and haven't heard back. Write a warm, polite follow-up that:
-- Opens with a genuine, personal reference to their project
-- Briefly mentions you're following up on the proposal
-- Offers to answer any questions or adjust scope/pricing if needed
-- Ends with a clear, non-pushy call to action
-- Feels like it was written by a real person, not a template
-${d.notes ? `\nAdditional context: ${d.notes}` : ''}
+RE: ${d.project} proposal — ${inr(d.value)}${d.gstOn ? ` + GST` : ''}
+DATE SENT: ${d.date}
 
 Write 3 variations:
-Variation 1: Gentle check-in (3-4 days after sending)
-Variation 2: Value-add follow-up (7 days — mention something helpful or a new insight)
-Variation 3: Final follow-up (14 days — polite closure)`
+1. Gentle check-in (3–4 days after sending) — warm opener referencing their project, brief follow-up, offer to answer questions, non-pushy CTA
+2. Value-add follow-up (7 days) — mention a new insight or relevant example, remind them of the proposal, easy next step
+3. Polite closure (14 days) — graceful final follow-up, keep the door open for future
+
+${d.notes ? `Context: ${d.notes}` : ''}`
   };
 }
 
-// ── CLAUDE API (via Netlify Function — key is server-side, users never see it) ──
-async function callClaude(sys, user, docType, language) {
-  // DEV MODE: if running locally (file://) return mock instantly — zero API usage
+// ── CALL API ──
+async function callAI(sys, user, docType, language) {
   if (window.location.protocol === 'file:') {
     await new Promise(r => setTimeout(r, 1200));
-    return `<h1>Sample Proposal</h1>
-<p>This is a <strong>preview mode</strong> response — you are running locally. Deploy to Netlify to use the real AI generator.</p>
-<h2>Understanding of the Project</h2>
-<p>We have carefully reviewed your requirements and are excited to present this proposal for your project.</p>
-<h2>Scope of Work</h2>
-<ul><li>Deliverable one as described</li><li>Deliverable two with revisions</li><li>Final handoff with all source files</li></ul>
-<h2>Investment</h2>
-<p>As discussed, the total investment for this project is <em>₹45,000</em> plus applicable GST.</p>
-<h2>Next Steps</h2>
-<p>Please review this proposal and share your feedback. We look forward to working together.</p>`;
+    return `<h1>Sample Document Preview</h1><p>This is <strong>preview mode</strong> — you are running locally. Deploy to Netlify to use the real AI generator.</p><h2>Scope of Work</h2><ul><li>Deliverable one as described</li><li>Deliverable two with revisions</li></ul><h2>Investment</h2><p>Total investment: <em>₹45,000</em> + applicable GST.</p>`;
   }
 
   const r = await fetch('/.netlify/functions/generate', {
@@ -568,32 +766,56 @@ async function callClaude(sys, user, docType, language) {
   });
 
   const data = await r.json();
-
-  // Server returned a clean error string
   if (data.error) throw new Error(data.error);
-
-  // Unexpected empty response
   const text = data.content?.[0]?.text;
   if (!text) throw new Error('Empty response from AI. Please try again.');
-
   return text;
 }
 
 // ── RENDER DOCUMENT ──
 function renderDocument(html, d) {
-  const typeLabels = { proposal: 'Project Proposal', contract: 'Service Agreement', followup: 'Follow-up Email' };
+  const typeLabels = {
+    proposal: 'Project Proposal', contract: 'Service Agreement',
+    nda: 'Non-Disclosure Agreement', sow: 'Statement of Work',
+    retainer: 'Retainer Agreement', followup: 'Follow-up Email'
+  };
+  const showFinancials = d.docType !== 'followup' && d.docType !== 'nda';
   const metaItems = [
     { label: 'Prepared by', val: d.yourName },
     { label: 'Prepared for', val: d.client },
     { label: 'Project', val: d.project },
     { label: 'Date', val: d.date },
   ];
-  if (d.docType !== 'followup') {
-    metaItems.push({ label: 'Value', val: `₹${d.value.toLocaleString('en-IN')}${d.gstOn ? ` + ${d.rate}% GST` : ''}` });
+  if (showFinancials) {
+    const gstType = d.isExport ? 'Export (Zero-rated)' : d.isInter ? 'IGST' : 'CGST+SGST';
+    metaItems.push({ label: 'Value', val: inr(d.value) + (d.gstOn ? ` + ${d.rate}% GST (${gstType})` : '') });
     metaItems.push({ label: 'Timeline', val: d.timeline });
   }
+  if (d.sacInfo && showFinancials) {
+    metaItems.push({ label: 'SAC Code', val: d.sacInfo.code });
+    metaItems.push({ label: 'Payment', val: d.payment });
+  }
 
-  const metaHtml = metaItems.map(m => `<div class="doc-meta-item"><div class="doc-meta-label">${m.label}</div><div class="doc-meta-val">${m.val}</div></div>`).join('');
+  const metaHtml = metaItems.map(m =>
+    `<div class="doc-meta-item"><div class="doc-meta-label">${m.label}</div><div class="doc-meta-val">${m.val}</div></div>`
+  ).join('');
+
+  // GST table for financial docs
+  let gstTableHtml = '';
+  if (d.gstOn && showFinancials) {
+    const half = d.gstAmt / 2;
+    if (d.isExport) {
+      gstTableHtml = `<table class="gst-table"><tr><td>Base Amount</td><td>${inr(d.value)}</td></tr><tr><td>IGST (Zero-rated Export)</td><td>Nil</td></tr><tr><td><strong>Invoice Total</strong></td><td><strong>${inr(d.value)}</strong></td></tr></table>`;
+    } else if (d.isInter) {
+      gstTableHtml = `<table class="gst-table"><tr><td>Base Amount</td><td>${inr(d.value)}</td></tr><tr><td>IGST @ ${d.rate}%</td><td>${inr(d.gstAmt)}</td></tr><tr><td><strong>Total Payable</strong></td><td><strong>${inr(d.total)}</strong></td></tr></table>`;
+    } else {
+      gstTableHtml = `<table class="gst-table"><tr><td>Base Amount</td><td>${inr(d.value)}</td></tr><tr><td>CGST @ ${d.rate/2}%</td><td>${inr(half)}</td></tr><tr><td>SGST @ ${d.rate/2}%</td><td>${inr(half)}</td></tr><tr><td><strong>Total Payable</strong></td><td><strong>${inr(d.total)}</strong></td></tr></table>`;
+    }
+    if (d.tdsOn) {
+      const net = d.value * 0.9;
+      gstTableHtml += `<p style="font-size:12px;color:#6B3D1E;margin-top:4px">TDS u/s 194J @ 10%: Client deducts ${inr(d.value*0.1)} — net payment to service provider: ${inr(net)} (+ GST full)</p>`;
+    }
+  }
 
   return `<div class="doc-header-bar">
     <div class="doc-brand">
@@ -604,25 +826,25 @@ function renderDocument(html, d) {
   </div>
   <div class="doc-content">
     <div class="doc-meta">${metaHtml}</div>
+    ${gstTableHtml}
     ${html}
-    ${d.docType !== 'followup' ? `<div class="doc-footer-sig">
-      <div>
-        <div class="sig-block">
-          <div class="sig-label">Signature — Service Provider</div>
-          <div class="sig-name">${d.yourName}</div>
-        </div>
-      </div>
-      <div>
-        <div class="sig-block">
-          <div class="sig-label">Signature — Client</div>
-          <div class="sig-name">${d.client}</div>
-        </div>
-      </div>
+    ${(d.docType !== 'followup') ? `<div class="doc-footer-sig">
+      <div><div class="sig-block"><div class="sig-label">Signature — ${d.yourName}</div><div class="sig-name" style="margin-top:36px">${d.yourName}</div></div></div>
+      <div><div class="sig-block"><div class="sig-label">Signature — ${d.client}</div><div class="sig-name" style="margin-top:36px">${d.client}</div></div></div>
     </div>` : ''}
   </div>
   <div class="doc-stamp">
     <p>Generated by <strong>Mitti Proposals</strong> · mitti.in · Made in Bharat 🇮🇳</p>
   </div>`;
+}
+
+// ── WHATSAPP SUMMARY ──
+function buildWhatsappSummary(d) {
+  const gstLine = d.gstOn
+    ? `\nGST: ${inr(d.gstAmt)} (${d.isInter ? 'IGST' : 'CGST+SGST'}) → Total: ${inr(d.total)}`
+    : `\nTotal: ${inr(d.value)}`;
+  const tdsLine = d.tdsOn ? `\nTDS u/s 194J: ${inr(d.value * 0.1)} deducted by client` : '';
+  return `Hi ${d.client},\n\nSharing the ${d.docType === 'followup' ? 'follow-up' : d.docType} for *${d.project}*.\n\nValue: ${inr(d.value)}${gstLine}${tdsLine}\nTimeline: ${d.timeline}\nPayment: ${d.payment}\n\nPlease review and let me know your thoughts. Happy to answer any questions!\n\nWarm regards,\n${d.yourName}`;
 }
 
 // ── GENERATE ──
@@ -636,58 +858,75 @@ async function generate() {
 
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('output-area').style.display = 'block';
-  document.getElementById('doc-output').innerHTML = `<div class="generating">
-    <div class="gen-spinner"></div>
+
+  const loadingEl = document.createElement('div');
+  loadingEl.className = 'generating';
+  loadingEl.innerHTML = `<div class="gen-spinner"></div>
     <div class="gen-text">Writing your ${d.docType}...</div>
-    <div class="gen-sub">This takes about 15 seconds. Grab a chai. ☕</div>
-  </div>`;
+    <div class="gen-sub">This takes about 15 seconds. Grab a chai. ☕</div>`;
+  document.getElementById('doc-output').replaceChildren(loadingEl);
   document.getElementById('preview-actions').innerHTML = '';
 
   try {
     const { sys, user } = buildPrompt(d);
-    const result = await callClaude(sys, user, d.docType, d.language);
+    const result = await callAI(sys, user, d.docType, d.language);
 
     document.getElementById('doc-output').innerHTML = DOMPurify.sanitize(renderDocument(result, d), {
-      ALLOWED_TAGS: ['div','span','h1','h2','h3','p','ul','ol','li','strong','em','br','button'],
-      ALLOWED_ATTR: ['class','style','onclick'],
+      ALLOWED_TAGS: ['div','span','table','tr','td','h1','h2','h3','p','ul','ol','li','strong','em','br'],
+      ALLOWED_ATTR: ['class','style'],
     });
 
     // Action buttons
-    document.getElementById('preview-actions').innerHTML = `
-      <button class="action-btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
-      <button class="action-btn secondary" id="copy-btn" onclick="copyDoc()">📋 Copy text</button>
-      <button class="action-btn secondary" onclick="generate()">🔄 Regenerate</button>`;
+    const actionsEl = document.getElementById('preview-actions');
+    actionsEl.innerHTML = '';
 
+    const printBtn = document.createElement('button');
+    printBtn.className = 'action-btn primary';
+    printBtn.textContent = '🖨️ Print / Save PDF';
+    printBtn.onclick = () => window.print();
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'action-btn secondary';
+    copyBtn.id = 'copy-btn';
+    copyBtn.textContent = '📋 Copy text';
+    copyBtn.onclick = copyDoc;
+
+    const waBtn = document.createElement('button');
+    waBtn.className = 'action-btn whatsapp';
+    waBtn.textContent = '💬 WhatsApp summary';
+    waBtn.onclick = () => copyWhatsapp(d);
+
+    const regenBtn = document.createElement('button');
+    regenBtn.className = 'action-btn secondary';
+    regenBtn.textContent = '🔄 Regenerate';
+    regenBtn.onclick = generate;
+
+    actionsEl.append(printBtn, copyBtn, waBtn, regenBtn);
     document.getElementById('preview-panel').scrollTop = 0;
 
   } catch (err) {
     let errMsg = err.message || 'Something went wrong. Please try again.';
-    if (errMsg.includes('credit') || errMsg.includes('balance')) {
-      errMsg = '💳 API credits empty. Contact support at hello@mitti.in';
-    } else if (errMsg.includes('invalid_api_key') || errMsg.includes('auth') || errMsg.includes('API key')) {
-      errMsg = '🔑 Server configuration error. Please contact hello@mitti.in';
-    } else if (errMsg.includes('concurren') || errMsg.includes('exceeded_limit') || errMsg.includes('rate')) {
-      errMsg = '⏳ Too many requests right now. Please wait 10 seconds and try again.';
-    } else if (errMsg.includes('timed out') || errMsg.includes('abort')) {
-      errMsg = '⏱️ Generation took too long. Please try again — it usually works on the second attempt.';
-    } else if (errMsg.includes('not_found') || errMsg.includes('model')) {
-      errMsg = '⚙️ Server configuration error. Please contact hello@mitti.in';
-    }
+    if (errMsg.includes('credit') || errMsg.includes('balance')) errMsg = '💳 API credits empty. Contact support at hello@mitti.in';
+    else if (errMsg.includes('invalid_api_key') || errMsg.includes('auth')) errMsg = '🔑 Server configuration error. Contact hello@mitti.in';
+    else if (errMsg.includes('rate') || errMsg.includes('429')) errMsg = '⏳ Too many requests. Wait 10 seconds and try again.';
+    else if (errMsg.includes('timed out') || errMsg.includes('abort')) errMsg = '⏱️ Generation timed out. Try again — usually works second time.';
+
     const safeMsg = document.createElement('p');
     safeMsg.textContent = errMsg;
     const errBox = document.createElement('div');
     errBox.className = 'error-box';
     errBox.appendChild(safeMsg);
-    const errWrap = document.createElement('div');
-    errWrap.style.padding = '32px';
-    errWrap.appendChild(errBox);
-    document.getElementById('doc-output').replaceChildren(errWrap);
+    const wrap = document.createElement('div');
+    wrap.style.padding = '32px';
+    wrap.appendChild(errBox);
+    document.getElementById('doc-output').replaceChildren(wrap);
   }
 
   btn.disabled = false;
   document.getElementById('gen-btn-text').textContent = '✨ Generate Document';
 }
 
+// ── COPY DOC ──
 function copyDoc() {
   const text = document.getElementById('doc-output').innerText;
   const btn = document.getElementById('copy-btn');
@@ -697,21 +936,33 @@ function copyDoc() {
     setTimeout(() => { btn.classList.remove('copy-success'); btn.textContent = '📋 Copy text'; }, 2500);
   };
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
-      document.execCommand('copy');
-      showSuccess();
-    });
+    navigator.clipboard.writeText(text).then(showSuccess).catch(() => { document.execCommand('copy'); showSuccess(); });
   } else {
     const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showSuccess();
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showSuccess();
   }
+}
+
+// ── WHATSAPP COPY ──
+function copyWhatsapp(d) {
+  const summary = buildWhatsappSummary(d);
+  const btn = document.querySelector('.action-btn.whatsapp');
+  const copy = (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).catch(() => {});
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  };
+  copy(summary);
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied for WhatsApp!';
+  setTimeout(() => { btn.textContent = orig; }, 2500);
 }
 </script>
 </body>

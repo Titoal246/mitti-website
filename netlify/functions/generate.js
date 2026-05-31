@@ -13,7 +13,7 @@ const ALLOWED_ORIGINS = [
   'https://mitti-website.netlify.app',
 ];
 
-const ALLOWED_DOC_TYPES = ['proposal', 'contract', 'followup'];
+const ALLOWED_DOC_TYPES = ['proposal', 'contract', 'nda', 'sow', 'retainer', 'followup'];
 const ALLOWED_LANGUAGES = ['english', 'hindi', 'both'];
 const MAX_FIELD_BYTES   = 8000;
 const MAX_TOKENS_LIMIT  = 4000;
