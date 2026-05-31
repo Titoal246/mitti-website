@@ -6,6 +6,14 @@
 <title>Mitti — Rooted in India. Built for Tomorrow.</title>
 <meta name="description" content="Mitti builds modern tools for Indian businesses, freelancers, and creators — rooted in tradition, built for the future.">
 <meta name="theme-color" content="#C4603A">
+<meta property="og:title" content="Mitti Proposals — AI-Powered Proposals for Indian Freelancers">
+<meta property="og:description" content="India's only GST-aware AI document generator. CGST/SGST/IGST split, SAC codes, TDS clauses. Free to try.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mitti.in">
+<meta property="og:image" content="https://mitti.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mitti Proposals — AI for Indian Freelancers">
+<meta name="twitter:description" content="Generate proposals, contracts, NDAs in minutes. CGST/SGST/IGST aware. Made in India.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -452,7 +460,119 @@ footer {
   .reveal { opacity: 1; transform: none; transition: none; }
   @keyframes fadeUp { from { opacity: 1; transform: none; } }
 }
+
+/* ── HERO STATS ── */
+.hero-stats {
+  display: flex; gap: 0; flex-wrap: wrap;
+  margin: 32px 0 0;
+  opacity: 0; animation: fadeUp .9s .75s ease forwards;
+}
+.hero-stat {
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding: 0 28px;
+  border-right: 1px solid rgba(61,32,16,.15);
+}
+.hero-stat:first-child { padding-left: 0; }
+.hero-stat:last-child { border-right: none; }
+.hero-stat strong {
+  font-family: var(--serif); font-size: 28px; font-weight: 500;
+  color: var(--clay); line-height: 1;
+}
+.hero-stat span {
+  font-size: 12px; color: var(--bark); margin-top: 4px;
+  letter-spacing: .03em; font-weight: 300;
+}
+
+/* ── FEATURES ── */
+#features {
+  background: var(--earth); padding: 100px 5%;
+}
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.feature-card {
+  background: rgba(251,245,236,.04);
+  border: 1px solid rgba(251,245,236,.08);
+  border-radius: 16px; padding: 32px 28px;
+  transition: background .3s, transform .3s;
+}
+.feature-card:hover {
+  background: rgba(251,245,236,.08); transform: translateY(-4px);
+}
+.feature-icon {
+  font-size: 28px; margin-bottom: 16px; display: block;
+}
+.feature-h3 {
+  font-family: var(--serif); font-size: 18px; font-weight: 500;
+  color: var(--cream); margin-bottom: 10px; line-height: 1.25;
+}
+.feature-body {
+  font-size: 14px; color: rgba(251,245,236,.55);
+  line-height: 1.7; font-weight: 300;
+}
+
+/* ── FAQ ── */
+#faq { padding: 100px 5%; background: var(--earth); }
+.faq-list { max-width: 720px; margin: 56px auto 0; }
+.faq-item {
+  border-bottom: 1px solid rgba(251,245,236,.08);
+}
+.faq-q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  text-align: left; padding: 22px 0;
+  font-family: var(--sans); font-size: 16px; font-weight: 500;
+  color: var(--cream); display: flex; justify-content: space-between;
+  align-items: center; gap: 16px;
+  transition: color .2s;
+}
+.faq-q:hover { color: var(--saffron); }
+.faq-chevron {
+  flex-shrink: 0; width: 20px; height: 20px;
+  border-radius: 50%; border: 1px solid rgba(251,245,236,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: rgba(251,245,236,.5);
+  transition: transform .3s, background .2s;
+}
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  background: rgba(196,96,58,.2); border-color: var(--clay); color: var(--saffron);
+}
+.faq-a {
+  font-size: 14px; color: rgba(251,245,236,.55);
+  line-height: 1.75; font-weight: 300;
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s ease, padding .3s;
+  padding: 0;
+}
+.faq-item.open .faq-a {
+  max-height: 400px; padding-bottom: 22px;
+}
+
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 0; }
+  .hero-stat { padding: 0 18px; }
+}
+@media (max-width: 600px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 16px; }
+  .hero-stat { padding: 0; border-right: none; border-bottom: 1px solid rgba(61,32,16,.12); padding-bottom: 12px; }
+  .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
+}
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Mitti Proposals",
+  "applicationCategory": "BusinessApplication",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+  "description": "AI-powered proposal and contract generator for Indian freelancers",
+  "operatingSystem": "Web"
+}
+</script>
 </head>
 <body>
 
@@ -463,9 +583,10 @@ footer {
     <span class="nav-name">Mitti<span>.</span></span>
   </a>
   <div class="nav-links">
+    <a href="#features">Features</a>
     <a href="#philosophy">Philosophy</a>
     <a href="#products">Products</a>
-    <a href="#values">Values</a>
+    <a href="#faq">FAQ</a>
     <a href="#waitlist" class="nav-cta">Join Waitlist</a>
   </div>
 </nav>
@@ -483,6 +604,12 @@ footer {
   <div class="hero-actions">
     <a href="#waitlist" class="btn-primary">Join the waitlist →</a>
     <a href="#products" class="btn-secondary">See what we're building</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>6</strong><span>Doc types</span></div>
+    <div class="hero-stat"><strong>3 min</strong><span>Avg generation time</span></div>
+    <div class="hero-stat"><strong>Free</strong><span>To start</span></div>
+    <div class="hero-stat"><strong>🇮🇳</strong><span>Made in India</span></div>
   </div>
   <div class="hero-scroll">Scroll to explore</div>
 </section>
@@ -508,6 +635,46 @@ footer {
     <div class="marquee-item"><div class="marquee-dot"></div>Built in Bharat</div>
   </div>
 </div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-header reveal" style="color:var(--cream)">
+    <div class="section-label" style="color:var(--saffron)">Why Mitti Proposals</div>
+    <h2 class="section-h2" style="color:var(--cream)">Built for Indian <em>freelancers.</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-icon">🧮</span>
+      <h3 class="feature-h3">CGST/SGST/IGST Split</h3>
+      <p class="feature-body">Automatically detects intra-state vs inter-state. Shows correct tax split in every document.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📋</span>
+      <h3 class="feature-h3">SAC Code Auto-suggest</h3>
+      <p class="feature-body">Correct GST service code for your profession, added automatically. Required for B2B invoices.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">💼</span>
+      <h3 class="feature-h3">TDS Section 194J</h3>
+      <p class="feature-body">Toggle TDS deduction on professional fees. Shows exact net payable for your client.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">💬</span>
+      <h3 class="feature-h3">WhatsApp Summary</h3>
+      <p class="feature-body">One-click copy of a clean, formatted summary ready to paste into WhatsApp.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">🔒</span>
+      <h3 class="feature-h3">NDA + SOW + Retainer</h3>
+      <p class="feature-body">6 document types including NDA under Indian Contract Act and SOW with milestone billing.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">🌐</span>
+      <h3 class="feature-h3">Hindi + English</h3>
+      <p class="feature-body">Generate in Hindi, English, or bilingual. Gemini AI handles regional language fluency.</p>
+    </div>
+  </div>
+</section>
 
 <!-- PHILOSOPHY -->
 <section id="philosophy">
@@ -681,6 +848,58 @@ footer {
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-header reveal" style="color:var(--cream)">
+    <div class="section-label" style="color:var(--saffron)">Questions</div>
+    <h2 class="section-h2" style="color:var(--cream)">Honest answers.<br><em>No fluff.</em></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Is it really free?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">Yes — 3 documents per month, forever free. No card required.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        What is CGST/SGST vs IGST?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">If your client is in the same state as you, GST splits into CGST + SGST (half each). Different state = IGST (full rate). Mitti detects this automatically based on the addresses you enter.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        What is a SAC code?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">Service Accounting Code — required on all B2B GST invoices above ₹20L turnover. Mitti suggests the right one for your service type automatically.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        What is TDS 194J?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">If a company pays you for professional services, they must deduct 10% TDS before paying you. Mitti calculates exactly what they owe you and includes the clause in your document.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Is the AI output legally valid?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">The documents are strong starting points written for Indian law. We recommend having a lawyer review contracts above ₹5 lakh.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Which payment methods work?
+        <span class="faq-chevron">&#9660;</span>
+      </button>
+      <div class="faq-a">UPI, credit/debit cards, net banking via Razorpay — all India-native.</div>
+    </div>
+  </div>
+</section>
+
 <!-- WAITLIST -->
 <section id="waitlist">
   <div class="waitlist-label">Early access</div>
@@ -703,9 +922,11 @@ footer {
     </div>
     <div class="footer-links">
       <h4>Company</h4>
+      <a href="#features">Features</a>
       <a href="#philosophy">Philosophy</a>
       <a href="#products">Products</a>
       <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
       <a href="#values">Values</a>
     </div>
     <div class="footer-links">
@@ -750,6 +971,20 @@ function joinWaitlist() {
 document.getElementById('email-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') joinWaitlist();
 });
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
 
 // Nav scroll effect
 let navTicking = false;
