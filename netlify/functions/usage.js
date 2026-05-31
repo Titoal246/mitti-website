@@ -69,9 +69,11 @@ exports.handler = async function (event) {
 
     const plan = row.plan || 'free';
     const used = row.docs_used || 0;
-    const limit = plan === 'pro' || plan === 'agency' ? Infinity : FREE_LIMIT;
+    const bonus = row.bonus_docs || 0;
+    const effectiveLimit = plan === 'pro' || plan === 'agency' ? Infinity : FREE_LIMIT + bonus;
+    const limit = effectiveLimit;
     const allowed = used < limit;
-    const remaining = plan === 'pro' || plan === 'agency' ? 999 : Math.max(0, FREE_LIMIT - used);
+    const remaining = plan === 'pro' || plan === 'agency' ? 999 : Math.max(0, effectiveLimit - used);
 
     if (action === 'check') {
       return { statusCode: 200, headers: cors, body: JSON.stringify({ allowed, remaining, plan, used }) };
