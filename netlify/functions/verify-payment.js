@@ -60,15 +60,19 @@ exports.handler = async function (event) {
   const planLabel = plan === 'agency' ? 'Agency ₹799' : 'Pro ₹299';
   notifyOwner(planLabel, email || 'anonymous', razorpay_payment_id).catch(() => {});
 
-  // Upgrade plan in Supabase
+  // Upgrade plan in Supabase (upsert so row always exists after payment)
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
       const monthKey = new Date().toISOString().slice(0, 7);
-      await sbFetch(
-        `/rest/v1/usage?fingerprint=eq.${encodeURIComponent(fingerprint)}&month_key=eq.${monthKey}`,
-        'PATCH',
-        { plan: plan || 'pro', email: email || null, payment_id: razorpay_payment_id }
-      );
+      await sbUpsert('/rest/v1/usage', {
+        fingerprint,
+        month_key: monthKey,
+        plan: plan || 'pro',
+        docs_used: 0,
+        bonus_docs: 0,
+        email: email || null,
+        payment_id: razorpay_payment_id,
+      });
     } catch (err) {
       console.error('Supabase upgrade error:', err.message);
       // Payment verified — don't fail; handle manually if DB update fails
@@ -112,5 +116,18 @@ function sbFetch(path, method = 'GET', body) {
       'Content-Type': 'application/json',
     },
     body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
+function sbUpsert(path, body) {
+  return fetch(`${SUPABASE_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates',
+    },
+    body: JSON.stringify(body),
   });
 }
