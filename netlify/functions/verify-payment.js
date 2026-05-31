@@ -47,7 +47,12 @@ exports.handler = async function (event) {
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest('hex');
 
-  if (expected !== razorpay_signature) {
+  const sigValid = (() => {
+    try {
+      return crypto.timingSafeEqual(Buffer.from(expected, 'hex'), Buffer.from(razorpay_signature, 'hex'));
+    } catch { return false; }
+  })();
+  if (!sigValid) {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Payment verification failed' }) };
   }
 

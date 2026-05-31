@@ -724,7 +724,10 @@ footer {
         Live now · Free during beta
       </div>
       <div class="product-price">Free beta<span> — ₹299/mo at launch</span></div>
-      <a href="proposals.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;background:rgba(251,245,236,.12);color:var(--cream);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid rgba(251,245,236,.2);transition:background .2s" onmouseover="this.style.background='rgba(251,245,236,.2)'" onmouseout="this.style.background='rgba(251,245,236,.12)'">Try Mitti Proposals →</a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <a href="proposals.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(251,245,236,.12);color:var(--cream);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid rgba(251,245,236,.2);transition:background .2s" onmouseover="this.style.background='rgba(251,245,236,.2)'" onmouseout="this.style.background='rgba(251,245,236,.12)'">Try Proposals →</a>
+        <a href="invoice.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(251,245,236,.06);color:var(--cream);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid rgba(251,245,236,.12);transition:background .2s" onmouseover="this.style.background='rgba(251,245,236,.14)'" onmouseout="this.style.background='rgba(251,245,236,.06)'">Invoice Generator →</a>
+      </div>
     </div>
 
     <!-- Product 2 -->
@@ -932,6 +935,7 @@ footer {
     <div class="footer-links">
       <h4>Products</h4>
       <a href="proposals.html">Mitti Proposals</a>
+      <a href="invoice.html">Mitti Invoice</a>
       <a href="#products">Mitti Digital</a>
       <a href="#products">Mitti Ops</a>
     </div>
@@ -955,8 +959,9 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Waitlist
-function joinWaitlist() {
+async function joinWaitlist() {
   const input = document.getElementById('email-input');
+  const btn = document.querySelector('.waitlist-btn');
   const email = input.value.trim();
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   if (!valid) {
@@ -964,9 +969,17 @@ function joinWaitlist() {
     input.focus(); return;
   }
   input.style.borderColor = '';
+  btn.disabled = true;
+  btn.textContent = 'Joining…';
+  try {
+    await fetch('/.netlify/functions/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'homepage' }),
+    });
+  } catch (_) { /* show success regardless */ }
   document.getElementById('wf').style.display = 'none';
   document.getElementById('waitlist-thanks').style.display = 'block';
-  // TODO: POST to your backend / Formspree / Supabase
 }
 document.getElementById('email-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') joinWaitlist();

@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Generate professional proposals, contracts, NDAs, SOWs and more for Indian freelancers and agencies. GST-compliant, CGST/SGST/IGST aware. Powered by AI.">
 <meta name="theme-color" content="#C4603A">
+<meta property="og:title" content="Mitti Proposals — AI Document Generator for Indian Freelancers">
+<meta property="og:description" content="Generate proposals, contracts, NDAs & more with correct CGST/SGST/IGST, SAC codes, TDS 194J. Free to use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mitti.in/proposals.html">
+<meta property="og:image" content="https://mitti.in/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mitti Proposals — AI for Indian Freelancers">
+<meta name="twitter:description" content="GST-aware AI document generator. CGST/SGST/IGST split, SAC codes, TDS clauses. Free to try.">
+<link rel="canonical" href="https://mitti.in/proposals.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
 <title>Mitti Proposals — AI-Powered Proposals for Indian Freelancers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -231,6 +240,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
   </a>
   <div class="nav-right">
     <span class="nav-product">Proposals Beta</span>
+    <a href="invoice.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Invoice Generator</a>
     <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Back to Mitti</a>
   </div>
 </nav>
@@ -1029,7 +1039,16 @@ async function generate() {
     regenBtn.textContent = '🔄 Regenerate';
     regenBtn.onclick = generate;
 
-    actionsEl.append(printBtn, copyBtn, waBtn, regenBtn);
+    const shareBtn = document.createElement('button');
+    shareBtn.className = 'action-btn secondary';
+    shareBtn.title = 'Share on LinkedIn';
+    shareBtn.textContent = '🔗 Share';
+    shareBtn.onclick = () => {
+      const text = encodeURIComponent('Just generated a professional GST-compliant proposal in 3 minutes using Mitti — India\'s AI document generator for freelancers. Try it free: https://mitti.in/proposals.html #IndianFreelancer #Mitti');
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://mitti.in/proposals.html')}&summary=${text}`, '_blank', 'width=600,height=500');
+    };
+
+    actionsEl.append(printBtn, copyBtn, waBtn, shareBtn, regenBtn);
     document.getElementById('preview-panel').scrollTop = 0;
 
   } catch (err) {
