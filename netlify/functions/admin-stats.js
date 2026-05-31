@@ -34,20 +34,27 @@ exports.handler = async function (event) {
   const monthKey = new Date().toISOString().slice(0, 7);
 
   try {
-    const [usageRes, waitlistRes, contactsRes] = await Promise.all([
-      sbFetch(`/rest/v1/usage?month_key=eq.${monthKey}&select=fingerprint,plan,docs_used,email,payment_id`),
+    const [usageRes, waitlistRes, contactsRes, referralsRes] = await Promise.all([
+      sbFetch(`/rest/v1/usage?month_key=eq.${monthKey}&select=fingerprint,plan,docs_used,email,payment_id,created_at`),
       sbFetch('/rest/v1/waitlist?select=email,source,signed_up_at&order=signed_up_at.desc&limit=50'),
       sbFetch('/rest/v1/contacts?select=name,email,message,created_at&order=created_at.desc&limit=20'),
+      sbFetch('/rest/v1/referrals?select=code,uses,fingerprint,created_at&order=uses.desc&limit=20'),
     ]);
 
     const usage = await usageRes.json();
     const waitlist = await waitlistRes.json();
     const contacts = await contactsRes.json();
+    const referrals = await referralsRes.json();
 
     const pro = usage.filter(u => u.plan === 'pro');
     const agency = usage.filter(u => u.plan === 'agency');
     const totalDocs = usage.reduce((sum, u) => sum + (u.docs_used || 0), 0);
     const revenueEst = (pro.length * 299) + (agency.length * 799);
+    const totalReferralUses = Array.isArray(referrals) ? referrals.reduce((s, r) => s + (r.uses || 0), 0) : 0;
+
+    // New users in last 7 days
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const newThisWeek = Array.isArray(usage) ? usage.filter(u => u.created_at > sevenDaysAgo).length : 0;
 
     return {
       statusCode: 200,
@@ -55,14 +62,19 @@ exports.handler = async function (event) {
       body: JSON.stringify({
         month: monthKey,
         users: usage.length,
+        new_this_week: newThisWeek,
         docs_this_month: totalDocs,
+        avg_docs_per_user: usage.length ? (totalDocs / usage.length).toFixed(1) : 0,
         pro_users: pro.length,
         agency_users: agency.length,
         revenue_est: revenueEst,
         waitlist_count: Array.isArray(waitlist) ? waitlist.length : 0,
         contacts_count: Array.isArray(contacts) ? contacts.length : 0,
+        referrals_count: Array.isArray(referrals) ? referrals.length : 0,
+        referral_uses_total: totalReferralUses,
         recent_waitlist: Array.isArray(waitlist) ? waitlist.slice(0, 10) : [],
         recent_contacts: Array.isArray(contacts) ? contacts.slice(0, 5) : [],
+        top_referrals: Array.isArray(referrals) ? referrals.slice(0, 5) : [],
         paid_users: usage.filter(u => u.payment_id).map(u => ({
           plan: u.plan, email: u.email, payment: u.payment_id
         })),

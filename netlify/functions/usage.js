@@ -83,13 +83,19 @@ exports.handler = async function (event) {
       if (!allowed) {
         return { statusCode: 200, headers: cors, body: JSON.stringify({ allowed: false, remaining: 0, plan, used }) };
       }
-      // Increment
-      await sbFetch(
-        `/rest/v1/usage?fingerprint=eq.${encodeURIComponent(fingerprint)}&month_key=eq.${monthKey}`,
-        'PATCH',
-        { docs_used: used + 1 }
-      );
-      return { statusCode: 200, headers: cors, body: JSON.stringify({ allowed: true, remaining: Math.max(0, remaining - 1), plan, used: used + 1 }) };
+      // Atomic increment via RPC (prevents race condition)
+      const rpcRes = await sbFetch('/rest/v1/rpc/increment_doc_usage', 'POST', { fp: fingerprint, mk: monthKey });
+      if (!rpcRes.ok) {
+        // RPC not yet deployed — fall back to PATCH
+        await sbFetch(
+          `/rest/v1/usage?fingerprint=eq.${encodeURIComponent(fingerprint)}&month_key=eq.${monthKey}`,
+          'PATCH',
+          { docs_used: used + 1 }
+        );
+        return { statusCode: 200, headers: cors, body: JSON.stringify({ allowed: true, remaining: Math.max(0, remaining - 1), plan, used: used + 1 }) };
+      }
+      const rpcData = await rpcRes.json();
+      return { statusCode: 200, headers: cors, body: JSON.stringify(rpcData) };
     }
 
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Unknown action' }) };

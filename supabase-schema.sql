@@ -78,6 +78,49 @@ create index if not exists idx_usage_fingerprint_month on usage(fingerprint, mon
 create index if not exists idx_referrals_code on referrals(code);
 create index if not exists idx_referral_claims_fp on referral_claims(fingerprint);
 
+-- ── ATOMIC INCREMENT RPC (prevents race condition) ──
+-- Returns: { allowed, used, remaining, plan }
+create or replace function increment_doc_usage(fp text, mk text)
+returns jsonb language plpgsql security definer as $$
+declare
+  rec usage%rowtype;
+  eff_limit int;
+  new_used  int;
+begin
+  -- Upsert to ensure row exists
+  insert into usage (fingerprint, month_key, plan, docs_used, bonus_docs)
+  values (fp, mk, 'free', 0, 0)
+  on conflict (fingerprint, month_key) do nothing;
+
+  -- Lock row for atomic update
+  select * into rec from usage where fingerprint = fp and month_key = mk for update;
+
+  eff_limit := case
+    when rec.plan in ('pro', 'agency') then 2147483647
+    else 3 + coalesce(rec.bonus_docs, 0)
+  end;
+
+  if rec.docs_used >= eff_limit then
+    return jsonb_build_object(
+      'allowed', false,
+      'used', rec.docs_used,
+      'remaining', 0,
+      'plan', rec.plan
+    );
+  end if;
+
+  new_used := rec.docs_used + 1;
+  update usage set docs_used = new_used where fingerprint = fp and month_key = mk;
+
+  return jsonb_build_object(
+    'allowed', true,
+    'used', new_used,
+    'remaining', case when rec.plan in ('pro','agency') then 999 else greatest(0, eff_limit - new_used) end,
+    'plan', rec.plan
+  );
+end;
+$$;
+
 -- ══════════════════════════════════════════════════════════════
 -- DONE. Your Mitti database is ready.
 -- Add these to Netlify environment variables:

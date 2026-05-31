@@ -9,7 +9,7 @@
 <meta property="og:description" content="Generate professional GST invoices with CGST/SGST/IGST split, SAC codes, TDS 194J. Free for Indian freelancers and agencies.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mitti.in/invoice.html">
-<meta property="og:image" content="https://mitti.in/og-image.png">
+<meta property="og:image" content="https://mitti.in/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mitti Invoice — Free GST Invoice Generator">
 <meta name="twitter:description" content="CGST/SGST/IGST split, SAC codes, TDS clauses. Built for Indian freelancers.">
@@ -119,6 +119,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
   <div style="display:flex;align-items:center;gap:12px">
     <span class="nav-product">Invoice</span>
     <a href="proposals.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15)">Proposals</a>
+    <a href="my-docs.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15)">📁 My Docs</a>
     <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15)">← Home</a>
   </div>
 </nav>
@@ -593,6 +594,9 @@ function generateInvoice() {
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
+  // Save to My Docs
+  saveInvoiceToMyDocs(invoiceHtml, { client, invnum, amt, total, dateStr });
+
   // Auto-increment for next invoice
   saveInvoiceCounter(invnum);
   actions.append(printBtn, copyBtn, waBtn, newBtn);
@@ -652,6 +656,26 @@ loadInvProfile();
 ['i-yourstate','i-service'].forEach(id => {
   document.getElementById(id).addEventListener('change', saveInvProfile);
 });
+
+// ── SAVE INVOICE TO MY DOCS ──
+function saveInvoiceToMyDocs(html, d) {
+  try {
+    const DOCS_HTML_KEY = 'mitti_docs_html';
+    const saved = JSON.parse(localStorage.getItem(DOCS_HTML_KEY) || '[]');
+    saved.unshift({
+      id: Date.now(),
+      docType: 'invoice',
+      project: d.invnum,
+      client: d.client,
+      date: d.dateStr,
+      value: d.total,
+      html: html.slice(0, 20000),
+      savedAt: new Date().toISOString(),
+    });
+    if (saved.length > 10) saved.length = 10;
+    localStorage.setItem(DOCS_HTML_KEY, JSON.stringify(saved));
+  } catch(e) {}
+}
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));

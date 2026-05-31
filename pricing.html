@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mitti pricing — free tier with 3 docs/month, Pro at ₹299/month for unlimited documents. GST-compliant AI document generator for Indian freelancers.">
+<meta name="theme-color" content="#C4603A">
+<meta property="og:title" content="Mitti Pricing — Free Forever, Pro at ₹299/month">
+<meta property="og:description" content="Start free with 3 documents/month. Upgrade to Pro for unlimited proposals, contracts, NDAs, and invoices. India-native GST/TDS support.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mitti.in/pricing.html">
+<link rel="canonical" href="https://mitti.in/pricing.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="manifest" href="/manifest.json">
+<title>Mitti Pricing — Free to Start, Pro at ₹299/month</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+:root{--clay:#C4603A;--earth:#1C0F06;--soil:#3D2010;--bark:#6B3D1E;--cream:#FBF5EC;--warm:#F5E6CC;--saffron:#E89A3A;--moss:#3A5C3B;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--earth);min-height:100vh}
+nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,96,58,.12);padding:14px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:32px;height:32px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--cream);font-weight:700}
+.nav-name{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--earth)}
+.nav-name span{color:var(--clay)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-link{font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2);transition:background .2s}
+.nav-link:hover{background:var(--warm)}
+.nav-cta{background:var(--clay);color:var(--cream)!important;border-color:var(--clay)!important}
+.nav-cta:hover{background:var(--soil)!important}
+/* HERO */
+.hero{text-align:center;padding:72px 5% 48px;max-width:680px;margin:0 auto}
+.hero-tag{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--clay);background:rgba(196,96,58,.1);padding:4px 14px;border-radius:100px;margin-bottom:20px;font-weight:500}
+.hero h1{font-family:var(--serif);font-size:clamp(32px,5vw,52px);font-weight:500;line-height:1.15;color:var(--earth);margin-bottom:16px}
+.hero p{font-size:16px;color:var(--bark);font-weight:300;line-height:1.7;max-width:520px;margin:0 auto 12px}
+/* PLANS */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;padding:0 5% 72px}
+.plan{background:white;border:1.5px solid rgba(196,96,58,.15);border-radius:20px;padding:36px;position:relative;transition:border-color .2s,transform .2s}
+.plan:hover{border-color:rgba(196,96,58,.3);transform:translateY(-2px)}
+.plan.featured{border-color:var(--clay);box-shadow:0 8px 40px rgba(196,96,58,.15)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--clay);color:var(--cream);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 16px;border-radius:100px;font-weight:500;white-space:nowrap}
+.plan-name{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:12px}
+.plan-price{font-family:var(--serif);font-size:40px;color:var(--earth);font-weight:500;line-height:1}
+.plan-price span{font-size:14px;color:var(--bark);font-family:var(--sans);font-weight:300}
+.plan-desc{font-size:13px;color:var(--bark);font-weight:300;margin:10px 0 24px;line-height:1.6}
+.plan-divider{border:none;border-top:1px solid rgba(196,96,58,.1);margin-bottom:20px}
+.plan-features{list-style:none;margin-bottom:28px}
+.plan-features li{font-size:13px;color:var(--earth);padding:6px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.plan-features li::before{content:'✓';color:var(--moss);font-weight:700;flex-shrink:0;margin-top:1px}
+.plan-features li.muted{color:var(--bark);opacity:.4}
+.plan-features li.muted::before{content:'—';color:currentColor;font-weight:300}
+.plan-btn{display:block;width:100%;padding:14px;border-radius:100px;border:none;font-size:14px;font-weight:500;font-family:var(--sans);cursor:pointer;text-align:center;text-decoration:none;transition:all .2s}
+.plan-btn.free{background:transparent;border:1.5px solid rgba(196,96,58,.3);color:var(--bark)}
+.plan-btn.free:hover{border-color:var(--clay);color:var(--clay);background:rgba(196,96,58,.04)}
+.plan-btn.pro{background:var(--clay);color:var(--cream)}
+.plan-btn.pro:hover{background:var(--soil)}
+.plan-btn.agency{background:var(--soil);color:var(--cream)}
+.plan-btn.agency:hover{background:var(--earth)}
+/* FAQ */
+.faq{max-width:720px;margin:0 auto;padding:0 5% 80px}
+.faq-title{font-family:var(--serif);font-size:28px;font-weight:400;color:var(--earth);margin-bottom:32px;text-align:center}
+.faq-item{border-bottom:1px solid rgba(196,96,58,.1);padding:20px 0}
+.faq-q{font-size:15px;font-weight:500;color:var(--earth);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'▾';font-size:12px;color:var(--clay);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-q::after{transform:rotate(180deg)}
+.faq-a{font-size:14px;color:var(--bark);font-weight:300;line-height:1.8;margin-top:12px;display:none}
+.faq-item.open .faq-a{display:block}
+/* COMPARE */
+.compare{max-width:760px;margin:0 auto;padding:0 5% 72px}
+.compare-title{font-family:var(--serif);font-size:28px;font-weight:400;color:var(--earth);margin-bottom:28px;text-align:center}
+.compare-table{width:100%;border-collapse:collapse;font-size:14px}
+.compare-table th{padding:12px 16px;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bark);border-bottom:2px solid rgba(196,96,58,.15);font-weight:500}
+.compare-table th:not(:first-child){text-align:center}
+.compare-table td{padding:14px 16px;border-bottom:1px solid rgba(196,96,58,.07);vertical-align:middle}
+.compare-table td:not(:first-child){text-align:center}
+.compare-table tr:hover td{background:rgba(196,96,58,.02)}
+.check{color:var(--moss);font-size:16px}
+.cross{color:rgba(196,96,58,.3);font-size:14px}
+/* TRUST */
+.trust{background:rgba(196,96,58,.04);border-top:1px solid rgba(196,96,58,.1);padding:48px 5%;text-align:center}
+.trust-title{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--earth);margin-bottom:24px}
+.trust-grid{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+.trust-item{font-size:13px;color:var(--bark);font-weight:300;line-height:1.5}
+.trust-item strong{display:block;font-size:24px;font-family:var(--serif);color:var(--clay);font-weight:500;margin-bottom:4px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,15,6,.6);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.visible{opacity:1;pointer-events:all}
+.modal{background:var(--cream);border-radius:20px;padding:40px;max-width:480px;width:100%;position:relative;box-shadow:0 24px 64px rgba(28,15,6,.2)}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--bark);opacity:.5}
+.modal-close:hover{opacity:1}
+.modal-icon{font-size:40px;margin-bottom:16px}
+.modal-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--earth);margin-bottom:8px}
+.modal-sub{font-size:14px;color:var(--bark);font-weight:300;margin-bottom:24px;line-height:1.6}
+.modal-email{width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(196,96,58,.2);background:white;font-family:var(--sans);font-size:14px;color:var(--earth);margin-bottom:12px}
+.modal-email:focus{outline:none;border-color:var(--clay)}
+.modal-pay-btn{width:100%;padding:15px;border-radius:100px;border:none;background:var(--clay);color:var(--cream);font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.modal-pay-btn:hover{background:var(--soil)}
+.modal-pay-btn:disabled{background:rgba(196,96,58,.3);cursor:not-allowed}
+.modal-note{font-size:11px;color:var(--bark);opacity:.5;text-align:center;margin-top:10px}
+footer{padding:36px 5%;border-top:1px solid rgba(196,96,58,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer a{font-size:13px;color:var(--bark);text-decoration:none;opacity:.6}
+footer a:hover{opacity:1}
+@media(max-width:768px){.plans{grid-template-columns:1fr}.trust-grid{gap:28px}.compare-table{font-size:12px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-mark">म</div>
+    <span class="nav-name">Mitti<span>.</span></span>
+  </a>
+  <div class="nav-right">
+    <a href="proposals.html" class="nav-link">Proposals</a>
+    <a href="invoice.html" class="nav-link">Invoice</a>
+    <a href="proposals.html" class="nav-link nav-cta">Try free →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Pricing</div>
+  <h1>Start free.<br>Scale when you're ready.</h1>
+  <p>Every Indian freelancer gets 3 free documents per month. Upgrade to Pro for unlimited access — less than a single chai per day.</p>
+</div>
+
+<div class="plans">
+  <!-- Free -->
+  <div class="plan">
+    <div class="plan-name">Free</div>
+    <div class="plan-price">₹0<span>/month</span></div>
+    <div class="plan-desc">Everything you need to start winning clients.</div>
+    <hr class="plan-divider">
+    <ul class="plan-features">
+      <li>3 documents per month</li>
+      <li>All 6 doc types (Proposal, Contract, NDA, SOW, Retainer, Follow-up)</li>
+      <li>GST-compliant (CGST/SGST/IGST split)</li>
+      <li>SAC code suggestions</li>
+      <li>TDS 194J calculation</li>
+      <li>Invoice generator</li>
+      <li>My Docs — auto-save & reopen</li>
+      <li>WhatsApp summary export</li>
+      <li>Hindi & English bilingual</li>
+      <li>Referral bonus docs</li>
+      <li class="muted">Unlimited documents</li>
+      <li class="muted">Team members</li>
+      <li class="muted">Custom branding</li>
+    </ul>
+    <a href="proposals.html" class="plan-btn free">Start generating →</a>
+  </div>
+
+  <!-- Pro — featured -->
+  <div class="plan featured">
+    <div class="plan-badge">Most Popular</div>
+    <div class="plan-name">Pro</div>
+    <div class="plan-price">₹299<span>/month</span></div>
+    <div class="plan-desc">For active freelancers who generate 4+ documents a month.</div>
+    <hr class="plan-divider">
+    <ul class="plan-features">
+      <li>Unlimited documents</li>
+      <li>All 6 doc types</li>
+      <li>GST-compliant (CGST/SGST/IGST split)</li>
+      <li>SAC code suggestions</li>
+      <li>TDS 194J calculation</li>
+      <li>Invoice generator</li>
+      <li>My Docs — auto-save & reopen</li>
+      <li>WhatsApp summary export</li>
+      <li>Hindi & English bilingual</li>
+      <li>Referral bonus docs</li>
+      <li class="muted">Team members</li>
+      <li class="muted">Custom branding</li>
+    </ul>
+    <button class="plan-btn pro" onclick="openUpgrade('pro')">Upgrade to Pro →</button>
+  </div>
+
+  <!-- Agency -->
+  <div class="plan">
+    <div class="plan-name">Agency</div>
+    <div class="plan-price">₹799<span>/month</span></div>
+    <div class="plan-desc">For studios and agencies billing multiple clients monthly.</div>
+    <hr class="plan-divider">
+    <ul class="plan-features">
+      <li>Unlimited documents</li>
+      <li>All 6 doc types</li>
+      <li>GST-compliant (CGST/SGST/IGST split)</li>
+      <li>SAC code suggestions</li>
+      <li>TDS 194J calculation</li>
+      <li>Invoice generator</li>
+      <li>My Docs — auto-save & reopen</li>
+      <li>WhatsApp summary export</li>
+      <li>Hindi & English bilingual</li>
+      <li>Referral bonus docs</li>
+      <li>Up to 5 team members</li>
+      <li>Custom branding on documents</li>
+    </ul>
+    <button class="plan-btn agency" onclick="openUpgrade('agency')">Upgrade to Agency →</button>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="compare">
+  <div class="compare-title">Full feature comparison</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th>Pro</th>
+        <th>Agency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Documents per month</td><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>Proposals</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Contracts / Service Agreements</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>NDAs (Indian law)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Statements of Work</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Retainer agreements</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Follow-up emails</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>GST Invoice generator</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>CGST / SGST / IGST split</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>SAC code auto-suggestion</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>TDS Section 194J calculation</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Hindi / bilingual documents</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>WhatsApp summary export</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>My Docs (auto-saved history)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Referral bonus docs</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td>Team members</td><td class="cross">—</td><td class="cross">—</td><td>Up to 5</td></tr>
+      <tr><td>Custom branding</td><td class="cross">—</td><td class="cross">—</td><td class="check">✓</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- TRUST SIGNALS -->
+<div class="trust">
+  <div class="trust-title">Built for Indian freelancers</div>
+  <div class="trust-grid">
+    <div class="trust-item"><strong>₹0</strong>to get started</div>
+    <div class="trust-item"><strong>6</strong>document types</div>
+    <div class="trust-item"><strong>CGST+SGST<br>IGST</strong>auto-detected</div>
+    <div class="trust-item"><strong>Section 194J</strong>TDS built-in</div>
+    <div class="trust-item"><strong>Hindi</strong>language support</div>
+    <div class="trust-item"><strong>UPI · Cards</strong>payment via Razorpay</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq">
+  <div class="faq-title">Frequently asked questions</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need to create an account?</div>
+    <div class="faq-a">No account needed. Mitti works entirely in your browser. Your documents are saved locally on your device. Upgrading to Pro ties your subscription to your email address and device fingerprint — no password to remember.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What happens after 3 free documents?</div>
+    <div class="faq-a">Your counter resets every month on the 1st. You can also earn extra free documents by referring Mitti to other freelancers — each successful referral gives you +1 document. Or upgrade to Pro for unlimited access.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is the payment secure? What methods are accepted?</div>
+    <div class="faq-a">Payments are processed by Razorpay — India's most trusted payment gateway. We accept UPI (GPay, PhonePe, Paytm), all debit/credit cards, and net banking. There is no auto-renewal — each subscription period must be renewed manually.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Are the documents legally valid in India?</div>
+    <div class="faq-a">The documents Mitti generates are comprehensive and based on Indian law (Indian Contract Act 1872, IT Act 2000, GST Act 2017). They cover all standard clauses Indian freelancers need. However, for large-value contracts or unusual situations, we recommend having a lawyer review. Mitti is a starting point, not a substitute for legal advice.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How does the GST calculation work?</div>
+    <div class="faq-a">Mitti automatically detects whether your transaction is intra-state (CGST + SGST) or inter-state (IGST) based on your state and client's state. For overseas clients, it applies zero-rating under LUT. SAC codes are auto-suggested based on your service type. This is built-in — no manual configuration needed.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I cancel my Pro subscription?</div>
+    <div class="faq-a">Yes. Since there is no auto-renewal, your Pro access simply expires at the end of your billing month. You don't need to cancel anything — just don't renew. Your saved documents remain accessible in My Docs even after expiry.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">I'm an agency with a team. What's the Agency plan?</div>
+    <div class="faq-a">The Agency plan at ₹799/month is designed for studios and agencies. It includes everything in Pro, plus support for up to 5 team members and custom branding on generated documents. Contact hello@mitti.in to set up team access.</div>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgrade-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('upgrade-modal').classList.remove('visible')">✕</button>
+    <div class="modal-icon">🌱</div>
+    <div class="modal-title" id="modal-title">Upgrade to Pro</div>
+    <div class="modal-sub" id="modal-sub">Unlimited documents, all 6 doc types, GST/TDS features. Less than a chai per day.</div>
+    <input type="email" class="modal-email" id="modal-email" placeholder="your@email.com (for receipt & account)" />
+    <button class="modal-pay-btn" id="modal-pay-btn" onclick="startPayment()">Pay with Razorpay →</button>
+    <div class="modal-note">Secure payment · UPI · Cards · Net Banking · No auto-renewal</div>
+  </div>
+</div>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div style="width:24px;height:24px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:11px;color:var(--cream);font-weight:700">म</div>
+    <span style="font-family:var(--serif);font-size:15px;color:var(--earth)">Mitti<span style="color:var(--clay)">.</span></span>
+    <span style="font-size:12px;color:var(--bark);opacity:.5">Made in Bharat 🇮🇳</span>
+  </div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap">
+    <a href="proposals.html">Proposals</a>
+    <a href="invoice.html">Invoice</a>
+    <a href="templates.html">Templates</a>
+    <a href="legal.html">Privacy & Terms</a>
+    <a href="mailto:hello@mitti.in">Contact</a>
+  </div>
+</footer>
+
+<script>
+let selectedPlan = 'pro';
+let planPrices = { pro: 29900, agency: 79900 }; // paise
+
+function openUpgrade(plan) {
+  selectedPlan = plan;
+  const titles = { pro: 'Upgrade to Pro — ₹299/month', agency: 'Upgrade to Agency — ₹799/month' };
+  const subs = {
+    pro: 'Unlimited documents, all 6 doc types, GST/TDS features. No auto-renewal.',
+    agency: 'Everything in Pro, plus 5 team members and custom branding. No auto-renewal.'
+  };
+  document.getElementById('modal-title').textContent = titles[plan] || 'Upgrade';
+  document.getElementById('modal-sub').textContent = subs[plan] || '';
+  document.getElementById('upgrade-modal').classList.add('visible');
+}
+
+document.getElementById('upgrade-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('visible');
+});
+
+function getFingerprint() {
+  let fp = localStorage.getItem('mitti_fp');
+  if (!fp) {
+    fp = 'fp_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem('mitti_fp', fp);
+  }
+  return fp;
+}
+
+async function startPayment() {
+  const email = document.getElementById('modal-email').value.trim();
+  const btn = document.getElementById('modal-pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Creating order...';
+
+  try {
+    const res = await fetch('/.netlify/functions/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: selectedPlan, fingerprint: getFingerprint(), email }),
+    });
+    const order = await res.json();
+
+    if (order.error) {
+      alert(order.error);
+      btn.disabled = false;
+      btn.textContent = 'Pay with Razorpay →';
+      return;
+    }
+
+    const rzp = new Razorpay({
+      key: order.keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'Mitti',
+      description: order.planName,
+      order_id: order.orderId,
+      prefill: { email },
+      theme: { color: '#C4603A' },
+      handler: async function (response) {
+        const vRes = await fetch('/.netlify/functions/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            fingerprint: getFingerprint(),
+            plan: selectedPlan,
+            email,
+          }),
+        });
+        const vData = await vRes.json();
+        if (vData.success) {
+          document.getElementById('upgrade-modal').classList.remove('visible');
+          alert(`🎉 Welcome to Mitti ${vData.plan === 'agency' ? 'Agency' : 'Pro'}! Redirecting to the generator...`);
+          window.location.href = 'proposals.html';
+        } else {
+          alert('Payment verification failed. Please contact hello@mitti.in with your payment ID: ' + response.razorpay_payment_id);
+        }
+      },
+      modal: { ondismiss: () => { btn.disabled = false; btn.textContent = 'Pay with Razorpay →'; } },
+    });
+    rzp.open();
+  } catch (err) {
+    alert('Something went wrong. Please try again or contact hello@mitti.in');
+    btn.disabled = false;
+    btn.textContent = 'Pay with Razorpay →';
+  }
+}
+</script>
+</body>
+</html>

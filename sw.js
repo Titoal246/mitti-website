@@ -1,8 +1,8 @@
-// Mitti Service Worker — v1
-// Caches invoice.html for offline use; passes all other requests to network
+// Mitti Service Worker — v2
+// Caches key pages for offline use; network-first for HTML, cache-first for assets
 
-const CACHE = 'mitti-v1';
-const OFFLINE_PAGES = ['/invoice.html', '/'];
+const CACHE = 'mitti-v2';
+const OFFLINE_PAGES = ['/invoice.html', '/proposals.html', '/'];
 
 self.addEventListener('install', e => {
   e.waitUntil(

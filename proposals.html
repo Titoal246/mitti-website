@@ -9,7 +9,7 @@
 <meta property="og:description" content="Generate proposals, contracts, NDAs & more with correct CGST/SGST/IGST, SAC codes, TDS 194J. Free to use.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mitti.in/proposals.html">
-<meta property="og:image" content="https://mitti.in/og-image.png">
+<meta property="og:image" content="https://mitti.in/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mitti Proposals — AI for Indian Freelancers">
 <meta name="twitter:description" content="GST-aware AI document generator. CGST/SGST/IGST split, SAC codes, TDS clauses. Free to try.">
@@ -224,6 +224,16 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 .history-chip{padding:8px 12px;border:1px solid rgba(196,96,58,.18);border-radius:8px;background:var(--cream);font-size:12px;color:var(--earth);cursor:pointer;text-align:left;transition:all .15s;font-family:var(--sans);line-height:1.4}
 .history-chip:hover{border-color:var(--clay);background:rgba(196,96,58,.06);color:var(--clay)}
 .history-chip .hc-meta{font-size:10px;color:var(--bark);opacity:.6;margin-top:2px}
+
+/* ONBOARDING MODAL */
+.onboard-modal{background:var(--cream);border-radius:20px;padding:36px;max-width:520px;width:100%;position:relative;box-shadow:0 24px 64px rgba(28,15,6,.2)}
+.onboard-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.onboard-feat{background:white;border:1px solid rgba(196,96,58,.12);border-radius:12px;padding:16px}
+.onboard-feat-icon{font-size:24px;margin-bottom:6px}
+.onboard-feat-title{font-size:13px;font-weight:500;color:var(--earth);margin-bottom:4px}
+.onboard-feat-desc{font-size:12px;color:var(--bark);font-weight:300;line-height:1.5}
+.onboard-cta{width:100%;padding:14px;border-radius:100px;border:none;background:var(--clay);color:var(--cream);font-size:14px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.onboard-cta:hover{background:var(--soil)}
 
 /* RESPONSIVE */
 @media(max-width:960px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
@@ -529,6 +539,40 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <input type="email" class="modal-email" id="modal-email" placeholder="your@email.com (for receipt & account)" />
     <button class="modal-pay-btn" id="modal-pay-btn" onclick="startPayment()">Pay with Razorpay →</button>
     <div class="modal-note">Secure payment · UPI · Cards · Net Banking · No auto-renewal</div>
+  </div>
+</div>
+
+<!-- ONBOARDING MODAL (shown after very first generation) -->
+<div class="modal-overlay" id="onboard-modal">
+  <div class="onboard-modal">
+    <button class="modal-close" onclick="document.getElementById('onboard-modal').classList.remove('visible')">✕</button>
+    <div class="modal-icon">🎉</div>
+    <div class="modal-title">Your first document is ready!</div>
+    <div class="modal-sub">Here's everything Mitti can do for you, all for free to start:</div>
+    <div class="onboard-features">
+      <div class="onboard-feat">
+        <div class="onboard-feat-icon">📄</div>
+        <div class="onboard-feat-title">6 Document Types</div>
+        <div class="onboard-feat-desc">Proposals, Contracts, NDAs, SOWs, Retainers, Follow-up Emails</div>
+      </div>
+      <div class="onboard-feat">
+        <div class="onboard-feat-icon">🧾</div>
+        <div class="onboard-feat-title">Invoice Generator</div>
+        <div class="onboard-feat-desc">GST invoices with CGST/SGST/IGST split, TDS, multi-line items</div>
+      </div>
+      <div class="onboard-feat">
+        <div class="onboard-feat-icon">📁</div>
+        <div class="onboard-feat-title">My Docs</div>
+        <div class="onboard-feat-desc">All your documents auto-saved. Print, copy, or regenerate anytime.</div>
+      </div>
+      <div class="onboard-feat">
+        <div class="onboard-feat-icon">🎁</div>
+        <div class="onboard-feat-title">Refer & Earn</div>
+        <div class="onboard-feat-desc">Share Mitti with a friend — you both get +1 free document</div>
+      </div>
+    </div>
+    <button class="onboard-cta" onclick="document.getElementById('onboard-modal').classList.remove('visible')">Got it, let's go! →</button>
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--bark);opacity:.5">You have 3 free docs/month. <span style="cursor:pointer;text-decoration:underline;color:var(--clay)" onclick="document.getElementById('onboard-modal').classList.remove('visible');showUpgradeModal()">Upgrade for unlimited →</span></div>
   </div>
 </div>
 
@@ -1068,7 +1112,8 @@ async function generate() {
     actionsEl.append(printBtn, copyBtn, waBtn, shareBtn, regenBtn);
     document.getElementById('preview-panel').scrollTop = 0;
 
-    // Show referral nudge after first successful generation
+    // Show onboarding on very first generation, referral nudge after
+    maybeShowOnboarding();
     showReferralNudge();
 
   } catch (err) {
@@ -1601,6 +1646,16 @@ function copyRefLink() {
     setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
   }
 }
+
+// ── ONBOARDING ──
+function maybeShowOnboarding() {
+  if (localStorage.getItem('mitti_onboarded')) return;
+  localStorage.setItem('mitti_onboarded', '1');
+  setTimeout(() => document.getElementById('onboard-modal').classList.add('visible'), 1500);
+}
+document.getElementById('onboard-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('visible');
+});
 
 // Check for incoming ref param on page load
 const _incomingRef = new URLSearchParams(window.location.search).get('ref');

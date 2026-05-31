@@ -98,8 +98,8 @@ nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1p
 
 <script>
 const DOCS_HTML_KEY = 'mitti_docs_html';
-const ICONS = { proposal:'📄', contract:'📋', nda:'🔒', sow:'📐', retainer:'🔁', followup:'✉️' };
-const LABELS = { proposal:'Proposal', contract:'Contract', nda:'NDA', sow:'SOW', retainer:'Retainer', followup:'Follow-up' };
+const ICONS = { proposal:'📄', contract:'📋', nda:'🔒', sow:'📐', retainer:'🔁', followup:'✉️', invoice:'🧾' };
+const LABELS = { proposal:'Proposal', contract:'Contract', nda:'NDA', sow:'SOW', retainer:'Retainer', followup:'Follow-up', invoice:'Invoice' };
 
 function inr(n) { return '₹' + Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0}); }
 
@@ -177,7 +177,7 @@ function showDoc(idx) {
   const regenBtn = document.createElement('a');
   regenBtn.className = 'action-btn secondary';
   regenBtn.textContent = '✨ Regenerate';
-  regenBtn.href = `proposals.html?doctype=${doc.docType}`;
+  regenBtn.href = doc.docType === 'invoice' ? 'invoice.html' : `proposals.html?doctype=${doc.docType}`;
 
   const delBtn = document.createElement('button');
   delBtn.className = 'action-btn secondary';

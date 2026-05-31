@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1C0F06"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="40%">
+      <stop offset="0%" stop-color="#3D2010" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1C0F06"/>
+    </radialGradient>
+  </defs>
+  <!-- Brand mark -->
+  <circle cx="140" cy="120" r="52" fill="#C4603A"/>
+  <text x="140" y="138" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#FBF5EC" font-weight="700">म</text>
+  <!-- Brand name -->
+  <text x="210" y="135" font-family="Georgia, serif" font-size="52" fill="#FBF5EC" font-weight="400">Mitti</text>
+  <text x="324" y="135" font-family="Georgia, serif" font-size="52" fill="#C4603A">.</text>
+  <!-- Tagline -->
+  <text x="140" y="290" font-family="Georgia, serif" font-size="72" fill="#FBF5EC" font-weight="500">AI Documents</text>
+  <text x="140" y="375" font-family="Georgia, serif" font-size="72" fill="#E89A3A" font-style="italic">for Indian Freelancers.</text>
+  <!-- Features -->
+  <text x="140" y="470" font-family="system-ui, sans-serif" font-size="28" fill="rgba(251,245,236,0.5)" font-weight="300">Proposals · Contracts · NDAs · Invoices · CGST/SGST/IGST</text>
+  <!-- CTA -->
+  <rect x="140" y="510" width="260" height="56" rx="28" fill="#C4603A"/>
+  <text x="270" y="545" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#FBF5EC" font-weight="500">Free to try →</text>
+  <!-- URL -->
+  <text x="1060" y="590" text-anchor="end" font-family="system-ui, sans-serif" font-size="20" fill="rgba(251,245,236,0.3)">mitti.in</text>
+</svg>
