@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 :root {
   --clay:#C4603A; --saffron:#E8943A; --earth:#1C0F06; --soil:#3D2010;
@@ -156,6 +157,37 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 /* ERROR */
 .error-box{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.2);border-radius:10px;padding:16px 20px;margin-bottom:20px}
 .error-box p{font-size:13px;color:var(--red);margin:0}
+
+/* USAGE BAR */
+.usage-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(196,96,58,.06);border-radius:8px;margin-bottom:16px;font-size:12px;color:var(--bark)}
+.usage-pips{display:flex;gap:4px}
+.usage-pip{width:10px;height:10px;border-radius:50%;background:rgba(196,96,58,.2)}
+.usage-pip.used{background:var(--clay)}
+.usage-text{flex:1}
+.usage-upgrade{font-size:11px;color:var(--clay);font-weight:500;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,15,6,.6);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.visible{opacity:1;pointer-events:all}
+.modal{background:var(--cream);border-radius:20px;padding:40px;max-width:480px;width:100%;position:relative;box-shadow:0 24px 64px rgba(28,15,6,.2)}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--bark);opacity:.5}
+.modal-close:hover{opacity:1}
+.modal-icon{font-size:40px;margin-bottom:16px}
+.modal-title{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--earth);margin-bottom:8px}
+.modal-sub{font-size:14px;color:var(--bark);font-weight:300;margin-bottom:28px;line-height:1.6}
+.modal-plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.modal-plan{border:1.5px solid rgba(196,96,58,.2);border-radius:12px;padding:20px;cursor:pointer;transition:all .2s}
+.modal-plan:hover,.modal-plan.selected{border-color:var(--clay);background:rgba(196,96,58,.05)}
+.modal-plan-name{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bark);margin-bottom:6px}
+.modal-plan-price{font-family:var(--serif);font-size:24px;color:var(--earth);font-weight:500}
+.modal-plan-price span{font-size:13px;color:var(--bark);font-family:var(--sans)}
+.modal-plan-features{font-size:12px;color:var(--bark);margin-top:8px;line-height:1.7;font-weight:300}
+.modal-email{width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(196,96,58,.2);background:white;font-family:var(--sans);font-size:14px;color:var(--earth);margin-bottom:12px}
+.modal-email:focus{outline:none;border-color:var(--clay)}
+.modal-pay-btn{width:100%;padding:15px;border-radius:100px;border:none;background:var(--clay);color:var(--cream);font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.modal-pay-btn:hover{background:var(--soil)}
+.modal-pay-btn:disabled{background:rgba(196,96,58,.3);cursor:not-allowed}
+.modal-note{font-size:11px;color:var(--bark);opacity:.5;text-align:center;margin-top:10px}
 
 /* RESPONSIVE */
 @media(max-width:960px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
@@ -391,6 +423,13 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 
     <div id="form-error" style="display:none" class="error-box"><p></p></div>
 
+    <!-- Usage bar (shown after first check) -->
+    <div class="usage-bar" id="usage-bar" style="display:none">
+      <div class="usage-pips" id="usage-pips"></div>
+      <span class="usage-text" id="usage-text">Loading...</span>
+      <span class="usage-upgrade" id="usage-upgrade-link" onclick="showUpgradeModal()" style="display:none">Upgrade →</span>
+    </div>
+
     <button class="generate-btn" id="gen-btn" onclick="generate()">
       <span id="gen-btn-text">✨ Generate Document</span>
     </button>
@@ -408,6 +447,31 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
       <div class="preview-actions" id="preview-actions"></div>
       <div id="doc-output"></div>
     </div>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgrade-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="hideUpgradeModal()">✕</button>
+    <div class="modal-icon">🌱</div>
+    <div class="modal-title">Upgrade to keep going</div>
+    <div class="modal-sub" id="modal-sub">You've used all 3 free documents this month. Upgrade to Pro for unlimited documents, all 6 doc types, SAC codes, TDS clauses, and WhatsApp export.</div>
+    <div class="modal-plans">
+      <div class="modal-plan selected" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="modal-plan-name">Pro</div>
+        <div class="modal-plan-price">₹299<span>/mo</span></div>
+        <div class="modal-plan-features">Unlimited docs<br>All 6 doc types<br>SAC + TDS + WhatsApp</div>
+      </div>
+      <div class="modal-plan" id="plan-agency" onclick="selectPlan('agency')">
+        <div class="modal-plan-name">Agency</div>
+        <div class="modal-plan-price">₹799<span>/mo</span></div>
+        <div class="modal-plan-features">Everything in Pro<br>5 team members<br>Custom branding</div>
+      </div>
+    </div>
+    <input type="email" class="modal-email" id="modal-email" placeholder="your@email.com (for receipt & account)" />
+    <button class="modal-pay-btn" id="modal-pay-btn" onclick="startPayment()">Pay with Razorpay →</button>
+    <div class="modal-note">Secure payment · UPI · Cards · Net Banking · No auto-renewal</div>
   </div>
 </div>
 
@@ -851,6 +915,13 @@ function buildWhatsappSummary(d) {
 async function generate() {
   if (!validate()) return;
 
+  // Check usage limit before calling AI
+  await checkUsage();
+  if (usageState.loaded && !usageState.allowed) {
+    showUpgradeModal('You\'ve used all 3 free documents this month. Upgrade to Pro for unlimited documents, all 6 doc types, and India-native GST/TDS features.');
+    return;
+  }
+
   const d = getFormData();
   const btn = document.getElementById('gen-btn');
   btn.disabled = true;
@@ -869,6 +940,16 @@ async function generate() {
 
   try {
     const { sys, user } = buildPrompt(d);
+
+    // Increment usage before API call (prevents double-spend on retry)
+    const ok = await incrementUsage();
+    if (!ok) {
+      showUpgradeModal('You\'ve used all 3 free documents this month. Upgrade to continue.');
+      btn.disabled = false;
+      document.getElementById('gen-btn-text').textContent = '✨ Generate Document';
+      return;
+    }
+
     const result = await callAI(sys, user, d.docType, d.language);
 
     document.getElementById('doc-output').innerHTML = DOMPurify.sanitize(renderDocument(result, d), {
@@ -944,6 +1025,167 @@ function copyDoc() {
     document.body.removeChild(ta); showSuccess();
   }
 }
+
+// ── FINGERPRINT (anonymous user ID) ──
+function getFingerprint() {
+  let fp = localStorage.getItem('mitti_fp');
+  if (!fp) {
+    fp = 'fp_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem('mitti_fp', fp);
+  }
+  return fp;
+}
+
+// ── USAGE TRACKING ──
+let usageState = { allowed: true, remaining: 99, plan: 'free', loaded: false };
+
+async function checkUsage() {
+  if (window.location.protocol === 'file:') return; // skip in local dev
+  try {
+    const res = await fetch('/.netlify/functions/usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fingerprint: getFingerprint(), action: 'check' }),
+    });
+    const data = await res.json();
+    usageState = { ...data, loaded: true };
+    renderUsageBar();
+  } catch { /* silent — allow on error */ }
+}
+
+async function incrementUsage() {
+  if (window.location.protocol === 'file:') return true;
+  try {
+    const res = await fetch('/.netlify/functions/usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fingerprint: getFingerprint(), action: 'increment' }),
+    });
+    const data = await res.json();
+    usageState = { ...data, loaded: true };
+    renderUsageBar();
+    return data.allowed !== false;
+  } catch { return true; } // allow on error
+}
+
+function renderUsageBar() {
+  const bar = document.getElementById('usage-bar');
+  const pips = document.getElementById('usage-pips');
+  const text = document.getElementById('usage-text');
+  const upgradeLink = document.getElementById('usage-upgrade-link');
+
+  if (!usageState.loaded) return;
+  if (usageState.plan === 'pro' || usageState.plan === 'agency') {
+    bar.style.display = 'none'; return;
+  }
+
+  bar.style.display = 'flex';
+  const used = Math.min(usageState.used || 0, 3);
+  const remaining = Math.max(0, 3 - used);
+
+  pips.innerHTML = [0,1,2].map(i =>
+    `<div class="usage-pip${i < used ? ' used' : ''}"></div>`
+  ).join('');
+
+  if (remaining === 0) {
+    text.textContent = 'Free limit reached — 0 docs remaining this month';
+    upgradeLink.style.display = 'inline';
+  } else {
+    text.textContent = `${remaining} free doc${remaining !== 1 ? 's' : ''} remaining this month`;
+    upgradeLink.style.display = remaining <= 1 ? 'inline' : 'none';
+  }
+}
+
+// ── UPGRADE MODAL ──
+let selectedPlan = 'pro';
+
+function showUpgradeModal(msg) {
+  if (msg) document.getElementById('modal-sub').textContent = msg;
+  document.getElementById('upgrade-modal').classList.add('visible');
+}
+
+function hideUpgradeModal() {
+  document.getElementById('upgrade-modal').classList.remove('visible');
+}
+
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-pro').classList.toggle('selected', plan === 'pro');
+  document.getElementById('plan-agency').classList.toggle('selected', plan === 'agency');
+}
+
+async function startPayment() {
+  const email = document.getElementById('modal-email').value.trim();
+  const btn = document.getElementById('modal-pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Creating order...';
+
+  try {
+    const res = await fetch('/.netlify/functions/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: selectedPlan, fingerprint: getFingerprint(), email }),
+    });
+    const order = await res.json();
+
+    if (order.error) {
+      alert(order.error);
+      btn.disabled = false;
+      btn.textContent = 'Pay with Razorpay →';
+      return;
+    }
+
+    const rzp = new Razorpay({
+      key: order.keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'Mitti',
+      description: order.planName,
+      order_id: order.orderId,
+      prefill: { email },
+      theme: { color: '#C4603A' },
+      handler: async function (response) {
+        // Verify payment server-side
+        const vRes = await fetch('/.netlify/functions/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            fingerprint: getFingerprint(),
+            plan: selectedPlan,
+            email,
+          }),
+        });
+        const vData = await vRes.json();
+        if (vData.success) {
+          usageState.plan = vData.plan;
+          usageState.remaining = 999;
+          renderUsageBar();
+          hideUpgradeModal();
+          alert(`🎉 Welcome to Mitti ${vData.plan === 'agency' ? 'Agency' : 'Pro'}! You now have unlimited documents.`);
+        } else {
+          alert('Payment verification failed. Please contact hello@mitti.in with your payment ID: ' + response.razorpay_payment_id);
+        }
+      },
+      modal: { ondismiss: () => { btn.disabled = false; btn.textContent = 'Pay with Razorpay →'; } },
+    });
+    rzp.open();
+  } catch (err) {
+    alert('Something went wrong. Please try again or contact hello@mitti.in');
+    btn.disabled = false;
+    btn.textContent = 'Pay with Razorpay →';
+  }
+}
+
+// Close modal on overlay click
+document.getElementById('upgrade-modal').addEventListener('click', function(e) {
+  if (e.target === this) hideUpgradeModal();
+});
+
+// Load usage on page start
+checkUsage();
 
 // ── WHATSAPP COPY ──
 function copyWhatsapp(d) {
