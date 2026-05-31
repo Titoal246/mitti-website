@@ -526,9 +526,82 @@ function generateInvoice() {
     document.getElementById('inv-empty').style.display = 'flex';
     document.getElementById('inv-output-wrap').style.display = 'none';
   };
-  actions.append(printBtn, copyBtn, newBtn);
+  // Share on WhatsApp
+  const waBtn = document.createElement('button');
+  waBtn.className = 'action-btn secondary';
+  waBtn.style.background = '#25D366';
+  waBtn.style.color = 'white';
+  waBtn.style.border = 'none';
+  waBtn.textContent = '💬 WhatsApp';
+  waBtn.onclick = () => {
+    const gstOn = document.getElementById('i-gst').checked;
+    const amt = parseFloat(document.getElementById('i-amount').value) || 0;
+    const rate = parseFloat(document.getElementById('i-gst-rate').value) || 18;
+    const gstAmt = gstOn ? amt * rate / 100 : 0;
+    const total = amt + gstAmt;
+    const msg = `Hi! Please find invoice ${invnum} for ${inr(total)}.\n\nProject: ${document.getElementById('i-project').value || 'Professional Services'}\nAmount: ${inr(amt)}${gstOn ? `\nGST: ${inr(gstAmt)}` : ''}\nTotal: ${inr(total)}\n\nGenerated via Mitti · mitti.in`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  // Auto-increment for next invoice
+  saveInvoiceCounter(invnum);
+  actions.append(printBtn, copyBtn, waBtn, newBtn);
   document.getElementById('preview-panel').scrollTop = 0;
 }
+
+// ── INVOICE COUNTER ──
+function saveInvoiceCounter(lastInvNum) {
+  try { localStorage.setItem('mitti_last_inv', lastInvNum); } catch(e) {}
+}
+function getNextInvoiceNum() {
+  try {
+    const last = localStorage.getItem('mitti_last_inv');
+    if (!last) return null;
+    const mo = new Date().toISOString().slice(0,7).replace('-','');
+    const match = last.match(/INV-(\d{6})-(\d+)/);
+    if (match && match[1] === mo) {
+      return `INV-${mo}-${String(parseInt(match[2]) + 1).padStart(3,'0')}`;
+    }
+  } catch(e) {}
+  return null;
+}
+
+// ── PROFILE PERSISTENCE ──
+const INV_PROFILE_KEY = 'mitti_inv_profile';
+function saveInvProfile() {
+  try {
+    const p = {
+      yourname: document.getElementById('i-yourname').value.trim(),
+      yourstate: document.getElementById('i-yourstate').value,
+      gstin: document.getElementById('i-gstin').value.trim(),
+      service: document.getElementById('i-service').value,
+      youraddress: document.getElementById('i-youraddress').value.trim(),
+      yourbank: document.getElementById('i-yourbank').value.trim(),
+    };
+    if (p.yourname) localStorage.setItem(INV_PROFILE_KEY, JSON.stringify(p));
+  } catch(e) {}
+}
+function loadInvProfile() {
+  try {
+    const p = JSON.parse(localStorage.getItem(INV_PROFILE_KEY) || 'null');
+    if (!p) return;
+    if (p.yourname) document.getElementById('i-yourname').value = p.yourname;
+    if (p.yourstate) document.getElementById('i-yourstate').value = p.yourstate;
+    if (p.gstin) document.getElementById('i-gstin').value = p.gstin;
+    if (p.service) { document.getElementById('i-service').value = p.service; updateSac(); }
+    if (p.youraddress) document.getElementById('i-youraddress').value = p.youraddress;
+    if (p.yourbank) document.getElementById('i-yourbank').value = p.yourbank;
+    const next = getNextInvoiceNum();
+    if (next) document.getElementById('i-invnum').value = next;
+  } catch(e) {}
+}
+loadInvProfile();
+['i-yourname','i-youraddress','i-yourbank','i-gstin'].forEach(id => {
+  document.getElementById(id).addEventListener('blur', saveInvProfile);
+});
+['i-yourstate','i-service'].forEach(id => {
+  document.getElementById(id).addEventListener('change', saveInvProfile);
+});
 </script>
 </body>
 </html>
