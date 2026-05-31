@@ -226,6 +226,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
 
 /* RESPONSIVE */
 @media(max-width:960px){#app{grid-template-columns:1fr}#form-panel{max-height:none;position:static;border-right:none;border-bottom:1px solid rgba(196,96,58,.12)}#preview-panel{padding:24px}}
+@media(max-width:600px){.field-row{flex-direction:column;gap:0}.doc-types{grid-template-columns:repeat(3,1fr)}.lang-selector{flex-wrap:wrap}.modal{padding:24px;margin:16px}.usage-bar{flex-wrap:wrap}.preview-actions{flex-direction:column}}
 @media print{nav,#form-panel,.preview-actions{display:none!important}#app{grid-template-columns:1fr}#doc-output{box-shadow:none;border:none}#preview-panel{padding:0;max-height:none}}
 @media(prefers-reduced-motion:reduce){.spinner,.gen-spinner{animation:none;opacity:.6}}
 </style>
