@@ -71,8 +71,16 @@ tr:hover td{background:#222}
       <div class="stat-value" id="s-users">—</div>
     </div>
     <div class="stat-card">
+      <div class="stat-label">New this week</div>
+      <div class="stat-value" id="s-new-week">—</div>
+    </div>
+    <div class="stat-card">
       <div class="stat-label">Docs generated</div>
       <div class="stat-value clay" id="s-docs">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg docs/user</div>
+      <div class="stat-value" id="s-avg-docs">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Pro subscribers</div>
@@ -94,6 +102,14 @@ tr:hover td{background:#222}
     <div class="stat-card">
       <div class="stat-label">Contact messages</div>
       <div class="stat-value" id="s-contacts">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Referral links created</div>
+      <div class="stat-value" id="s-referrals">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total referral uses</div>
+      <div class="stat-value" id="s-ref-uses">—</div>
     </div>
   </div>
 
@@ -118,6 +134,14 @@ tr:hover td{background:#222}
     <table id="contacts-table">
       <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th></tr></thead>
       <tbody id="contacts-body"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Top referral links</h2>
+    <table id="referrals-table">
+      <thead><tr><th>Code</th><th>Uses</th><th>Created</th></tr></thead>
+      <tbody id="referrals-body"></tbody>
     </table>
   </div>
 </div>
@@ -157,12 +181,16 @@ async function loadStats() {
     document.getElementById('month-label').textContent = d.month;
 
     document.getElementById('s-users').textContent = d.users ?? '—';
+    document.getElementById('s-new-week').textContent = d.new_this_week ?? '—';
     document.getElementById('s-docs').textContent = d.docs_this_month ?? '—';
+    document.getElementById('s-avg-docs').textContent = d.avg_docs_per_user ?? '—';
     document.getElementById('s-pro').textContent = d.pro_users ?? '—';
     document.getElementById('s-agency').textContent = d.agency_users ?? '—';
     document.getElementById('s-mrr').textContent = d.revenue_est ? '₹' + d.revenue_est.toLocaleString('en-IN') : '₹0';
     document.getElementById('s-waitlist').textContent = d.waitlist_count ?? '—';
     document.getElementById('s-contacts').textContent = d.contacts_count ?? '—';
+    document.getElementById('s-referrals').textContent = d.referrals_count ?? '—';
+    document.getElementById('s-ref-uses').textContent = d.referral_uses_total ?? '—';
 
     // Paid table
     const pb = document.getElementById('paid-body');
@@ -194,6 +222,16 @@ async function loadStats() {
         <td style="font-size:11px;color:#555">${new Date(c.created_at).toLocaleDateString('en-IN')}</td>
       </tr>
     `).join('') || '<tr><td colspan="4" style="color:#555;font-style:italic">No messages yet</td></tr>';
+
+    // Referrals table
+    const rb = document.getElementById('referrals-body');
+    rb.innerHTML = (d.top_referrals || []).map(r => `
+      <tr>
+        <td style="font-family:monospace">${r.code}</td>
+        <td>${r.uses || 0}</td>
+        <td style="font-size:11px;color:#555">${r.created_at ? new Date(r.created_at).toLocaleDateString('en-IN') : '—'}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="3" style="color:#555;font-style:italic">No referrals yet</td></tr>';
 
   } catch (err) {
     console.error(err);
