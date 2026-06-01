@@ -134,7 +134,8 @@ const TEMPLATES = [
     title: 'Website Design & Development Proposal',
     desc: 'Complete website project proposal with phases, tech stack, hosting guidance, and maintenance terms.',
     tags: ['Web Design', 'Development', 'SAC 998314'],
-    params: { service: 'Web Design & Development', scope: 'UI/UX design (wireframes + final designs)\nFront-end development (HTML/CSS/JS)\nCMS integration (WordPress/Webflow)\nBasic SEO setup\nDeployment and handover', timeline: '5 weeks' }
+    params: { service: 'Web Design & Development', scope: 'UI/UX design (wireframes + final designs)\nFront-end development (HTML/CSS/JS)\nCMS integration (WordPress/Webflow)\nBasic SEO setup\nDeployment and handover', timeline: '5 weeks' },
+    guideUrl: 'templates/web-design-proposal.html'
   },
   {
     icon: '📸', category: 'Photography', type: 'proposal',
@@ -155,28 +156,32 @@ const TEMPLATES = [
     title: 'Freelancer NDA Template',
     desc: 'Mutual Non-Disclosure Agreement for sharing confidential project briefs, client data, and business information.',
     tags: ['Confidentiality', 'Indian Contract Act', 'Mutual'],
-    params: { service: 'Any Service', scope: 'Confidential project information', timeline: '3 years' }
+    params: { service: 'Any Service', scope: 'Confidential project information', timeline: '3 years' },
+    guideUrl: 'templates/nda-template.html'
   },
   {
     icon: '📋', category: 'Service Agreement', type: 'contract',
     title: 'Freelance Service Contract',
     desc: 'Comprehensive service agreement covering scope, fees, IP, revisions, cancellation, and Indian jurisdiction clauses.',
     tags: ['IP Rights', 'Cancellation Policy', 'Indian Law'],
-    params: { service: 'Professional Services', scope: 'As per agreed project scope', timeline: 'As agreed' }
+    params: { service: 'Professional Services', scope: 'As per agreed project scope', timeline: 'As agreed' },
+    guideUrl: 'templates/freelance-contract.html'
   },
   {
     icon: '🔁', category: 'Ongoing Work', type: 'retainer',
     title: 'Monthly Retainer Agreement',
     desc: 'For ongoing clients — covers monthly hours, deliverables, billing cycle, rollover policy, and renewal terms.',
     tags: ['Monthly Billing', 'Hours Allocation', 'Auto-renewal'],
-    params: { service: 'Creative/Technical Services', scope: 'Monthly retainer deliverables as agreed', timeline: 'Monthly, auto-renewing' }
+    params: { service: 'Creative/Technical Services', scope: 'Monthly retainer deliverables as agreed', timeline: 'Monthly, auto-renewing' },
+    guideUrl: 'templates/retainer-agreement.html'
   },
   {
     icon: '📐', category: 'Project Scope', type: 'sow',
     title: 'Statement of Work — App Development',
     desc: 'Milestone-driven SOW for mobile or web app development with acceptance criteria and change management.',
     tags: ['Milestones', 'Acceptance Criteria', 'Change Management'],
-    params: { service: 'Mobile App Development', scope: 'App development as per approved wireframes\nFront-end + back-end\nUser authentication\nAPI integrations\nTesting and deployment', timeline: '8 weeks' }
+    params: { service: 'Mobile App Development', scope: 'App development as per approved wireframes\nFront-end + back-end\nUser authentication\nAPI integrations\nTesting and deployment', timeline: '8 weeks' },
+    guideUrl: 'templates/sow-template.html'
   },
   {
     icon: '✉️', category: 'Follow-up', type: 'followup',
@@ -223,8 +228,8 @@ function renderGrid() {
         <div class="card-tags">${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
       </div>
       <div class="card-bottom">
-        <span class="card-type">${typeLabel(t.type)}</span>
-        <a href="${buildLink(t)}" class="use-btn">Use this template →</a>
+        <span class="card-type">${t.guideUrl ? `<a href="${t.guideUrl}" style="color:var(--saffron);text-decoration:none;font-size:11px">Read guide ↗</a>` : typeLabel(t.type)}</span>
+        <a href="${buildLink(t)}" class="use-btn">Use template →</a>
       </div>
     </div>
   `).join('');

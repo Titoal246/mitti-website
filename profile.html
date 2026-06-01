@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C4603A">
+<title>My Profile — Mitti</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root{--clay:#C4603A;--earth:#3D2010;--bark:#6B3D1E;--cream:#FBF5EC;--warm:#F5E6CC;--saffron:#E89A3A;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--bark)}
+nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,96,58,.12);padding:16px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:32px;height:32px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--cream);font-weight:700}
+.nav-name{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--earth)}
+.nav-name span{color:var(--clay)}
+.page{max-width:680px;margin:0 auto;padding:40px 5%}
+.page-title{font-family:var(--serif);font-size:28px;font-weight:400;color:var(--earth);margin-bottom:6px}
+.page-sub{font-size:14px;color:var(--bark);opacity:.6;margin-bottom:32px}
+.section-card{background:white;border-radius:16px;border:1px solid rgba(196,96,58,.1);padding:28px;margin-bottom:20px}
+.section-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bark);opacity:.5;font-weight:500;margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--earth);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid rgba(196,96,58,.2);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--earth);background:var(--cream);transition:border-color .15s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--clay)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-hint{font-size:11px;color:var(--bark);opacity:.5;margin-top:4px}
+.save-btn{background:var(--clay);color:var(--cream);border:none;border-radius:100px;padding:12px 28px;font-size:14px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:background .2s}
+.save-btn:hover{background:#8B3A1A}
+.save-toast{display:none;align-items:center;gap:8px;background:rgba(39,174,96,.1);color:#27ae60;border:1px solid rgba(39,174,96,.2);border-radius:8px;padding:10px 16px;font-size:13px;margin-top:12px}
+.save-toast.visible{display:flex}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-box{background:var(--warm);border-radius:10px;padding:16px;text-align:center}
+.stat-num{font-family:var(--serif);font-size:28px;color:var(--clay);display:block}
+.stat-label{font-size:11px;color:var(--bark);opacity:.6;margin-top:2px}
+.referral-box{background:rgba(196,96,58,.06);border:1px solid rgba(196,96,58,.15);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px}
+.ref-code{font-family:monospace;font-size:18px;font-weight:700;color:var(--earth);letter-spacing:.1em}
+.copy-ref-btn{background:var(--clay);color:var(--cream);border:none;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+.danger-btn{background:transparent;color:#e74c3c;border:1px solid rgba(231,76,60,.3);border-radius:100px;padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all .2s}
+.danger-btn:hover{background:#e74c3c;color:white}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-mark">म</div>
+    <span class="nav-name">Mitti<span>.</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="proposals.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">New Doc</a>
+    <a href="my-docs.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">My Docs</a>
+  </div>
+</nav>
+
+<div class="page">
+  <h1 class="page-title">My Profile</h1>
+  <p class="page-sub">Your details are pre-filled into every document you generate. Saved locally in your browser.</p>
+
+  <!-- Usage Stats -->
+  <div class="section-card">
+    <div class="section-title">Usage this month</div>
+    <div class="stats-row">
+      <div class="stat-box"><span class="stat-num" id="stat-docs">—</span><div class="stat-label">Docs generated</div></div>
+      <div class="stat-box"><span class="stat-num" id="stat-remaining">—</span><div class="stat-label">Remaining free</div></div>
+      <div class="stat-box"><span class="stat-num" id="stat-plan">—</span><div class="stat-label">Current plan</div></div>
+    </div>
+    <div id="upgrade-prompt" style="display:none;background:rgba(196,96,58,.06);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--bark)">
+      Running low on docs? <a href="pricing.html" style="color:var(--clay);font-weight:500">Upgrade to Pro for ₹299/month →</a>
+    </div>
+  </div>
+
+  <!-- Business Details -->
+  <div class="section-card">
+    <div class="section-title">Your business details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your name *</label>
+        <input type="text" id="pf-name" placeholder="Priya Sharma" maxlength="100">
+      </div>
+      <div class="form-group">
+        <label>Business / studio name</label>
+        <input type="text" id="pf-business" placeholder="Priya Design Studio" maxlength="100">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="pf-email" placeholder="priya@example.com" maxlength="254">
+      </div>
+      <div class="form-group">
+        <label>Phone number</label>
+        <input type="tel" id="pf-phone" placeholder="+91 98765 43210" maxlength="20">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" id="pf-city" placeholder="Mumbai" maxlength="60">
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <select id="pf-state">
+          <option value="">Select state</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option>
+          <option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option>
+          <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+          <option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+          <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+          <option>Delhi</option><option>Jammu & Kashmir</option><option>Ladakh</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Website / portfolio URL</label>
+      <input type="url" id="pf-website" placeholder="https://priya.design" maxlength="200">
+    </div>
+  </div>
+
+  <!-- Tax Details -->
+  <div class="section-card">
+    <div class="section-title">Tax & compliance details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>GSTIN</label>
+        <input type="text" id="pf-gstin" placeholder="29ABCDE1234F1Z5" maxlength="15" style="text-transform:uppercase">
+        <div class="form-hint">15-character GSTIN. Leave blank if not registered.</div>
+      </div>
+      <div class="form-group">
+        <label>PAN number</label>
+        <input type="text" id="pf-pan" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase">
+        <div class="form-hint">For TDS certificate tracking.</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Primary service type</label>
+        <select id="pf-service">
+          <option value="">Select service</option>
+          <option value="web-design">Web Design / Development</option>
+          <option value="graphic-design">Graphic Design / Branding</option>
+          <option value="content">Content Writing / Copywriting</option>
+          <option value="social-media">Social Media Marketing</option>
+          <option value="seo">SEO / Digital Marketing</option>
+          <option value="photography">Photography / Videography</option>
+          <option value="consulting">Business Consulting</option>
+          <option value="software">Software Development</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Default payment terms</label>
+        <select id="pf-terms">
+          <option value="50-50">50% advance, 50% on delivery</option>
+          <option value="40-30-30">40-30-30% (advance/milestone/delivery)</option>
+          <option value="30-advance">30% advance, 70% on delivery</option>
+          <option value="100-advance">100% advance</option>
+          <option value="net-15">Net 15 (full invoice due in 15 days)</option>
+          <option value="net-30">Net 30 (full invoice due in 30 days)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Bank account details (for invoices)</label>
+      <textarea id="pf-bank" placeholder="Bank: HDFC Bank&#10;Account: 12345678901234&#10;IFSC: HDFC0001234&#10;Account Name: Priya Sharma" rows="4" maxlength="500"></textarea>
+      <div class="form-hint">These appear in your invoices for client bank transfers.</div>
+    </div>
+  </div>
+
+  <!-- Referral -->
+  <div class="section-card">
+    <div class="section-title">Your referral link</div>
+    <p style="font-size:14px;margin-bottom:16px">Share your link and earn +1 free doc for every friend who signs up.</p>
+    <div class="referral-box">
+      <div>
+        <div style="font-size:11px;color:var(--bark);opacity:.5;margin-bottom:4px">Your code</div>
+        <div class="ref-code" id="ref-code-display">Loading...</div>
+      </div>
+      <div style="flex:1"></div>
+      <button class="copy-ref-btn" id="copy-ref-btn" onclick="copyRefLink()">Copy link</button>
+    </div>
+    <div style="font-size:12px;color:var(--bark);opacity:.5;margin-top:10px" id="ref-uses-display"></div>
+  </div>
+
+  <!-- Save / Actions -->
+  <div class="section-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <button class="save-btn" onclick="saveProfile()">Save changes</button>
+      <button class="danger-btn" onclick="clearData()">Clear all my data</button>
+    </div>
+    <div class="save-toast" id="save-toast">✓ Profile saved! Your details will pre-fill into new documents.</div>
+  </div>
+</div>
+
+<script>
+const PROFILE_KEY = 'mitti_profile';
+const FP_KEY = 'mitti_fp';
+
+function getFingerprint() {
+  let fp = localStorage.getItem(FP_KEY);
+  if (!fp) { fp = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem(FP_KEY, fp); }
+  return fp;
+}
+
+function loadProfile() {
+  try {
+    const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+    const fields = ['name','business','email','phone','city','state','website','gstin','pan','service','terms','bank'];
+    fields.forEach(f => {
+      const el = document.getElementById('pf-' + f);
+      if (el && p[f]) el.value = p[f];
+    });
+  } catch {}
+}
+
+function saveProfile() {
+  const fields = ['name','business','email','phone','city','state','website','gstin','pan','service','terms','bank'];
+  const p = {};
+  fields.forEach(f => {
+    const el = document.getElementById('pf-' + f);
+    if (el) p[f] = el.value.trim();
+  });
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+  const toast = document.getElementById('save-toast');
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 3000);
+}
+
+async function loadUsage() {
+  const fp = getFingerprint();
+  try {
+    const res = await fetch('/.netlify/functions/usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fingerprint: fp, action: 'check' }),
+    });
+    const data = await res.json();
+    document.getElementById('stat-docs').textContent = data.used ?? '—';
+    document.getElementById('stat-remaining').textContent = data.remaining ?? '—';
+    document.getElementById('stat-plan').textContent = (data.plan || 'free').charAt(0).toUpperCase() + (data.plan || 'free').slice(1);
+    if (data.remaining <= 1 && data.plan === 'free') {
+      document.getElementById('upgrade-prompt').style.display = 'block';
+    }
+  } catch {
+    document.getElementById('stat-docs').textContent = '—';
+    document.getElementById('stat-remaining').textContent = '—';
+    document.getElementById('stat-plan').textContent = 'Free';
+  }
+}
+
+async function loadReferral() {
+  const fp = getFingerprint();
+  const stored = localStorage.getItem('mitti_ref_code');
+  if (stored) { showRefCode(stored); }
+  try {
+    const res = await fetch('/.netlify/functions/referral', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'create', fingerprint: fp }),
+    });
+    const data = await res.json();
+    if (data.code) {
+      localStorage.setItem('mitti_ref_code', data.code);
+      showRefCode(data.code);
+    }
+  } catch {}
+}
+
+function showRefCode(code) {
+  document.getElementById('ref-code-display').textContent = code;
+}
+
+function copyRefLink() {
+  const code = document.getElementById('ref-code-display').textContent;
+  if (code === 'Loading...') return;
+  const link = `https://mitti.in/?ref=${code}`;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(link).then(() => {
+      const btn = document.getElementById('copy-ref-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy link', 2000);
+    });
+  }
+}
+
+function clearData() {
+  if (!confirm('This will delete your profile, all saved documents, and usage history from this browser. Are you sure?')) return;
+  const keys = ['mitti_profile','mitti_docs_html','mitti_history','mitti_onboarded','mitti_inv_profile','mitti_clients','mitti_ref_code','mitti_fp'];
+  keys.forEach(k => localStorage.removeItem(k));
+  window.location.reload();
+}
+
+// Apply GSTIN uppercase formatting
+document.getElementById('pf-gstin').addEventListener('input', function() { this.value = this.value.toUpperCase(); });
+document.getElementById('pf-pan').addEventListener('input', function() { this.value = this.value.toUpperCase(); });
+
+// Auto-save on Enter in text fields
+document.querySelectorAll('input').forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') saveProfile(); }));
+
+loadProfile();
+loadUsage();
+loadReferral();
+</script>
+</body>
+</html>
