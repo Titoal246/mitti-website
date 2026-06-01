@@ -91,6 +91,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mitti.in/templates/video-editing-proposal.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://mitti.in/profile.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
