@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /.netlify/
+Disallow: /functions/
 Disallow: /admin.html
+Disallow: /my-docs.html
+Disallow: /profile.html
 
 Sitemap: https://mitti.in/sitemap.xml
