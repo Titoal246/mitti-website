@@ -1,0 +1,34 @@
+# ── MITTI — Cloudflare Pages Configuration ──
+# Deploy Steps:
+# 1. Go to https://dash.cloudflare.com → Pages → Create project → Connect to Git
+# 2. Select repository: titoal246/mitti-website
+# 3. Framework preset: None
+# 4. Build command: (leave empty)
+# 5. Build output directory: / (root)
+# 6. Add environment variables (Settings → Environment Variables):
+#      SUPABASE_URL          = https://YOUR_PROJECT.supabase.co
+#      SUPABASE_SERVICE_KEY  = your-service-role-key
+#      ANTHROPIC_API_KEY     = sk-ant-...
+#      RAZORPAY_KEY_ID       = rzp_live_...
+#      RAZORPAY_KEY_SECRET   = your-secret
+#      RESEND_API_KEY        = re_... (optional)
+#      ADMIN_PASSWORD        = strong-password
+#      GEMINI_API_KEY        = AIza... (optional, for Hindi)
+#      GROQ_API_KEY          = gsk_... (optional, for follow-ups)
+# 7. Custom domain: add mitti.in in Settings → Custom domains
+# 8. Deploy!
+#
+# NOTE: Cloudflare Pages Functions are in /functions/.netlify/functions/
+# They serve the same URL paths as Netlify (/.netlify/functions/*)
+# so no frontend code changes are needed.
+#
+# Advantages over Netlify:
+# - Unlimited bandwidth (vs 100GB/month)
+# - 500 builds/month (vs 300)
+# - 100,000 function requests/day free
+# - Faster global CDN (200+ PoPs)
+# - No cold starts on Workers
+
+name = "mitti-website"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "."

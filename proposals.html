@@ -255,6 +255,7 @@ nav{background:rgba(251,245,236,.92);backdrop-filter:blur(12px);border-bottom:1p
     <a href="invoice.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Invoice</a>
     <a href="my-docs.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.25);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">📁 My Docs</a>
     <a href="templates.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">Templates</a>
+    <a href="profile.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">👤 Profile</a>
     <a href="index.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(61,32,16,.15);transition:background .2s" onmouseover="this.style.background='var(--warm)'" onmouseout="this.style.background='transparent'">← Home</a>
   </div>
 </nav>
@@ -1335,11 +1336,16 @@ function loadProfile() {
   try {
     const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null');
     if (!p) return;
-    if (p.yourName) document.getElementById('f-yourname').value = p.yourName;
-    if (p.service) document.getElementById('f-service').value = p.service;
-    if (p.yourState) document.getElementById('f-yourstate').value = p.yourState;
-    if (p.gstin) document.getElementById('f-gstin').value = p.gstin;
-    if (p.yourState || p.service) { updateSacHint(); calcGst(); }
+    // Support both old format (yourName/yourState) and new profile page format (name/state)
+    const name = p.yourName || p.name;
+    const state = p.yourState || p.state;
+    const gstin = p.gstin;
+    const service = p.service;
+    if (name) document.getElementById('f-yourname').value = name;
+    if (service) document.getElementById('f-service').value = service;
+    if (state) document.getElementById('f-yourstate').value = state;
+    if (gstin) document.getElementById('f-gstin').value = gstin;
+    if (state || service) { updateSacHint(); calcGst(); }
   } catch(e) {}
 }
 loadProfile();

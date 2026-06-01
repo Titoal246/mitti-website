@@ -637,14 +637,21 @@ function saveInvProfile() {
 }
 function loadInvProfile() {
   try {
+    // Try new unified profile first, fall back to invoice-specific profile
+    const unified = JSON.parse(localStorage.getItem('mitti_profile') || 'null');
     const p = JSON.parse(localStorage.getItem(INV_PROFILE_KEY) || 'null');
-    if (!p) return;
-    if (p.yourname) document.getElementById('i-yourname').value = p.yourname;
-    if (p.yourstate) document.getElementById('i-yourstate').value = p.yourstate;
-    if (p.gstin) document.getElementById('i-gstin').value = p.gstin;
-    if (p.service) { document.getElementById('i-service').value = p.service; updateSac(); }
-    if (p.youraddress) document.getElementById('i-youraddress').value = p.youraddress;
-    if (p.yourbank) document.getElementById('i-yourbank').value = p.yourbank;
+    const name = (p && p.yourname) || (unified && unified.name) || '';
+    const state = (p && p.yourstate) || (unified && unified.state) || '';
+    const gstin = (p && p.gstin) || (unified && unified.gstin) || '';
+    const service = (p && p.service) || (unified && unified.service) || '';
+    const address = (p && p.youraddress) || (unified && unified.city ? `${unified.city}${unified.state ? ', ' + unified.state : ''}` : '') || '';
+    const bank = (p && p.yourbank) || (unified && unified.bank) || '';
+    if (name) document.getElementById('i-yourname').value = name;
+    if (state) document.getElementById('i-yourstate').value = state;
+    if (gstin) document.getElementById('i-gstin').value = gstin;
+    if (service) { document.getElementById('i-service').value = service; updateSac(); }
+    if (address) document.getElementById('i-youraddress').value = address;
+    if (bank) document.getElementById('i-yourbank').value = bank;
     const next = getNextInvoiceNum();
     if (next) document.getElementById('i-invnum').value = next;
   } catch(e) {}
