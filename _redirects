@@ -1,0 +1,8 @@
+# Cloudflare Pages redirects
+# Once mitti.in is connected, this redirects the pages.dev subdomain to the real domain
+# Uncomment after mitti.in is set up:
+# https://mitti-website.pages.dev/* https://mitti.in/:splat 301!
+
+# Handle trailing slashes on template directory
+/templates /templates/index.html 301
+/templates/ /templates/index.html 200
