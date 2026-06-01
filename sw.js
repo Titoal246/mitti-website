@@ -1,8 +1,12 @@
-// Mitti Service Worker — v2
+// Mitti Service Worker — v3
 // Caches key pages for offline use; network-first for HTML, cache-first for assets
 
-const CACHE = 'mitti-v2';
-const OFFLINE_PAGES = ['/invoice.html', '/proposals.html', '/'];
+const CACHE = 'mitti-v3';
+const OFFLINE_PAGES = [
+  '/', '/invoice.html', '/proposals.html', '/my-docs.html',
+  '/templates/index.html', '/guide-invoice-india.html',
+  '/guide-freelance-rates-india.html',
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
