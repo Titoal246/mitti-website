@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Client Project Brief | Mitti</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root{--clay:#C4603A;--earth:#3D2010;--bark:#6B3D1E;--cream:#FBF5EC;--warm:#F5E6CC;--saffron:#E89A3A;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--bark);line-height:1.7;min-height:100vh}
+.page-header{background:var(--earth);color:var(--cream);padding:32px 5%;text-align:center}
+.page-header .from{font-size:12px;opacity:.5;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase}
+.page-header h1{font-family:var(--serif);font-size:clamp(22px,4vw,36px);font-weight:400;margin-bottom:8px}
+.page-header h1 em{color:var(--saffron);font-style:italic}
+.page-header p{font-size:15px;font-weight:300;opacity:.7;max-width:480px;margin:0 auto}
+.form-wrap{max-width:640px;margin:40px auto;padding:0 5% 60px}
+.section{background:white;border:1px solid rgba(196,96,58,.12);border-radius:14px;padding:28px;margin-bottom:20px}
+.section-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--saffron);font-weight:500;margin-bottom:16px}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:13px;font-weight:500;color:var(--earth);margin-bottom:6px}
+label .hint{font-weight:300;color:var(--bark);font-size:12px;margin-left:6px;opacity:.6}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],select,textarea{width:100%;padding:11px 14px;border:1px solid rgba(196,96,58,.2);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--earth);background:white;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--clay)}
+textarea{resize:vertical;min-height:90px}
+.radio-group{display:flex;flex-wrap:wrap;gap:8px}
+.radio-opt{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid rgba(196,96,58,.2);border-radius:100px;cursor:pointer;font-size:13px;transition:all .15s}
+.radio-opt:hover{border-color:var(--clay)}
+.radio-opt input{display:none}
+.radio-opt.checked{border-color:var(--clay);background:rgba(196,96,58,.06);color:var(--earth);font-weight:500}
+.budget-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.submit-btn{width:100%;padding:16px;background:var(--clay);color:var(--cream);border:none;border-radius:100px;font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:background .2s;margin-top:8px}
+.submit-btn:hover{background:#8B3A1A}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.success-state{display:none;text-align:center;padding:60px 20px;background:white;border:1px solid rgba(196,96,58,.12);border-radius:14px}
+.success-icon{font-size:48px;margin-bottom:16px}
+.success-state h2{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--earth);margin-bottom:10px}
+.success-state p{font-size:15px;color:var(--bark);font-weight:300;max-width:360px;margin:0 auto}
+.progress{display:flex;gap:6px;margin-bottom:28px}
+.progress-step{height:4px;border-radius:2px;background:rgba(196,96,58,.15);flex:1;transition:background .3s}
+.progress-step.done{background:var(--clay)}
+.char-count{font-size:11px;color:var(--bark);opacity:.5;text-align:right;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="from" id="from-label">Project Brief Form</div>
+  <h1>Tell me about your <em>project</em></h1>
+  <p>Fill in the details below so I can prepare an accurate proposal for you.</p>
+</div>
+
+<div class="form-wrap">
+  <div class="progress" id="progress">
+    <div class="progress-step done"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+  </div>
+
+  <form id="brief-form" onsubmit="submitForm(event)">
+
+    <div class="section">
+      <div class="section-label">About you</div>
+      <div class="field">
+        <label>Your name <span style="color:var(--clay)">*</span></label>
+        <input type="text" id="c-name" required placeholder="Rahul Mehta">
+      </div>
+      <div class="field">
+        <label>Company / Business name <span class="hint">(if applicable)</span></label>
+        <input type="text" id="c-company" placeholder="TechStartup Pvt. Ltd.">
+      </div>
+      <div class="field">
+        <label>Email address <span style="color:var(--clay)">*</span></label>
+        <input type="email" id="c-email" required placeholder="rahul@company.com">
+      </div>
+      <div class="field">
+        <label>Phone / WhatsApp <span class="hint">(optional)</span></label>
+        <input type="tel" id="c-phone" placeholder="+91 98765 43210">
+      </div>
+      <div class="field">
+        <label>City</label>
+        <input type="text" id="c-city" placeholder="Mumbai">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Your project</div>
+      <div class="field">
+        <label>Project / service needed <span style="color:var(--clay)">*</span></label>
+        <select id="c-service" required onchange="updateServiceFields()">
+          <option value="">Select type of work…</option>
+          <option value="Web Design & Development">Web Design & Development</option>
+          <option value="Mobile App Development">Mobile App Development</option>
+          <option value="Graphic Design / Branding">Graphic Design / Branding</option>
+          <option value="Logo Design">Logo Design</option>
+          <option value="Social Media Management">Social Media Management</option>
+          <option value="Content Writing / Copywriting">Content Writing / Copywriting</option>
+          <option value="SEO / Digital Marketing">SEO / Digital Marketing</option>
+          <option value="Photography">Photography</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="UI/UX Design">UI/UX Design</option>
+          <option value="Other">Other (describe below)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Project description <span style="color:var(--clay)">*</span></label>
+        <textarea id="c-desc" required placeholder="Describe what you need in as much detail as possible…" oninput="updateChar(this,'desc-count',500)"></textarea>
+        <div class="char-count" id="desc-count">0 / 500</div>
+      </div>
+      <div class="field" id="f-url-wrap" style="display:none">
+        <label>Your current website <span class="hint">(if any)</span></label>
+        <input type="url" id="c-url" placeholder="https://yoursite.com">
+      </div>
+      <div class="field">
+        <label>Reference / inspiration links <span class="hint">(websites, brands you like)</span></label>
+        <textarea id="c-refs" placeholder="https://example.com — I like their clean layout&#10;https://another.com — good colour scheme" style="min-height:70px"></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Timeline & Budget</div>
+      <div class="field">
+        <label>When do you need this completed?</label>
+        <div class="radio-group" id="timeline-group">
+          <label class="radio-opt" onclick="pickRadio(this,'timeline')"><input name="timeline" value="ASAP (1-2 weeks)">ASAP (1–2 weeks)</label>
+          <label class="radio-opt" onclick="pickRadio(this,'timeline')"><input name="timeline" value="1 month">1 month</label>
+          <label class="radio-opt" onclick="pickRadio(this,'timeline')"><input name="timeline" value="2-3 months">2–3 months</label>
+          <label class="radio-opt" onclick="pickRadio(this,'timeline')"><input name="timeline" value="Flexible">Flexible</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Approximate budget <span class="hint">(helps me tailor the proposal)</span></label>
+        <div class="budget-row">
+          <select id="c-budget">
+            <option value="">Select range…</option>
+            <option value="Under ₹10,000">Under ₹10,000</option>
+            <option value="₹10,000 – ₹25,000">₹10,000 – ₹25,000</option>
+            <option value="₹25,000 – ₹50,000">₹25,000 – ₹50,000</option>
+            <option value="₹50,000 – ₹1,00,000">₹50,000 – ₹1,00,000</option>
+            <option value="₹1,00,000 – ₹3,00,000">₹1,00,000 – ₹3,00,000</option>
+            <option value="Above ₹3,00,000">Above ₹3,00,000</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+          <select id="c-billing">
+            <option value="One-time project">One-time project</option>
+            <option value="Monthly retainer">Monthly retainer</option>
+            <option value="Milestone-based">Milestone-based</option>
+            <option value="Not sure">Not sure</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Additional details</div>
+      <div class="field">
+        <label>Do you have existing brand assets? <span class="hint">(logo, colours, fonts)</span></label>
+        <div class="radio-group">
+          <label class="radio-opt" onclick="pickRadio(this,'assets')"><input name="assets" value="Yes, complete brand kit">Yes, complete brand kit</label>
+          <label class="radio-opt" onclick="pickRadio(this,'assets')"><input name="assets" value="Partial assets">Partial assets</label>
+          <label class="radio-opt" onclick="pickRadio(this,'assets')"><input name="assets" value="Starting from scratch">Starting from scratch</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>How did you hear about me? <span class="hint">(optional)</span></label>
+        <select id="c-source">
+          <option value="">Select…</option>
+          <option value="Referral from a friend / colleague">Referral</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Google search">Google search</option>
+          <option value="Worked together before">We've worked together before</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Anything else I should know? <span class="hint">(optional)</span></label>
+        <textarea id="c-notes" placeholder="Special requirements, deadlines, constraints, stakeholders involved…" oninput="updateChar(this,'notes-count',300)"></textarea>
+        <div class="char-count" id="notes-count">0 / 300</div>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Submit Project Brief →</button>
+  </form>
+
+  <div class="success-state" id="success-state">
+    <div class="success-icon">🎉</div>
+    <h2>Brief received!</h2>
+    <p id="success-msg">Thank you! I'll review your project details and get back to you with a proposal within 24–48 hours.</p>
+  </div>
+</div>
+
+<script>
+// Read freelancer config from URL params
+const params = new URLSearchParams(location.search);
+const freelancerName = params.get('from') || '';
+const freelancerEmail = params.get('email') || '';
+const serviceType = params.get('service') || '';
+
+if (freelancerName) {
+  document.getElementById('from-label').textContent = `Project brief for ${freelancerName}`;
+  document.title = `Project Brief for ${freelancerName} | Mitti`;
+}
+if (serviceType) {
+  const sel = document.getElementById('c-service');
+  for (let i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value.toLowerCase().includes(serviceType.toLowerCase())) {
+      sel.selectedIndex = i;
+      break;
+    }
+  }
+  updateServiceFields();
+}
+
+// Track progress
+const formFields = ['c-name','c-email','c-service','c-desc'];
+formFields.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateProgress);
+});
+
+function updateProgress() {
+  const filled = formFields.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.value.trim().length > 0;
+  }).length;
+  const steps = document.querySelectorAll('.progress-step');
+  steps.forEach((s, i) => s.classList.toggle('done', i < filled));
+}
+
+function updateServiceFields() {
+  const val = document.getElementById('c-service').value;
+  const showUrl = ['Web Design & Development','Mobile App Development','SEO / Digital Marketing','UI/UX Design'].some(v => val.includes(v.split('/')[0].trim()));
+  document.getElementById('f-url-wrap').style.display = showUrl ? 'block' : 'none';
+}
+
+function pickRadio(label, group) {
+  document.querySelectorAll(`[onclick*="'${group}'"]`).forEach(l => l.classList.remove('checked'));
+  label.classList.add('checked');
+}
+
+function updateChar(el, countId, max) {
+  const len = el.value.length;
+  document.getElementById(countId).textContent = `${len} / ${max}`;
+  if (len > max) el.value = el.value.slice(0, max);
+}
+
+let selectedTimeline = '';
+let selectedAssets = '';
+
+// Override pickRadio to capture values
+window.pickRadio = function(label, group) {
+  document.querySelectorAll(`[onclick*="'${group}'"]`).forEach(l => l.classList.remove('checked'));
+  label.classList.add('checked');
+  const val = label.querySelector('input').value;
+  if (group === 'timeline') selectedTimeline = val;
+  if (group === 'assets') selectedAssets = val;
+};
+
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const brief = {
+    clientName: document.getElementById('c-name').value.trim(),
+    clientCompany: document.getElementById('c-company').value.trim(),
+    clientEmail: document.getElementById('c-email').value.trim(),
+    clientPhone: document.getElementById('c-phone').value.trim(),
+    clientCity: document.getElementById('c-city').value.trim(),
+    service: document.getElementById('c-service').value,
+    description: document.getElementById('c-desc').value.trim(),
+    currentUrl: document.getElementById('c-url').value.trim(),
+    references: document.getElementById('c-refs').value.trim(),
+    timeline: selectedTimeline,
+    budget: document.getElementById('c-budget').value,
+    billing: document.getElementById('c-billing').value,
+    assets: selectedAssets,
+    source: document.getElementById('c-source').value,
+    notes: document.getElementById('c-notes').value.trim(),
+    freelancerName,
+    freelancerEmail,
+    submittedAt: new Date().toISOString(),
+  };
+
+  // Save to localStorage so freelancer can view it
+  try {
+    const briefs = JSON.parse(localStorage.getItem('mitti_client_briefs') || '[]');
+    briefs.unshift(brief);
+    localStorage.setItem('mitti_client_briefs', JSON.stringify(briefs.slice(0, 50)));
+  } catch(err) {}
+
+  // Send to contact function
+  try {
+    await fetch('/.netlify/functions/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: brief.clientName,
+        email: brief.clientEmail,
+        message: `NEW CLIENT BRIEF\n\nClient: ${brief.clientName} (${brief.clientCompany || 'Individual'})\nEmail: ${brief.clientEmail}\nPhone: ${brief.clientPhone}\nCity: ${brief.clientCity}\n\nService: ${brief.service}\nBudget: ${brief.budget}\nTimeline: ${brief.timeline}\nBilling: ${brief.billing}\n\nDescription:\n${brief.description}\n\nReferences: ${brief.references}\nAssets: ${brief.assets}\nSource: ${brief.source}\n\nNotes:\n${brief.notes}`,
+        type: 'client_brief',
+      }),
+    });
+  } catch(err) {}
+
+  document.getElementById('brief-form').style.display = 'none';
+  if (freelancerName) {
+    document.getElementById('success-msg').textContent = `Thank you! ${freelancerName} will review your project details and get back to you with a proposal within 24–48 hours.`;
+  }
+  document.getElementById('success-state').style.display = 'block';
+}
+</script>
+</body>
+</html>

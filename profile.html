@@ -175,6 +175,24 @@ nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1p
     </div>
   </div>
 
+  <!-- Client Brief Form -->
+  <div class="section-card">
+    <div class="section-title">Client onboarding form</div>
+    <p style="font-size:14px;margin-bottom:16px">Share this link with clients — they fill in a project brief, and you get all the details you need to write a proposal.</p>
+    <div class="referral-box" id="brief-link-box">
+      <div style="flex:1;overflow:hidden">
+        <div style="font-size:11px;color:var(--bark);opacity:.5;margin-bottom:4px">Your brief form link</div>
+        <div style="font-size:13px;font-weight:500;color:var(--earth);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="brief-link-display">Loading…</div>
+      </div>
+      <button class="copy-ref-btn" onclick="copyBriefLink()">Copy link</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <a id="brief-link-open" href="#" target="_blank" style="font-size:12px;color:var(--clay);text-decoration:none">Preview form ↗</a>
+      <span style="font-size:12px;color:var(--bark);opacity:.4">·</span>
+      <button onclick="shareViaWhatsApp()" style="font-size:12px;color:#25D366;background:none;border:none;cursor:pointer;padding:0">Share on WhatsApp</button>
+    </div>
+  </div>
+
   <!-- Referral -->
   <div class="section-card">
     <div class="section-title">Your referral link</div>
@@ -278,6 +296,47 @@ function showRefCode(code) {
   document.getElementById('ref-code-display').textContent = code;
 }
 
+function buildBriefLink() {
+  try {
+    const p = JSON.parse(localStorage.getItem('mitti_profile') || 'null');
+    const name = p?.name || '';
+    const email = p?.email || '';
+    const service = p?.service || '';
+    const base = window.location.origin + '/onboarding-form.html';
+    const params = new URLSearchParams();
+    if (name) params.set('from', name);
+    if (email) params.set('email', email);
+    if (service) params.set('service', service);
+    return base + (params.toString() ? '?' + params.toString() : '');
+  } catch(e) {
+    return window.location.origin + '/onboarding-form.html';
+  }
+}
+
+function initBriefLink() {
+  const link = buildBriefLink();
+  const display = document.getElementById('brief-link-display');
+  const openBtn = document.getElementById('brief-link-open');
+  if (display) display.textContent = link;
+  if (openBtn) openBtn.href = link;
+}
+
+function copyBriefLink() {
+  const link = buildBriefLink();
+  navigator.clipboard?.writeText(link).then(() => {
+    const btn = document.querySelector('#brief-link-box .copy-ref-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy link', 2000); }
+  });
+}
+
+function shareViaWhatsApp() {
+  const link = buildBriefLink();
+  const p = JSON.parse(localStorage.getItem('mitti_profile') || 'null');
+  const name = p?.name || 'I';
+  const msg = encodeURIComponent(`Hi! ${name} uses Mitti to manage freelance projects. Please fill in this quick project brief so I can send you a proposal:\n\n${link}\n\nTakes less than 3 minutes.`);
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
 function copyRefLink() {
   const code = document.getElementById('ref-code-display').textContent;
   if (code === 'Loading...') return;
@@ -308,6 +367,7 @@ document.querySelectorAll('input').forEach(el => el.addEventListener('keydown', 
 loadProfile();
 loadUsage();
 loadReferral();
+initBriefLink();
 </script>
 </body>
 </html>
