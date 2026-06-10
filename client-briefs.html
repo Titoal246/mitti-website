@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Client Briefs — Mitti</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root{--clay:#C4603A;--earth:#3D2010;--bark:#6B3D1E;--cream:#FBF5EC;--warm:#F5E6CC;--saffron:#E89A3A;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--bark)}
+nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,96,58,.12);padding:16px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:32px;height:32px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--cream);font-weight:700}
+.nav-name{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--earth)}
+.nav-name span{color:var(--clay)}
+.page{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 57px)}
+@media(max-width:768px){.page{grid-template-columns:1fr}.sidebar{max-height:220px;border-right:none;border-bottom:1px solid rgba(196,96,58,.12);overflow-y:auto}}
+.sidebar{border-right:1px solid rgba(196,96,58,.12);background:white;overflow-y:auto}
+.sidebar-header{padding:16px 20px;border-bottom:1px solid rgba(196,96,58,.08);display:flex;align-items:center;justify-content:space-between}
+.sidebar-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bark);opacity:.5;font-weight:500}
+.brief-count{background:var(--clay);color:var(--cream);font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px}
+.brief-item{padding:14px 20px;cursor:pointer;border-left:3px solid transparent;transition:all .15s}
+.brief-item:hover{background:var(--warm)}
+.brief-item.active{background:rgba(196,96,58,.06);border-left-color:var(--clay)}
+.brief-name{font-size:14px;font-weight:500;color:var(--earth);margin-bottom:2px}
+.brief-service{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--saffron);font-weight:500;margin-bottom:3px}
+.brief-meta{font-size:11px;color:var(--bark);opacity:.55}
+.preview-area{padding:36px 5%;overflow-y:auto;max-height:calc(100vh - 57px)}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;opacity:.5}
+.empty-state .icon{font-size:48px;margin-bottom:16px}
+.empty-state h2{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:8px}
+.empty-state p{font-size:14px;max-width:300px;line-height:1.6;margin-bottom:20px;font-weight:300}
+.brief-detail{max-width:680px}
+.brief-actions{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.action-btn{padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;font-family:var(--sans);cursor:pointer;border:none;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.action-btn.primary{background:var(--clay);color:var(--cream)}
+.action-btn.secondary{background:transparent;border:1px solid rgba(196,96,58,.25);color:var(--bark)}
+.action-btn.secondary:hover{border-color:var(--clay);color:var(--clay)}
+.action-btn.danger{background:transparent;border:1px solid rgba(231,76,60,.3);color:#e74c3c}
+.brief-card{background:white;border:1px solid rgba(196,96,58,.12);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.brief-card-header{background:var(--earth);color:var(--cream);padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.brief-card-name{font-family:var(--serif);font-size:22px;font-weight:400}
+.brief-card-service{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--saffron);margin-top:4px}
+.brief-card-date{font-size:12px;opacity:.5;white-space:nowrap}
+.brief-card-body{padding:24px}
+.field-group{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:500px){.field-group{grid-template-columns:1fr}}
+.field-item label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--saffron);font-weight:500;display:block;margin-bottom:4px}
+.field-item p{font-size:14px;color:var(--earth);line-height:1.5}
+.field-full{margin-bottom:16px}
+.field-full label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--saffron);font-weight:500;display:block;margin-bottom:6px}
+.field-full p{font-size:14px;color:var(--earth);line-height:1.7;background:rgba(196,96,58,.04);padding:12px 16px;border-radius:8px}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:rgba(196,96,58,.1);color:var(--clay)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-mark">म</div>
+    <span class="nav-name">Mitti<span>.</span></span>
+  </a>
+  <div style="display:flex;gap:8px;align-items:center">
+    <a href="proposals.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">New proposal</a>
+    <a href="profile.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">👤 Profile</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Client Briefs</div>
+      <div class="brief-count" id="brief-count">0</div>
+    </div>
+    <div id="brief-list"></div>
+  </div>
+
+  <div class="preview-area" id="preview-area">
+    <div class="empty-state" id="empty-state">
+      <div class="icon">📋</div>
+      <h2>No briefs yet</h2>
+      <p>Share your client brief form link — when clients submit it, their details appear here.</p>
+      <a href="profile.html" style="display:inline-flex;align-items:center;gap:6px;background:var(--clay);color:var(--cream);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none">Get your brief form link →</a>
+    </div>
+    <div id="brief-display" style="display:none">
+      <div class="brief-actions" id="brief-actions"></div>
+      <div class="brief-detail" id="brief-detail"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let briefs = [];
+let activeIdx = -1;
+
+function loadBriefs() {
+  try { briefs = JSON.parse(localStorage.getItem('mitti_client_briefs') || '[]'); }
+  catch { briefs = []; }
+}
+
+function timeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 2) return 'Just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return Math.floor(hrs / 24) + 'd ago';
+}
+
+function renderList() {
+  const el = document.getElementById('brief-list');
+  document.getElementById('brief-count').textContent = briefs.length;
+  if (!briefs.length) {
+    el.innerHTML = '<div style="padding:20px;font-size:13px;color:var(--bark);opacity:.5;font-style:italic">No briefs yet. Share your brief form link.</div>';
+    return;
+  }
+  el.innerHTML = briefs.map((b, i) => `
+    <div class="brief-item${i === activeIdx ? ' active' : ''}" onclick="showBrief(${i})">
+      <div class="brief-service">${b.service || 'General'}</div>
+      <div class="brief-name">${b.clientName || 'Unknown'}</div>
+      <div class="brief-meta">${b.clientCompany || b.clientCity || ''} · ${timeAgo(b.submittedAt)}</div>
+    </div>
+  `).join('');
+}
+
+function showBrief(idx) {
+  activeIdx = idx;
+  renderList();
+  const b = briefs[idx];
+  if (!b) return;
+
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('brief-display').style.display = 'block';
+
+  // Build actions
+  const actionsEl = document.getElementById('brief-actions');
+  const proposalUrl = `proposals.html?doctype=proposal&service=${encodeURIComponent(b.service||'')}&client=${encodeURIComponent(b.clientName||'')}&project=${encodeURIComponent(b.description?.slice(0,60)||'')}`;
+  actionsEl.innerHTML = `
+    <a href="${proposalUrl}" class="action-btn primary">✨ Generate Proposal</a>
+    <button class="action-btn secondary" onclick="copyBriefText(${idx})">📋 Copy brief</button>
+    <button class="action-btn secondary" onclick="whatsappReply(${idx})">💬 WhatsApp reply</button>
+    <button class="action-btn danger" onclick="deleteBrief(${idx})">🗑 Delete</button>
+  `;
+
+  // Build detail view
+  const detail = document.getElementById('brief-detail');
+  const fmt = v => v ? `<p>${v}</p>` : '<p style="opacity:.4">Not provided</p>';
+  detail.innerHTML = `
+    <div class="brief-card">
+      <div class="brief-card-header">
+        <div>
+          <div class="brief-card-name">${b.clientName || 'Unknown Client'}</div>
+          <div class="brief-card-service">${b.service || ''}</div>
+        </div>
+        <div class="brief-card-date">${new Date(b.submittedAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <div class="brief-card-body">
+        <div class="field-group">
+          <div class="field-item"><label>Email</label>${fmt(b.clientEmail)}</div>
+          <div class="field-item"><label>Phone</label>${fmt(b.clientPhone)}</div>
+          <div class="field-item"><label>Company</label>${fmt(b.clientCompany)}</div>
+          <div class="field-item"><label>City</label>${fmt(b.clientCity)}</div>
+        </div>
+        <div class="field-full"><label>Project Description</label>${fmt(b.description)}</div>
+        <div class="field-group">
+          <div class="field-item"><label>Budget</label>${fmt(b.budget)}</div>
+          <div class="field-item"><label>Timeline</label>${fmt(b.timeline)}</div>
+          <div class="field-item"><label>Billing type</label>${fmt(b.billing)}</div>
+          <div class="field-item"><label>Brand assets</label>${fmt(b.assets)}</div>
+        </div>
+        ${b.references ? `<div class="field-full"><label>References / inspiration</label>${fmt(b.references)}</div>` : ''}
+        ${b.currentUrl ? `<div class="field-item" style="margin-bottom:16px"><label>Current website</label><p><a href="${b.currentUrl}" target="_blank" style="color:var(--clay)">${b.currentUrl}</a></p></div>` : ''}
+        ${b.notes ? `<div class="field-full"><label>Additional notes</label>${fmt(b.notes)}</div>` : ''}
+        <div class="field-group" style="margin-bottom:0">
+          <div class="field-item"><label>Source</label>${fmt(b.source)}</div>
+          <div class="field-item"><label>Submitted</label><p>${new Date(b.submittedAt).toLocaleString('en-IN')}</p></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('preview-area').scrollTop = 0;
+}
+
+function copyBriefText(idx) {
+  const b = briefs[idx];
+  const text = `CLIENT BRIEF
+Name: ${b.clientName} ${b.clientCompany ? '(' + b.clientCompany + ')' : ''}
+Email: ${b.clientEmail} | Phone: ${b.clientPhone || 'N/A'}
+City: ${b.clientCity || 'N/A'}
+
+Service: ${b.service}
+Budget: ${b.budget} | Timeline: ${b.timeline}
+Billing: ${b.billing}
+
+Description:
+${b.description}
+
+${b.references ? 'References:\n' + b.references + '\n\n' : ''}${b.notes ? 'Notes:\n' + b.notes : ''}`.trim();
+
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.querySelector('.action-btn.secondary');
+    if (btn) { btn.textContent = '✓ Copied'; setTimeout(() => btn.textContent = '📋 Copy brief', 2000); }
+  });
+}
+
+function whatsappReply(idx) {
+  const b = briefs[idx];
+  const msg = encodeURIComponent(`Hi ${b.clientName?.split(' ')[0] || 'there'}! Thank you for filling in the project brief. I've reviewed the details for your ${b.service} project and will send you a detailed proposal within 24 hours. Feel free to reach out if you have any questions in the meantime.`);
+  const phone = b.clientPhone?.replace(/\D/g, '');
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+
+function deleteBrief(idx) {
+  if (!confirm('Delete this brief?')) return;
+  briefs.splice(idx, 1);
+  localStorage.setItem('mitti_client_briefs', JSON.stringify(briefs));
+  activeIdx = -1;
+  renderList();
+  document.getElementById('empty-state').style.display = '';
+  document.getElementById('brief-display').style.display = 'none';
+}
+
+loadBriefs();
+renderList();
+if (briefs.length > 0) showBrief(0);
+</script>
+</body>
+</html>
