@@ -156,6 +156,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mitti.in/guide-freelance-pricing-india.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mitti.in/templates/software-development-proposal.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://mitti.in/legal.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
