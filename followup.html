@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Follow-up Email Generator for Freelancers India | Mitti</title>
+<meta name="description" content="Generate professional follow-up emails for proposals, overdue invoices, project check-ins, and upsells. Free AI-powered email generator for Indian freelancers.">
+<meta name="keywords" content="follow up email freelancer India, proposal follow up email India, invoice follow up email India, freelancer email templates India">
+<link rel="canonical" href="https://mitti.in/followup.html">
+<meta property="og:title" content="Free Follow-up Email Generator for Indian Freelancers | Mitti">
+<meta property="og:description" content="AI-generated follow-up emails for proposals, invoices, check-ins — professional, polite, effective for Indian freelancers.">
+<meta property="og:image" content="https://mitti.in/og-image.svg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>म</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root{--clay:#C4603A;--earth:#3D2010;--bark:#6B3D1E;--cream:#FBF5EC;--warm:#F5E6CC;--saffron:#E89A3A;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--bark);line-height:1.7}
+nav{background:rgba(251,245,236,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,96,58,.12);padding:16px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:32px;height:32px;border-radius:50%;background:var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--cream);font-weight:700}
+.nav-name{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--earth)}
+.nav-name span{color:var(--clay)}
+.hero{background:var(--earth);color:var(--cream);padding:48px 5% 40px;text-align:center}
+.hero h1{font-family:var(--serif);font-size:clamp(24px,4vw,42px);font-weight:400;line-height:1.2;margin-bottom:12px}
+.hero h1 em{color:var(--saffron);font-style:italic}
+.hero p{font-size:16px;font-weight:300;opacity:.75;max-width:520px;margin:0 auto}
+.app{max-width:900px;margin:0 auto;padding:40px 5%;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+@media(max-width:700px){.app{grid-template-columns:1fr}}
+.form-panel h2{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--earth);margin-bottom:20px}
+.field{margin-bottom:16px}
+label{display:block;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--bark);margin-bottom:6px;opacity:.7}
+select,input,textarea{width:100%;padding:10px 14px;border:1px solid rgba(196,96,58,.2);border-radius:8px;font-family:var(--sans);font-size:14px;color:var(--earth);background:white;transition:border-color .2s}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--clay)}
+textarea{resize:vertical;min-height:80px}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.type-btn{padding:10px 12px;border:1.5px solid rgba(196,96,58,.2);border-radius:8px;background:white;cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--bark);text-align:left;transition:all .15s}
+.type-btn:hover{border-color:var(--clay);color:var(--clay)}
+.type-btn.active{border-color:var(--clay);background:rgba(196,96,58,.06);color:var(--earth);font-weight:500}
+.type-btn .type-icon{font-size:16px;display:block;margin-bottom:4px}
+.gen-btn{width:100%;padding:14px;background:var(--clay);color:var(--cream);border:none;border-radius:100px;font-size:15px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:background .2s;margin-top:8px}
+.gen-btn:hover{background:#8B3A1A}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.result-panel h2{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--earth);margin-bottom:20px}
+.email-output{background:white;border:1px solid rgba(196,96,58,.12);border-radius:12px;padding:24px;min-height:300px;font-family:Georgia,serif;font-size:14px;line-height:1.9;color:var(--earth);white-space:pre-wrap;display:none}
+.placeholder-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;background:white;border:1px solid rgba(196,96,58,.12);border-radius:12px;opacity:.4;text-align:center;padding:32px}
+.placeholder-state .icon{font-size:36px;margin-bottom:12px}
+.placeholder-state p{font-size:14px}
+.action-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.action-btn{padding:9px 16px;border-radius:100px;font-size:13px;font-weight:500;font-family:var(--sans);cursor:pointer;border:none;display:flex;align-items:center;gap:6px;transition:all .2s}
+.action-btn.primary{background:var(--clay);color:var(--cream)}
+.action-btn.secondary{background:transparent;border:1px solid rgba(196,96,58,.25);color:var(--bark)}
+.action-btn.secondary:hover{border-color:var(--clay);color:var(--clay)}
+.loading-dots{display:none;text-align:center;padding:60px 20px;color:var(--bark);opacity:.5;font-size:14px}
+.subject-line{background:rgba(232,154,58,.1);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;display:none}
+.subject-line strong{color:var(--saffron);font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px}
+footer{background:var(--earth);color:rgba(251,245,236,.6);padding:24px 5%;text-align:center;font-size:13px}
+footer a{color:var(--saffron);text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html" class="nav-logo">
+    <div class="nav-mark">म</div>
+    <span class="nav-name">Mitti<span>.</span></span>
+  </a>
+  <div style="display:flex;gap:8px">
+    <a href="/proposals.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">Proposals</a>
+    <a href="/invoice.html" style="font-size:13px;color:var(--bark);text-decoration:none;padding:6px 14px;border-radius:100px;border:1px solid rgba(196,96,58,.2)">Invoice</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Follow-up Email Generator<br>for <em>Indian Freelancers</em></h1>
+  <p>Professional follow-up emails for proposals, invoices, check-ins, and upsells — AI-generated in seconds.</p>
+</div>
+
+<div class="app">
+  <div class="form-panel">
+    <h2>What kind of follow-up?</h2>
+    <div class="type-grid">
+      <button class="type-btn active" data-type="proposal" onclick="setType(this)">
+        <span class="type-icon">📄</span>Proposal follow-up
+      </button>
+      <button class="type-btn" data-type="invoice" onclick="setType(this)">
+        <span class="type-icon">🧾</span>Overdue invoice
+      </button>
+      <button class="type-btn" data-type="checkin" onclick="setType(this)">
+        <span class="type-icon">👋</span>Project check-in
+      </button>
+      <button class="type-btn" data-type="upsell" onclick="setType(this)">
+        <span class="type-icon">🚀</span>Upsell / new work
+      </button>
+      <button class="type-btn" data-type="ghosted" onclick="setType(this)">
+        <span class="type-icon">👻</span>Client gone silent
+      </button>
+      <button class="type-btn" data-type="feedback" onclick="setType(this)">
+        <span class="type-icon">⭐</span>Request testimonial
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Your name</label>
+      <input type="text" id="f-yourname" placeholder="Priya Sharma">
+    </div>
+    <div class="field">
+      <label>Client name / company</label>
+      <input type="text" id="f-client" placeholder="Rahul / TechStartup Pvt. Ltd.">
+    </div>
+    <div class="field" id="f-project-wrap">
+      <label>Project / proposal name</label>
+      <input type="text" id="f-project" placeholder="E-commerce Website Redesign">
+    </div>
+    <div class="field" id="f-amount-wrap">
+      <label id="f-amount-label">Invoice / proposal amount</label>
+      <input type="text" id="f-amount" placeholder="₹45,000">
+    </div>
+    <div class="field" id="f-days-wrap">
+      <label id="f-days-label">Days since sent / overdue</label>
+      <input type="number" id="f-days" placeholder="7" min="1" max="90">
+    </div>
+    <div class="field">
+      <label>Tone</label>
+      <select id="f-tone">
+        <option value="polite">Polite & professional</option>
+        <option value="firm">Firm but respectful</option>
+        <option value="warm">Warm & friendly</option>
+        <option value="urgent">Urgent</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Any specific context? <span style="opacity:.5;font-size:11px">(optional)</span></label>
+      <textarea id="f-context" placeholder="e.g. We spoke last Thursday, they seemed interested but asked for a week to decide..."></textarea>
+    </div>
+    <button class="gen-btn" id="gen-btn" onclick="generate()">✨ Generate Follow-up Email →</button>
+  </div>
+
+  <div class="result-panel">
+    <h2>Your email</h2>
+    <div class="subject-line" id="subject-line">
+      <strong>Subject line</strong>
+      <span id="subject-text"></span>
+    </div>
+    <div class="placeholder-state" id="placeholder">
+      <div class="icon">✉️</div>
+      <p>Fill in the details and click Generate to get a professional follow-up email.</p>
+    </div>
+    <div class="loading-dots" id="loading">Generating your email…</div>
+    <div class="email-output" id="email-output"></div>
+    <div class="action-row" id="action-row" style="display:none">
+      <button class="action-btn primary" onclick="copyEmail()">📋 Copy email</button>
+      <button class="action-btn secondary" onclick="copySubject()">Copy subject</button>
+      <button class="action-btn secondary" onclick="openGmail()">📧 Open Gmail</button>
+      <button class="action-btn secondary" onclick="generate()">↻ Regenerate</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PROFILE_KEY = 'mitti_profile';
+let currentType = 'proposal';
+let currentEmail = '';
+let currentSubject = '';
+
+function setType(btn) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentType = btn.dataset.type;
+  updateLabels();
+}
+
+function updateLabels() {
+  const amountLabel = document.getElementById('f-amount-label');
+  const daysLabel = document.getElementById('f-days-label');
+  const amountWrap = document.getElementById('f-amount-wrap');
+  const daysWrap = document.getElementById('f-days-wrap');
+  const projectWrap = document.getElementById('f-project-wrap');
+
+  amountWrap.style.display = 'block';
+  daysWrap.style.display = 'block';
+  projectWrap.style.display = 'block';
+
+  switch (currentType) {
+    case 'proposal':
+      amountLabel.textContent = 'Proposal amount';
+      daysLabel.textContent = 'Days since proposal sent';
+      break;
+    case 'invoice':
+      amountLabel.textContent = 'Invoice amount';
+      daysLabel.textContent = 'Days overdue';
+      break;
+    case 'checkin':
+      amountWrap.style.display = 'none';
+      daysLabel.textContent = 'Days since last update';
+      break;
+    case 'upsell':
+      amountLabel.textContent = 'Estimated new project value';
+      daysLabel.textContent = 'Days since last project ended';
+      break;
+    case 'ghosted':
+      amountWrap.style.display = 'none';
+      daysLabel.textContent = 'Days since last reply';
+      break;
+    case 'feedback':
+      amountWrap.style.display = 'none';
+      daysWrap.style.display = 'none';
+      break;
+  }
+}
+
+function loadProfile() {
+  try {
+    const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null');
+    if (!p) return;
+    if (p.name) document.getElementById('f-yourname').value = p.name;
+  } catch(e) {}
+}
+
+async function generate() {
+  const yourName = document.getElementById('f-yourname').value.trim();
+  const client = document.getElementById('f-client').value.trim();
+  const project = document.getElementById('f-project').value.trim();
+  const amount = document.getElementById('f-amount').value.trim();
+  const days = document.getElementById('f-days').value.trim();
+  const tone = document.getElementById('f-tone').value;
+  const context = document.getElementById('f-context').value.trim();
+
+  if (!yourName || !client) {
+    alert('Please fill in your name and client name.');
+    return;
+  }
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('email-output').style.display = 'none';
+  document.getElementById('subject-line').style.display = 'none';
+  document.getElementById('action-row').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('gen-btn').disabled = true;
+
+  const typeLabels = {
+    proposal: 'follow-up on a sent proposal',
+    invoice: 'follow-up on an overdue invoice',
+    checkin: 'project check-in with an active client',
+    upsell: 'upsell / pitch new work to an existing client',
+    ghosted: 're-engagement email to a client who stopped replying',
+    feedback: 'request for a testimonial or review from a satisfied client',
+  };
+
+  const prompt = `Write a professional ${typeLabels[currentType]} email for an Indian freelancer.
+
+Details:
+- Sender: ${yourName}
+- Client: ${client}
+${project ? `- Project/Proposal: ${project}` : ''}
+${amount ? `- Amount: ${amount}` : ''}
+${days ? `- Days since: ${days} days` : ''}
+- Tone: ${tone}
+${context ? `- Context: ${context}` : ''}
+
+Write ONLY the email — subject line first (prefixed with "Subject: "), then a blank line, then the email body.
+Use Indian professional conventions. Keep it concise (under 150 words for the body).
+Do not add any commentary or explanation outside the email itself.`;
+
+  try {
+    const res = await fetch('/.netlify/functions/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        docType: 'followup',
+        system: 'You are an expert business email writer for Indian freelancers. Write concise, professional emails that get responses.',
+        user: prompt,
+        max_tokens: 600,
+      }),
+    });
+
+    const data = await res.json();
+    const text = data.content || data.text || data.result || data.html || '';
+
+    if (!text) throw new Error(data.error || 'No content returned');
+
+    // Parse subject line
+    const lines = text.split('\n');
+    let subjectLine = '';
+    let bodyStart = 0;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].toLowerCase().startsWith('subject:')) {
+        subjectLine = lines[i].replace(/^subject:\s*/i, '').trim();
+        bodyStart = i + 1;
+        while (bodyStart < lines.length && lines[bodyStart].trim() === '') bodyStart++;
+        break;
+      }
+    }
+    const body = lines.slice(bodyStart).join('\n').trim();
+
+    currentEmail = body;
+    currentSubject = subjectLine;
+
+    document.getElementById('loading').style.display = 'none';
+    if (subjectLine) {
+      document.getElementById('subject-text').textContent = subjectLine;
+      document.getElementById('subject-line').style.display = 'block';
+    }
+    document.getElementById('email-output').textContent = body;
+    document.getElementById('email-output').style.display = 'block';
+    document.getElementById('action-row').style.display = 'flex';
+
+  } catch(err) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('placeholder').style.display = 'flex';
+    document.getElementById('placeholder').querySelector('p').textContent = 'Error: ' + (err.message || 'Something went wrong. Please try again.');
+    console.error(err);
+  } finally {
+    document.getElementById('gen-btn').disabled = false;
+  }
+}
+
+function copyEmail() {
+  if (!currentEmail) return;
+  const full = currentSubject ? `Subject: ${currentSubject}\n\n${currentEmail}` : currentEmail;
+  navigator.clipboard?.writeText(full).then(() => {
+    const btn = document.querySelector('.action-btn.primary');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy email', 2000);
+  });
+}
+
+function copySubject() {
+  if (!currentSubject) return;
+  navigator.clipboard?.writeText(currentSubject).then(() => {
+    const btns = document.querySelectorAll('.action-btn.secondary');
+    btns[0].textContent = '✓ Copied!';
+    setTimeout(() => btns[0].textContent = 'Copy subject', 2000);
+  });
+}
+
+function openGmail() {
+  const to = '';
+  const subject = encodeURIComponent(currentSubject || '');
+  const body = encodeURIComponent(currentEmail || '');
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`, '_blank');
+}
+
+loadProfile();
+updateLabels();
+</script>
+
+<footer>
+  <p>© 2026 Mitti · <a href="/index.html">Home</a> · <a href="/proposals.html">Proposals</a> · <a href="/invoice.html">Invoice</a> · <a href="/my-docs.html">My Docs</a> · Made in Bharat 🇮🇳</p>
+</footer>
+</body>
+</html>
